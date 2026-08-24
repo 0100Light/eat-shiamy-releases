@@ -8,6 +8,16 @@
 （GitHub 會在每個 release 底下自動附一個 `Source code (zip)`，
 那是它自己加的、內容是空的，不要下載那一個。）
 
+## 畫面
+
+<img src="img/bar-composing.png" width="900" alt="打字中的狀態列">
+
+<img src="img/bar-english.png" width="900" alt="英數模式的狀態列">
+
+多種主題，在狀態列上按右鍵就能換。
+
+<img src="img/bar-themes.png" width="900" alt="十一種配色">
+
 ## 安裝
 
 1. 下載 `EatShiamy-x.y.z.zip`
