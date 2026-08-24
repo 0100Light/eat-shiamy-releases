@@ -1,4 +1,4 @@
-# EatShiamy 吃蝦米 😋
+# EatShiamy 嘸蝦米輸入法 😋
 
 免安裝、不需管理員權限的第三方**嘸蝦米輸入法**（Windows only）。
 
@@ -40,6 +40,14 @@
 
 另外第一次啟動會慢十幾秒，那是 Windows Defender 在掃描資料夾裡的幾百個檔案，
 掃過一次就不會再慢。
+
+## 其他輸入法設定
+
+這樣設定可能用起來會舒服一些
+
+<img width="500" alt="{89FDD804-9979-4718-836D-C074F4DE4E8C}" src="https://github.com/user-attachments/assets/305000a2-3d8d-4e94-bb8f-f1e2acedbf00" />
+
+<img width="500" alt="{45697CBE-1640-4D99-9448-5120C1C1E81E}" src="https://github.com/user-attachments/assets/bde6d053-8190-4b4d-9b72-637229906c1e" />
 
 ## 運作方式
 
