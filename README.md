@@ -12,13 +12,9 @@
 
 <img src="img/cover.jpg" width="900" alt="三種狀態的狀態列：組字中、英數模式、有更新可以套用">
 
-<img src="img/bar-composing.png" width="900" alt="打字中的狀態列">
-
-<img src="img/bar-english.png" width="900" alt="英數模式的狀態列">
-
 多種主題，在狀態列上按右鍵就能換。
 
-<img src="img/bar-themes.png" width="900" alt="十一種配色">
+[配色一覽 →](https://0100light.github.io/eat-shiamy-releases/themes.html)
 
 ## 安裝
 
@@ -30,7 +26,8 @@
 要移除就把資料夾刪掉，不會在系統裡留下任何東西 ——
 它不寫登錄檔、不裝服務、不需要管理員權限。
 
-**用法、設定、自動更新、疑難排解都寫在資料夾裡的 `manual.html`。**
+**用法、設定、自動更新、疑難排解都寫在資料夾裡的 `manual.html`**
+（也可以[先線上讀](https://0100light.github.io/eat-shiamy-releases/manual.html)）。
 
 ### 第一次執行會被 Windows 攔下來
 
