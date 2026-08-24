@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ET-shiamy 使用說明</title>
+<style>
+  :root{
+    color-scheme:light dark;
+    --bg:#ffffff; --fg:#1a1a1a; --muted:#5a5a6a; --line:#d8d8e0;
+    --bar:#0000AA; --bar-fg:#ffffff;
+    --accent:#0000AA; --code-bg:#f2f2f7; --warn-bg:#fff6e0; --warn-line:#e0a83c;
+    --note-bg:#eef3fb; --note-line:#5b8ac4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#16161a; --fg:#e8e8ec; --muted:#a0a0b0; --line:#33333d;
+      --accent:#8fa8ff; --code-bg:#22222a; --warn-bg:#33280f; --warn-line:#a8801f;
+      --note-bg:#1a2230; --note-line:#4a6fa5;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:2.5rem 1.25rem 5rem;
+    background:var(--bg); color:var(--fg);
+    font-family:"Noto Sans TC","Microsoft JhengHei",-apple-system,"Segoe UI",sans-serif;
+    line-height:1.75; font-size:16px;
+  }
+  main{max-width:52rem; margin:0 auto}
+  h1{font-size:1.9rem; margin:0 0 .3rem; letter-spacing:.02em}
+  h2{font-size:1.35rem; margin:2.6rem 0 .8rem; padding-bottom:.3rem;
+     border-bottom:2px solid var(--line)}
+  h3{font-size:1.08rem; margin:1.8rem 0 .5rem}
+  p,ul,ol{margin:.7rem 0}
+  li{margin:.25rem 0}
+  .lede{color:var(--muted); margin:0 0 2rem; font-size:1.02rem}
+  code,kbd{font-family:"Cascadia Mono",Consolas,monospace; font-size:.92em}
+  code{background:var(--code-bg); padding:.12em .38em; border-radius:4px}
+  kbd{
+    background:var(--code-bg); border:1px solid var(--line);
+    border-bottom-width:2px; border-radius:5px;
+    padding:.1em .45em; white-space:nowrap;
+  }
+  table{border-collapse:collapse; width:100%; margin:1rem 0; font-size:.95rem}
+  th,td{border:1px solid var(--line); padding:.5rem .7rem; text-align:left;
+        vertical-align:top}
+  th{background:var(--code-bg); font-weight:600}
+  .scroll{overflow-x:auto}
+  .box{border-left:4px solid var(--note-line); background:var(--note-bg);
+       padding:.85rem 1.1rem; margin:1.2rem 0; border-radius:0 6px 6px 0}
+  .box.warn{border-left-color:var(--warn-line); background:var(--warn-bg)}
+  .box p:first-child{margin-top:0} .box p:last-child{margin-bottom:0}
+  /* 狀態列示意圖 */
+  .bar{
+    display:flex; align-items:stretch; background:#1d1d19; color:var(--bar-fg);
+    font-family:"MingLiU","Microsoft JhengHei",monospace; font-weight:bold;
+    border-radius:4px; overflow:hidden; margin:1rem 0; font-size:.95rem;
+    flex-wrap:wrap;
+  }
+  .bar span{padding:.45rem .6rem; white-space:nowrap}
+  .bar .grow{flex:1; min-width:8rem; font-weight:normal}
+  .bar .sa{background:#dfff00; color:#00005f}
+  .bar .sb{background:#444444; color:#ffffff}
+  .bar .sc{background:#1d1d19; color:#9cffd3}
+  .bar .btn{background:#1d1d19; color:#d7ff00}
+  .k{color:var(--accent); font-weight:600}
+  footer{margin-top:3.5rem; padding-top:1rem; border-top:1px solid var(--line);
+         color:var(--muted); font-size:.88rem}
+
+  /* 連結。這份檔案本來一條 a 規則都沒有，四個內文連結在深色底下是瀏覽器
+     預設的深藍，幾乎讀不到 —— 加了目錄之後那會變成二十幾條。 */
+  a{color:var(--accent)}
+  a:hover{text-decoration-thickness:2px}
+  h2,h3{scroll-margin-top:1rem}
+
+  /* ── 書籤導覽 ────────────────────────────────────────────── */
+  #toc{font-size:.92rem; line-height:1.5}
+  #toc ul{list-style:none; margin:0; padding:0}
+  #toc a{display:block; padding:.26rem .5rem; border-radius:5px;
+         color:var(--muted); text-decoration:none}
+  #toc>.toc-list>li>a{color:var(--fg)}
+  #toc ul ul a{padding-left:1.5rem; font-size:.88rem}
+  #toc ul ul{margin-bottom:.4rem}
+  #toc a:hover{background:var(--code-bg); color:var(--fg)}
+  #toc a:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+  #toc a[aria-current]{background:var(--code-bg); color:var(--accent);
+                       font-weight:600}
+  #toc .toc-extra{margin:.9rem 0 0; padding-top:.7rem;
+                  border-top:1px solid var(--line)}
+  #toc .toc-extra a{color:var(--accent); padding-left:.5rem}
+
+  /* 收合鈕只在窄視窗出現，而且是純 CSS 的 —— 關掉 JS 也收得起來。
+     窄版刻意不做 sticky：sticky 的目錄一展開會蓋住剛跳過去的段落，
+     靜態的只是把內文往下推，跳完自然捲走。 */
+  .toc-open{position:absolute; width:1px; height:1px; opacity:0}
+  .toc-btn{display:block; max-width:max-content; cursor:pointer;
+           margin:0 0 .8rem; padding:.4rem .8rem;
+           border:1px solid var(--line); border-radius:6px;
+           background:var(--code-bg); color:var(--fg); font-weight:600;
+           -webkit-user-select:none; user-select:none}
+  .toc-btn::before{content:"\25B8\A0"}
+  .toc-open:checked~.toc-btn::before{content:"\25BE\A0"}
+  .toc-open:focus-visible~.toc-btn{outline:2px solid var(--accent);
+                                   outline-offset:2px}
+  .toc-list,.toc-extra{display:none}
+  .toc-open:checked~.toc-list,
+  .toc-open:checked~.toc-extra{display:block}
+
+  /* 寬螢幕：左側固定側欄。main 本來就只吃 52rem，兩側的空白本來是浪費掉的。
+     這一段必須排在上面那組之後 —— 同特異度，靠 source order 取勝。 */
+  @media (min-width:64rem){
+    body{display:grid; grid-template-columns:14rem minmax(0,1fr);
+         gap:0 2rem; padding:2.5rem 2rem 5rem}
+    #toc{position:sticky; top:2.5rem; align-self:start;
+         max-height:calc(100vh - 5rem); overflow:auto;
+         overscroll-behavior:contain;
+         padding-right:.5rem; border-right:1px solid var(--line)}
+    .toc-btn{display:none}
+    .toc-list,.toc-extra{display:block}
+  }
+
+  @media print{
+    :root{--bg:#fff; --fg:#000; --muted:#444; --line:#bbb; --accent:#000;
+          --code-bg:#f4f4f4}
+    #toc{display:none}
+    body{display:block; padding:0; font-size:11pt}
+    main{max-width:none}
+    a{color:inherit; text-decoration:none}
+    h2,h3{break-after:avoid}
+    table,.box,.bar{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<nav id="toc" aria-label="章節目錄">
+<input type="checkbox" id="toc-open" class="toc-open">
+<label for="toc-open" class="toc-btn">目錄</label>
+<ul class="toc-list">
+  <li><a href="#start">開始使用</a>
+    <ul>
+      <li><a href="#smartscreen">第一次執行會被 Windows 攔下來</a></li>
+      <li><a href="#first-run-slow"
+             title="第一次啟動會很慢，這是正常的">第一次啟動很慢</a></li>
+    </ul></li>
+  <li><a href="#typing">打字</a>
+    <ul><li><a href="#punctuation">標點符號</a></li></ul></li>
+  <li><a href="#mixed-input">中英混輸</a>
+    <ul><li><a href="#switch-mode">切換中文／英數</a></li></ul></li>
+  <li><a href="#status-bar">狀態列</a>
+    <ul>
+      <li><a href="#menu">右鍵選單</a></li>
+      <li><a href="#move-resize">搬移與調整寬度</a></li>
+      <li><a href="#arrows">候選字的箭頭</a></li>
+      <li><a href="#feedback">回報問題與建議</a></li>
+    </ul></li>
+  <li><a href="#width-script">全形與繁簡</a>
+    <ul>
+      <li><a href="#fullwidth">全形</a></li>
+      <li><a href="#simplified">繁簡</a></li>
+    </ul></li>
+  <li><a href="#settings">設定</a>
+    <ul><li><a href="#files">資料夾裡有什麼</a></li></ul></li>
+  <li><a href="#troubleshooting">疑難排解</a>
+    <ul>
+      <li><a href="#dotted-underline"
+             title="標點符號底下有一條虛線，要再按 Enter 才會真的出現"
+             >標點底下有虛線</a></li>
+      <li><a href="#key-conflict">狀態列顯示「N 鍵衝突」</a></li>
+      <li><a href="#elevated-windows"
+             title="在工作管理員、登錄檔編輯器裡打不出中文"
+             >工作管理員裡打不出中文</a></li>
+      <li><a href="#wont-start">雙擊沒反應</a></li>
+      <li><a href="#fullscreen-games">全螢幕遊戲裡打不出字</a></li>
+      <li><a href="#shift-toggle">單按 Shift 常常誤切模式</a></li>
+    </ul></li>
+  <li><a href="#update">自動更新</a>
+    <ul>
+      <li><a href="#rollback">回到上一版</a></li>
+      <li><a href="#disable-update">不想自動更新</a></li>
+    </ul></li>
+  <li><a href="#not-yet">目前還沒有的功能</a></li>
+  <li><a href="#cli">命令列選項</a></li>
+</ul>
+<p class="toc-extra"><a href="themes.html">配色一覽 &rarr;</a></p>
+</nav>
+
+<main>
+
+<h1>ET-shiamy 使用說明</h1>
+<p class="lede">免安裝、不需管理員權限的第三方嘸蝦米輸入法。</p>
+
+<h2 id="start">開始使用</h2>
+<ol>
+  <li>把整個 <code>EatShiamy</code> 資料夾解壓到任何地方（隨身碟也可以）。</li>
+  <li>雙擊裡面的 <code>EatShiamy.exe</code>。</li>
+  <li>螢幕底部、工作列正上方會出現一條藍色狀態列（寬度約半個螢幕、置中），
+      那就是輸入法的候選字視窗。</li>
+</ol>
+
+<p>不需要安裝、不需要管理員權限、不會寫進登錄檔。整個資料夾刪掉就等於移除乾淨。</p>
+
+<div class="box warn">
+<p><strong>資料夾要整個搬</strong>。<code>EatShiamy.exe</code> 需要旁邊的
+<code>_internal\</code> 與 <code>tables\</code> 才能執行，只複製 exe 出來會打不開。</p>
+</div>
+
+<p><strong>關閉</strong>：在狀態列上按<strong>右鍵</strong>，選最後一項
+<span class="k">結束</span>。沒有系統匣圖示，也不會開機自動啟動。想開機自動啟動的話，把
+<code>EatShiamy.exe</code> 的捷徑放進「啟動」資料夾（按
+<kbd>Win</kbd>+<kbd>R</kbd> 輸入 <code>shell:startup</code>）。</p>
+
+<h3 id="smartscreen">第一次執行會被 Windows 攔下來</h3>
+
+<p>因為這支程式沒有數位簽章 —— 那需要付費憑證。程式本身沒有問題，
+Windows 只是不認得它。</p>
+
+<ul>
+  <li><strong>SmartScreen</strong>：出現「Windows 已保護您的電腦」時，
+      點「<strong>其他資訊</strong>」→「<strong>仍要執行</strong>」。</li>
+  <li><strong>Smart App Control</strong>（Windows 11 全新安裝預設開啟）：
+      會直接擋掉，而且<strong>沒有放行的選項</strong>。
+      只能先把它關掉，或是改用其他輸入法。</li>
+</ul>
+
+<div class="box warn">
+<p><strong>解壓縮的位置要有寫入權限，不要放在 <code>C:\Program Files\</code>
+底下。</strong>程式要在自己的資料夾裡寫設定與快取（<code>plugin\</code>），
+放在那裡會因為沒有管理員權限而失敗。</p>
+</div>
+
+<h3 id="first-run-slow">第一次啟動會很慢，這是正常的</h3>
+
+<p><strong>在一台電腦上第一次執行大約 10～15 秒，之後每次不到半秒。</strong>
+兩個原因：</p>
+
+<ul>
+  <li><strong>Windows 掃描新程式</strong>（約 13 秒，佔絕大部分）——
+      Windows Defender 會把第一次見到的程式整包掃過一遍。這是作業系統的行為，
+      跟輸入法本身無關。</li>
+  <li><strong>建立字根表快取</strong>（約 0.2 秒）—— 程式把字根表編譯成
+      <code>plugin\cache\</code> 底下的檔案，之後開機直接讀快取。</li>
+</ul>
+
+<p>掃描的結果是記在檔案本身上的，所以<strong>同一台電腦裡把資料夾搬到別的位置、
+或複製一份出來，都不會再慢一次</strong>（實測約 1 秒）。換一台電腦才會重來一次。</p>
+
+<p><code>plugin\</code> 資料夾隨時可以整個刪掉，只會讓下一次開機慢個零點幾秒。</p>
+
+<h2 id="typing">打字</h2>
+
+<p>狀態列左邊顯示 <strong>嘸蝦米</strong> 時就是中文輸入狀態。打字根碼，
+候選字會即時出現在狀態列上。</p>
+
+<div class="scroll">
+<table>
+<tr><th>按鍵</th><th>作用</th></tr>
+<tr><td>字根鍵</td>
+    <td><kbd>a</kbd>～<kbd>z</kbd> 加上 <kbd>[</kbd> <kbd>]</kbd>
+        <kbd>;</kbd> <kbd>'</kbd> <kbd>,</kbd> <kbd>.</kbd>，共 32 顆</td></tr>
+<tr><td><kbd>-</kbd> <kbd>=</kbd></td>
+    <td>不是字根，但一樣打得進去。它們拆不出中文字，是留給中英混輸用的
+        —— 打 <code>e-mail</code> 這種字串，打完按 <kbd>Enter</kbd> 原樣送出</td></tr>
+<tr><td><kbd>Space</kbd></td>
+    <td>送出目前這一頁的<strong>第一個</strong>候選字。
+        如果打了拆不出字的碼，按 Space 會清空重來、不送出任何東西</td></tr>
+<tr><td><kbd>1</kbd>～<kbd>9</kbd></td>
+    <td>選目前這一頁的第 n 個候選字。<strong>選不到的時候就是打數字</strong>
+        —— 沒有候選字、或這一頁根本沒有第 n 個，數字就直接打進去，
+        所以 <code>a1</code>、<code>-2024</code> 這種也打得出來</td></tr>
+<tr><td><kbd>←</kbd> / <kbd>→</kbd></td>
+    <td>上一頁 / 下一頁候選字。<strong>只有正在打字的時候才會被接管</strong>，
+        沒在打字時方向鍵就是移動游標</td></tr>
+<tr><td><kbd>Backspace</kbd></td><td>退掉一個字根</td></tr>
+<tr><td><kbd>Esc</kbd></td><td>整串清掉，不送出</td></tr>
+<tr><td><kbd>Enter</kbd></td>
+    <td>把目前打的碼<strong>原樣當英文送出</strong>（中英混輸用，見下節）</td></tr>
+</table>
+</div>
+
+<div class="box">
+<p><strong>沒在打字的時候，這些鍵全部是原生的。</strong>
+按數字就是打數字、按 <kbd>Enter</kbd> 就是換行、按 <kbd>Space</kbd> 就是空白、
+按方向鍵就是移動游標。輸入法只在「正在組字」的那一瞬間才接管它們。</p>
+<p>表裡的例外是 <kbd>-</kbd> 與 <kbd>=</kbd>：它們隨時都會打進緩衝區，
+所以在中文狀態下要打出這兩個符號，得按完再按 <kbd>Enter</kbd>。</p>
+</div>
+
+<h3 id="punctuation">標點符號</h3>
+<p>標點也是用字根碼打的，例如 <code>,</code> 出「，」、<code>,,</code> 出「「」、
+<code>'</code> 出「、」。打完按 <kbd>Space</kbd> 或數字選字。</p>
+<p>想打<strong>半形</strong>標點，打完直接按 <kbd>Enter</kbd> —— 例如按
+<code>,</code> 再按 <kbd>Enter</kbd> 就會送出半形的 <code>,</code>。</p>
+
+<h2 id="mixed-input">中英混輸</h2>
+
+<p>不用切模式就能夾雜英文：</p>
+<ul>
+  <li>在嘸蝦米模式下按 <kbd>Shift</kbd>+字母，大寫字母會存進緩衝區。</li>
+  <li>接著繼續打字母把單字打完。</li>
+  <li>按 <kbd>Enter</kbd> 原樣送出。</li>
+</ul>
+<p>例如 <kbd>Shift</kbd>+<kbd>H</kbd> 然後 <code>ello</code> 再按
+<kbd>Enter</kbd>，送出 <code>Hello</code>。</p>
+<p><kbd>-</kbd> <kbd>=</kbd> 與（選不到候選字時的）數字也會進緩衝區，
+所以 <code>e-mail</code>、<code>x=y</code>、<code>a1</code> 都是照打再按
+<kbd>Enter</kbd>。</p>
+
+<p>打到一半才發現接下來要打的是一長串英文，就<strong>輕按一下
+<kbd>Shift</kbd></strong> —— 已經打進去的字母會原樣送出，同時切到英數模式，
+不必先按 <kbd>Enter</kbd> 再按 <kbd>Shift</kbd>。</p>
+
+<h3 id="switch-mode">切換中文／英數</h3>
+<p><strong>輕按一下 <kbd>Shift</kbd> 再放開</strong>（半秒內、期間沒碰到別的鍵）
+就會在「嘸蝦米」與「英數」之間切換。也可以直接<strong>點狀態列最左邊
+那一格</strong>。</p>
+
+<p>英數模式下打一鍵出一個字母，不組字也不用按 <kbd>Enter</kbd>。而且半形英數模式下
+<strong>輸入法完全不攔截鍵盤</strong>，打字手感跟沒開輸入法一模一樣。</p>
+
+<p>如果切換的當下<strong>還有字碼沒送出</strong>，兩種切法的處置不一樣：</p>
+<ul>
+  <li>按 <kbd>Shift</kbd> 切換 —— 把那些字母<strong>原樣送出</strong>，
+      等於順手替你按了一次 <kbd>Enter</kbd>（一樣不轉簡體，全形設定照舊生效）。</li>
+  <li>點狀態列或用右鍵選單切換 —— 那些字碼<strong>直接丟掉</strong>。
+      因為滑鼠一點下去，游標焦點就已經離開你正在打字的地方，
+      這時送字只會送到不見。</li>
+</ul>
+
+<div class="box">
+<p>如果覺得單按 <kbd>Shift</kbd> 太容易誤觸，可以關掉它 —— 見下面的
+<a href="#settings">設定</a>，把 <code>shift_toggles_mode</code> 改成
+<code>false</code>，改用點狀態列切換。</p>
+</div>
+
+<h2 id="status-bar">狀態列</h2>
+
+<div class="bar">
+  <span class="sa">嘸蝦米</span><span class="sb">半形</span>
+  <span class="grow sc">cox　1蝦</span>
+  <span class="btn">繁</span>
+  <span class="btn">＋</span><span class="btn">－</span><span class="btn">停</span>
+</div>
+
+<p><strong>訊息只在你沒打字的時候出現。</strong>一開始打字根碼，訊息就讓開，
+中間那塊回去顯示候選字；送出字、緩衝區空了以後它自己會回來。所以它不會擋住輸入，
+也不會因為你沒理它就消失。</p>
+
+<p><strong>整條的顏色代表現在是什麼狀態</strong>：中文一種顏色、英數另一種，
+有需要你處理的事（鍵衝突、可以重啟更新、更新失敗）時整條會換成第三種，
+停用時整條變灰。</p>
+
+<p>十一種配色實際長什麼樣（含滑鼠移上去的顏色、深淺桌面）攤成一頁在
+<a href="themes.html">配色一覽</a>，跟這份說明放在同一個資料夾，離線也開得起來。</p>
+
+<div class="scroll">
+<table>
+<tr><th>位置</th><th>顯示</th><th>點下去</th></tr>
+<tr><td>左 1</td><td>嘸蝦米 / 英數 / 停用中</td>
+    <td>切換中文／英數。顯示「停用中」時點它是恢復</td></tr>
+<tr><td>左 2</td><td>半形 / 全形</td><td>切換全形／半形</td></tr>
+<tr><td>中間</td><td>目前打的碼與候選字。<strong>沒在打字的時候</strong>，
+    這裡會用來顯示訊息：已是最新版本 ／ 新版 x.y.z ／ 下載 nn% ／
+    重啟更新 ／ N 鍵衝突</td>
+    <td>更新的訊息點得下去，見下方<a href="#update">自動更新</a></td></tr>
+<tr><td>右 1</td><td><span class="k">繁</span> / <span class="k">簡</span></td>
+    <td>切換輸出繁體或簡體字。字面就是<strong>目前</strong>送出去的那一種</td></tr>
+<tr><td>右 2</td><td><span class="k">＋</span> <span class="k">－</span></td>
+    <td>放大／縮小字體</td></tr>
+<tr><td>右 3</td><td><span class="k">停</span></td>
+    <td>停用／恢復。停用時輸入法完全不攔鍵盤，等於暫時關掉</td></tr>
+</table>
+</div>
+
+<h3 id="menu">右鍵選單</h3>
+<p>在狀態列上<strong>任何地方按右鍵</strong>都會跳出同一個選單，
+常用的調整都在裡面，選了立刻生效，也會被記住。</p>
+
+<div class="scroll">
+<table>
+<tr><th>項目</th><th>做什麼</th></tr>
+<tr><td><span class="k">嘸蝦米</span> / <span class="k">英數</span></td>
+    <td>切換輸入模式。跟單按一下 <kbd>Shift</kbd> 是同一件事</td></tr>
+<tr><td><span class="k">全形</span></td><td>全形／半形</td></tr>
+<tr><td><span class="k">輸出簡體</span></td>
+    <td>送出去的中文轉成簡體字</td></tr>
+<tr><td><span class="k">單按 Shift 切換中英</span></td>
+    <td>關掉之後，<kbd>Shift</kbd> 就只是一般的 Shift</td></tr>
+<tr><td><span class="k">暫停輸入法</span></td>
+    <td>暫時完全不攔鍵盤，等於暫時關掉</td></tr>
+<tr><td><span class="k">配色</span></td>
+    <td>內建十一種，選了立刻換，整條都會隨著中文／英數／事件／停用中變色。
+        深色：<strong>Airline Dark</strong>（預設，就是上面示意圖那樣）、
+        <strong>Molokai</strong>、<strong>Bad Wolf</strong>、<strong>One Dark</strong>、
+        <strong>Night Owl</strong>、<strong>Jellybeans</strong>、<strong>Luna</strong>、
+        <strong>Wombat</strong>；淺色：<strong>PaperColor</strong>、
+        <strong>Airline Light</strong>；另有 <strong>ET-shiamy 原色</strong>
+        （改版前的藍底白字）。十一種並排的樣子見<a href="themes.html">配色一覽</a></td></tr>
+<tr><td><span class="k">字體大小</span></td>
+    <td>直接挑一個字級，不必用 <span class="k">＋</span>
+        <span class="k">－</span> 一格一格按</td></tr>
+<tr><td><span class="k">回到預設位置</span></td>
+    <td>條子被拖到看不見的地方時用這個救回來：整個螢幕寬、貼近底部</td></tr>
+<tr><td><span class="k">送字方式</span></td>
+    <td>目前只有 SendInput 一種</td></tr>
+<tr><td><span class="k">更新</span></td>
+    <td>立即檢查、下載、重啟更新、回復上一版，以及多久自動檢查一次、
+        保留幾份舊版備份。見下方<a href="#update">自動更新</a></td></tr>
+<tr><td><span class="k">開啟資料夾</span></td>
+    <td>用檔案總管打開設定資料夾、字根表資料夾，或更新記錄</td></tr>
+<tr><td><span class="k">使用說明</span></td><td>打開這份說明書</td></tr>
+<tr><td><span class="k">意見回饋</span></td>
+    <td>回報問題或提功能建議。見下方<a href="#feedback">回報問題與建議</a></td></tr>
+<tr><td><span class="k">結束</span></td><td>結束程式</td></tr>
+</table>
+</div>
+
+<p>選單最上面那一行是<strong>版本號</strong>。用<a href="#feedback">意見回饋</a>
+回報時它會自動附上，不必自己抄。</p>
+
+<p>除了原色那一種，配色都轉錄自 <strong>vim-airline</strong>（MIT 授權）的同名配色。
+少數幾種在螢幕上的對比不高——那是原本的配色就長那樣，刻意保留；
+覺得看不清楚就換一種。</p>
+
+<h3 id="move-resize">搬移與調整寬度</h3>
+<ul>
+  <li><strong>搬移</strong>：在狀態列上任何地方按住拖曳。</li>
+  <li><strong>改寬度</strong>：把游標移到狀態列<strong>最左或最右邊緣</strong>，
+      游標變成左右箭頭時拖曳。</li>
+  <li>放開滑鼠就會自動記住位置、寬度與字體大小。</li>
+</ul>
+
+<div class="box">
+<p><strong>候選字每頁幾個，是依狀態列寬度即時算出來的。</strong>
+把狀態列拉窄，每頁就少幾個字、頁數變多；拉寬則相反（最多 9 個）。
+所以按 <kbd>3</kbd> 選第三個字之前，看的是螢幕上目前排出來的順序。</p>
+</div>
+
+<h3 id="arrows">候選字的 <code>&lt;</code> <code>&gt;</code> 箭頭</h3>
+<p>右邊出現 <code>&gt;</code> 代表後面還有候選字，按 <kbd>→</kbd> 翻頁；
+出現 <code>&lt;</code> 代表前面還有，按 <kbd>←</kbd> 翻回去。</p>
+
+<h3 id="feedback">回報問題與建議</h3>
+<p>右鍵選單的<span class="k">意見回饋</span>底下有兩項：
+<span class="k">回報問題</span>與<span class="k">功能建議</span>。
+點下去會用你的瀏覽器打開 ET-shiamy 在 GitHub 上的頁面，
+標題與內文都已經先填好，你只要補上發生了什麼事再送出。
+需要一個免費的 GitHub 帳號。</p>
+
+<div class="box">
+<p><strong>內文最底下那段診斷資訊是自動帶入的</strong>：版本、Windows 版本、
+目前的模式與配色、有幾顆鍵被別的程式佔走、字根表載了幾筆。
+這些就是排查問題時最常要回頭問的東西。</p>
+<p>裡面<strong>不包含你打過的字</strong>，也不包含任何檔案路徑。
+內容在送出之前都看得到、改得動——
+<strong>按下網頁上的送出鈕之前，什麼都還沒有送出去</strong>。</p>
+</div>
+
+<p>打不開瀏覽器的話，也可以自己到
+<code>github.com/0100Light/eat-shiamy-releases/issues</code> 開一則。</p>
+
+<h2 id="width-script">全形與繁簡</h2>
+
+<h3 id="fullwidth">全形</h3>
+<p>點「半形」切成「全形」之後：</p>
+<ul>
+  <li><strong>英數模式</strong>下，每一個字元都變全形，包含空白（　）、
+      數字（１２３）與符號（！＠＃）。</li>
+  <li><strong>嘸蝦米模式</strong>下，全形<strong>只作用在送出的文字</strong>
+      —— 也就是按 <kbd>Enter</kbd> 送出的那串英文（<kbd>-</kbd> <kbd>=</kbd>
+      也在裡面）。中文字本來就是全形寬度。
+      這時候直接打的數字與 <kbd>/</kbd> <kbd>\</kbd> 仍然是半形，
+      因為中文模式必須把那些鍵留給你打字根。</li>
+</ul>
+
+<h3 id="simplified">繁簡</h3>
+<p>點 <span class="k">繁</span> 切成 <span class="k">簡</span>，送出的中文字會轉成簡體
+（例如「蝦」→「虾」）。<strong>按 <kbd>Enter</kbd> 送出的英文不會被轉</strong>。</p>
+<p>全形與繁簡兩個設定都會被記住，下次開啟維持原樣。中英模式與停用狀態不會記住，
+每次開啟都是嘸蝦米、啟用中。</p>
+
+<h2 id="settings">設定</h2>
+
+<p>所有設定都存在 <code>plugin\window_config.json</code>。大部分用狀態列調整就好，
+以下幾項目前只能用記事本直接改（改完要重開程式）：</p>
+
+<div class="scroll">
+<table>
+<tr><th>項目</th><th>預設</th><th>說明</th></tr>
+<tr><td><code>shift_toggles_mode</code></td><td><code>true</code></td>
+    <td>單按 <kbd>Shift</kbd> 切換中英。改成 <code>false</code> 可完全關掉</td></tr>
+<tr><td><code>width</code></td><td><code>0</code></td>
+    <td>狀態列寬度，<code>0</code> 表示螢幕寬的一半</td></tr>
+<tr><td><code>x</code> / <code>y</code></td><td><code>-1</code> / <code>-1</code></td>
+    <td>狀態列位置。<code>x: -1</code> 表示水平置中，
+    <code>y: -1</code> 表示下緣貼齊工作列上側</td></tr>
+<tr><td><code>font_size</code></td><td><code>18</code></td>
+    <td>只接受 12、14、16、18、20、24、28、32</td></tr>
+<tr><td><code>fullwidth</code> / <code>to_simplified</code></td><td><code>false</code></td>
+    <td>開機時的全形／簡體狀態</td></tr>
+</table>
+</div>
+
+<p><strong>設定檔刪掉就會全部回到預設值</strong>，不會有其他影響。
+改壞了也不會讓程式打不開 —— 程式讀不懂設定檔時會直接用預設值啟動。</p>
+
+<h3 id="files">資料夾裡有什麼</h3>
+<div class="scroll">
+<table>
+<tr><th>路徑</th><th>內容</th><th>可以刪嗎</th></tr>
+<tr><td><code>EatShiamy.exe</code></td><td>主程式</td><td>不行</td></tr>
+<tr><td><code>_internal\</code></td><td>程式執行需要的檔案</td><td>不行</td></tr>
+<tr><td><code>tables\</code></td><td>字根表與繁簡對照表</td>
+    <td>不行（刪了就打不出字）</td></tr>
+<tr><td><code>plugin\</code></td><td>快取與你的設定</td>
+    <td><strong>可以</strong>，會自動重建，設定回預設</td></tr>
+<tr><td><code>manual.html</code></td><td>這份說明</td><td>可以</td></tr>
+<tr><td><code>themes.html</code></td><td>十一種配色的一覽表</td>
+    <td>可以（刪了上面那個「配色一覽」連結就會失效）</td></tr>
+</table>
+</div>
+
+<h2 id="troubleshooting">疑難排解</h2>
+
+<h3 id="dotted-underline">標點符號底下有一條虛線，要再按 Enter 才會真的出現</h3>
+
+<div class="box warn">
+<p>這是<strong>系統內建的微軟注音</strong>攔截造成的，不是本程式的問題。
+新版微軟注音會把我們送出的標點收進它自己的組字狀態。漢字不受影響，只有標點會這樣。</p>
+</div>
+
+<p><strong>解法</strong>：打開微軟注音的相容性選項 ——</p>
+<p style="margin-left:1.5rem">設定 → 語言和區域 → 中文(繁體，台灣) → 語言選項 →
+微軟注音 → 鍵盤選項 → <strong>一般</strong> →
+<strong>相容性：使用先前版本的 Microsoft 注音</strong>（打開）</p>
+
+<p>這是改 Windows 的設定，不是改本程式。Windows 更新有可能把它重設回去，
+換一台電腦也要重設一次。</p>
+
+<h3 id="key-conflict">狀態列顯示「N 鍵衝突」</h3>
+<p>有 N 顆鍵被<strong>其他常駐程式註冊成全域快速鍵</strong>了，本程式搶不到。
+那幾顆鍵打下去會直接輸出原本的字元，不會進候選。</p>
+<p>這行字出現在狀態列中間、沒在打字的時候，整條也會換成事件的顏色。
+一開始打字它就讓開，緩衝區清空後再回來 —— 它是持續存在的事實，
+不會自己消失。</p>
+<p>常見來源是螢幕截圖工具、錄影軟體、遊戲平台、巨集工具。把那些程式的快速鍵改掉，
+或先關掉它們再開本程式。</p>
+
+<h3 id="elevated-windows">在工作管理員、登錄檔編輯器裡打不出中文</h3>
+<p>那些視窗是<strong>以系統管理員權限執行</strong>的，Windows 不允許一般權限的程式
+送字進去。這是作業系統的安全機制，任何免安裝輸入法都一樣。</p>
+<p>在那些視窗裡本程式等於不作用，鍵盤會是原生的英文鍵盤 ——
+不會發生「打了字卻不見」的情形。</p>
+
+<h3 id="wont-start">雙擊沒反應</h3>
+<p>多半是資料夾不完整（缺 <code>_internal\</code> 或 <code>tables\</code>）。
+開 PowerShell 切到該資料夾，執行：</p>
+<p style="margin-left:1.5rem"><code>.\EatShiamy.exe --check</code></p>
+<p>它會印出詳細的檢查結果並指出缺什麼，不會攔鍵盤也不會開視窗。
+（程式是無主控台打包的，直接雙擊看不到訊息，一定要從終端機呼叫。）</p>
+
+<h3 id="fullscreen-games">全螢幕遊戲裡打不出字</h3>
+<p>獨佔全螢幕模式的遊戲很可能不吃合成輸入。<strong>這一點我們沒有實測過</strong>，
+如果遇到，改用視窗模式或無邊框視窗模式試試。</p>
+
+<h3 id="shift-toggle">單按 Shift 常常誤切模式</h3>
+<p>按住 <kbd>Shift</kbd> 用滑鼠選字、或按 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>
+切換系統輸入法時，本程式都<strong>不會</strong>誤判成單按。如果還是覺得容易誤觸，
+把設定裡的 <code>shift_toggles_mode</code> 改成 <code>false</code> 關掉它。</p>
+
+<h2 id="update">自動更新</h2>
+
+<p>程式會在啟動十秒後、之後每天一次，到 GitHub 看看有沒有新版。
+發現新版就<strong>自動下載</strong>，但<strong>不會自己重開</strong> ——
+輸入法重開的那幾秒鍵盤會回到原生狀態，打到一半被打斷很惱人，
+所以什麼時候套用由你決定。</p>
+
+<p>不想等的話，右鍵選單的<span class="k">更新</span> →
+<span class="k">立即檢查更新</span>隨時查得動，<strong>就算你把
+<span class="k">自動檢查更新</span>勾掉了也一樣</strong> —— 勾掉的只是
+「它自己跑去連網」這件事。</p>
+
+<div class="scroll">
+<table>
+<tr><th>中間那塊顯示</th><th>意思</th><th>點下去</th></tr>
+<tr><td>檢查更新中…</td><td>正在查（只有你自己按<span class="k">立即檢查更新</span>時才會看到）</td>
+    <td>不能點，一下就好</td></tr>
+<tr><td>已是最新版本 0.1.1</td><td>查過了，沒有更新可用</td>
+    <td>不能點，五秒後自己消失</td></tr>
+<tr><td>查不到更新資訊</td><td>連不上更新伺服器</td>
+    <td>不能點，五秒後自己消失。過一陣子會自動再試</td></tr>
+<tr><td>新版 0.1.1</td><td>發現新版了</td><td>開始下載（通常不必點，它會自己下載）</td></tr>
+<tr><td>下載 42%</td><td>下載中</td><td>不能點，等它跑完</td></tr>
+<tr><td>解壓中</td><td>在檢查與解壓縮</td><td>不能點</td></tr>
+<tr><td>重啟更新</td><td>準備好了</td><td><strong>點它就會重開並更新</strong></td></tr>
+<tr><td>更新失敗</td><td>出了問題</td><td>再點一次重試。把滑鼠停上去會顯示原因</td></tr>
+</table>
+</div>
+
+<p>把滑鼠停在訊息上，會顯示這一版改了什麼。「重啟更新」與「更新失敗」
+兩種狀態會讓整條狀態列換色，因為那兩種需要你動手；前三種只是講一句話，
+整條的顏色不會動。</p>
+
+<p><strong>背景那次每天一次的檢查不會跳任何訊息。</strong>沒查到新版就
+安安靜靜地過去 —— 每天彈一次「已是最新版本」只是打擾。只有你自己按下
+<span class="k">立即檢查更新</span>時才會回報結果。</p>
+
+<div class="box">
+<p><strong>更新後第一次啟動會比較慢</strong>（可能十幾秒）。那是 Windows
+Defender 在掃描剛換上去的幾百個新檔案，掃過一次就不會再慢了。這是正常的。</p>
+</div>
+
+<div class="box">
+<p><strong><code>tables\</code> 裡隨附的碼表會被換成新版。</strong>
+那些檔案由這個程式維護，更新時一律以新版為準（內容本來就一樣的不會白寫一次）。
+所以請不要直接編輯它們 —— 你的修改會在下次更新時消失。
+自訂字根的做法之後會另外提供。</p>
+</div>
+
+<h3 id="rollback">回到上一版</h3>
+
+<p>更新之前的那一版會<strong>完整保留</strong>在
+<code>plugin\rollback\</code> 裡（大約佔 27MB），隨時可以換回去。</p>
+
+<div class="scroll">
+<table>
+<tr><th>情況</th><th>怎麼做</th></tr>
+<tr><td>新版還能用，但你想退回去</td>
+    <td>右鍵選單的<span class="k">更新</span> → <span class="k">回復上一版</span>，或在資料夾裡開命令提示字元執行 <code>EatShiamy.exe --rollback</code></td></tr>
+<tr><td>新版根本開不起來</td>
+    <td>雙擊 <code>plugin\rollback\rollback.cmd</code></td></tr>
+</table>
+</div>
+
+<p>兩種做法都是<strong>對調</strong>而不是覆蓋，所以換回去之後還可以再換成新版，
+來回都不會弄丟東西。</p>
+
+<p>不想留這份備份的話，整個 <code>plugin\rollback\</code> 刪掉就好，
+只是以後沒辦法一鍵換回去而已，不影響更新本身。</p>
+
+<h3 id="disable-update">不想自動更新</h3>
+
+<p>打開 <code>plugin\window_config.json</code>，把 <code>update_check</code>
+改成 <code>false</code>，重開程式就不會再自動檢查了。
+要查的時候還是可以手動執行 <code>EatShiamy.exe --check-update</code>。</p>
+
+<h2 id="not-yet">目前還沒有的功能</h2>
+<ul>
+  <li><strong>中文詞組</strong> —— 一次只能打一個字，還不能連打詞組或造詞。</li>
+  <li><strong>英文候選補全</strong> —— 英文只能靠 <kbd>Shift</kbd>+字母
+      打完再按 <kbd>Enter</kbd>。</li>
+  <li><strong>唯一候選自動送出</strong> —— 即使只有一個候選字也要按
+      <kbd>Space</kbd>。</li>
+  <li><strong>快打（簡碼）模式</strong>、<kbd>V</kbd><kbd>R</kbd><kbd>S</kbd><kbd>F</kbd>
+      選字鍵。</li>
+  <li><strong>設定視窗</strong> —— 部分設定只能直接編輯 JSON 檔。</li>
+  <li><strong>系統匣圖示</strong>、開機自動啟動選項。</li>
+</ul>
+
+<h2 id="cli">命令列選項</h2>
+<div class="scroll">
+<table>
+<tr><th>指令</th><th>作用</th></tr>
+<tr><td><code>EatShiamy.exe</code></td><td>正常啟動</td></tr>
+<tr><td><code>EatShiamy.exe --check</code></td>
+    <td>只檢查能不能啟動，印出診斷資訊後結束。<strong>不攔鍵盤、不開視窗</strong></td></tr>
+<tr><td><code>EatShiamy.exe --check-update</code></td>
+    <td>立刻查一次有沒有新版，只印結果，不下載也不改任何東西</td></tr>
+<tr><td><code>EatShiamy.exe --rollback</code></td>
+    <td>換回上一版，見<a href="#rollback">回到上一版</a></td></tr>
+<tr><td><code>EatShiamy.exe --help</code></td><td>顯示簡短說明</td></tr>
+</table>
+</div>
+
+<footer>
+ET-shiamy　·　Windows 專用　·　免安裝、不需管理員權限<br>
+字根表衍生自 RIME 蝦米方案；繁簡對照表來自 OpenCC。
+</footer>
+
+</main>
+
+<script>
+/* 目前段落高亮。純 vanilla、無相依、不連任何外部資源。
+   關掉 JS 只是不高亮 —— 目錄本來就只是一堆 #錨點，照樣點得動、跳得到。 */
+(function(){
+  var nav = document.getElementById('toc');
+  if(!nav || !window.IntersectionObserver) return;
+
+  var LINE = 96;                        /* 啟動線：視窗頂端下方 96px */
+  var links = {}, heads = [], cur = null;
+  Array.prototype.forEach.call(nav.querySelectorAll('a[href^="#"]'),
+    function(a){
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if(el){ links[el.id] = a; heads.push(el); }
+    });
+  if(!heads.length) return;
+
+  /* IntersectionObserver 只當「有標題越線了」的觸發器，真正的判定用一次
+     getBoundingClientRect 掃過所有標題 —— 不必猜 entries 的順序，
+     也沒有「兩個標題同時在畫面上」的歧義。 */
+  function mark(){
+    var best = null;
+    for(var i = 0; i < heads.length; i++){
+      if(heads[i].getBoundingClientRect().top - LINE > 0) break;
+      best = heads[i];
+    }
+    if(best === cur) return;
+    if(cur) links[cur.id].removeAttribute('aria-current');
+    cur = best;
+    if(!cur) return;                    /* 還在標題頁首，不高亮任何一條 */
+    links[cur.id].setAttribute('aria-current', 'location');
+    keepVisible(links[cur.id]);
+  }
+
+  /* 只捲側欄自己。scrollIntoView 會連帶捲動整個頁面，
+     跟使用者正在做的捲動打架。 */
+  function keepVisible(a){
+    if(nav.scrollHeight <= nav.clientHeight) return;
+    var t = a.offsetTop, b = t + a.offsetHeight;
+    if(t < nav.scrollTop) nav.scrollTop = t - 8;
+    else if(b > nav.scrollTop + nav.clientHeight)
+      nav.scrollTop = b - nav.clientHeight + 8;
+  }
+
+  var io = new IntersectionObserver(mark,
+            {rootMargin: '-' + LINE + 'px 0px 0px 0px'});
+  heads.forEach(function(h){ io.observe(h); });
+  mark();
+
+  /* 窄視窗：點了項目就把目錄收起來 */
+  var box = document.getElementById('toc-open');
+  nav.addEventListener('click', function(e){
+    if(box && box.checked && e.target.tagName === 'A') box.checked = false;
+  });
+})();
+</script>
+</body>
+</html>
