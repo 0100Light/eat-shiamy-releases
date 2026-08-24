@@ -26,8 +26,8 @@
 要移除就把資料夾刪掉，不會在系統裡留下任何東西 ——
 它不寫登錄檔、不裝服務、不需要管理員權限。
 
-**用法、設定、自動更新、疑難排解都寫在資料夾裡的 `manual.html`**
-（也可以[先線上讀](https://0100light.github.io/eat-shiamy-releases/manual.html)）。
+**用法、設定、自動更新、疑難排解都寫在[使用說明](https://0100light.github.io/eat-shiamy-releases/manual.html)裡**
+（程式的右鍵選單也有一項直接開它）。
 
 ### 第一次執行會被 Windows 攔下來
 
