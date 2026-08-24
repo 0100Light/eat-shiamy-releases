@@ -10,6 +10,8 @@
 
 ## 畫面
 
+<img src="img/cover.jpg" width="900" alt="三種狀態的狀態列：組字中、英數模式、有更新可以套用">
+
 <img src="img/bar-composing.png" width="900" alt="打字中的狀態列">
 
 <img src="img/bar-english.png" width="900" alt="英數模式的狀態列">
