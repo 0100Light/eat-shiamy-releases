@@ -46,6 +46,12 @@
         vertical-align:top}
   th{background:var(--code-bg); font-weight:600}
   .scroll{overflow-x:auto}
+  /* 多行的檔案內容。加字加詞是第一個需要它的章節 ——
+     行內的 code 樣式撐不起一整段，而那幾行的縮排本身是有意義的。 */
+  pre{background:var(--code-bg); border:1px solid var(--line);
+      border-radius:6px; padding:.7rem .9rem; margin:1rem 0;
+      overflow-x:auto; line-height:1.5;
+      font-family:"Cascadia Mono",Consolas,monospace; font-size:.92em}
   .box{border-left:4px solid var(--note-line); background:var(--note-bg);
        padding:.85rem 1.1rem; margin:1.2rem 0; border-radius:0 6px 6px 0}
   .box.warn{border-left-color:var(--warn-line); background:var(--warn-bg)}
@@ -148,8 +154,11 @@
     <ul><li><a href="#switch-mode">切換中文／英數</a></li></ul></li>
   <li><a href="#status-bar">狀態列</a>
     <ul>
+      <li><a href="#tray">系統匣圖示</a></li>
+      <li><a href="#auto-hide">沒打字時會變透明</a></li>
       <li><a href="#menu">右鍵選單</a></li>
       <li><a href="#move-resize">搬移與調整寬度</a></li>
+      <li><a href="#multi-monitor">兩台以上的螢幕</a></li>
       <li><a href="#arrows">候選字的箭頭</a></li>
       <li><a href="#feedback">回報問題與建議</a></li>
     </ul></li>
@@ -157,6 +166,11 @@
     <ul>
       <li><a href="#fullwidth">全形</a></li>
       <li><a href="#simplified">繁簡</a></li>
+    </ul></li>
+  <li><a href="#add-word">加字加詞</a>
+    <ul>
+      <li><a href="#box-format">怎麼寫</a></li>
+      <li><a href="#box-marks">置前與清空</a></li>
     </ul></li>
   <li><a href="#settings">設定</a>
     <ul><li><a href="#files">資料夾裡有什麼</a></li></ul></li>
@@ -193,8 +207,12 @@
 <ol>
   <li>把整個 <code>EatShiamy</code> 資料夾解壓到任何地方（隨身碟也可以）。</li>
   <li>雙擊裡面的 <code>EatShiamy.exe</code>。</li>
-  <li>螢幕底部、工作列正上方會出現一條藍色狀態列（寬度約半個螢幕、置中），
-      那就是輸入法的候選字視窗。</li>
+  <li>右下角通知區域會出現一個<a href="#tray">黃底的「嘸」圖示</a>，
+      代表已經在跑了。</li>
+  <li>螢幕底部、工作列正上方會有一條藍色狀態列（寬度約螢幕的三分之一、
+      置中），那就是候選字視窗。沒在打字的時候它是<strong>半透明</strong>的，
+      開始拆字才會變清楚 —— 見
+      <a href="#auto-hide">沒打字時會變透明</a>。</li>
 </ol>
 
 <p>不需要安裝、不需要管理員權限、不會寫進登錄檔。整個資料夾刪掉就等於移除乾淨。</p>
@@ -204,10 +222,11 @@
 <code>_internal\</code> 與 <code>tables\</code> 才能執行，只複製 exe 出來會打不開。</p>
 </div>
 
-<p><strong>關閉</strong>：在狀態列上按<strong>右鍵</strong>，選最後一項
-<span class="k">結束</span>。沒有系統匣圖示，也不會開機自動啟動。想開機自動啟動的話，把
-<code>EatShiamy.exe</code> 的捷徑放進「啟動」資料夾（按
-<kbd>Win</kbd>+<kbd>R</kbd> 輸入 <code>shell:startup</code>）。</p>
+<p><strong>關閉</strong>：在狀態列或<a href="#tray">系統匣圖示</a>上按
+<strong>右鍵</strong>，選最後一項 <span class="k">結束</span>。</p>
+
+<p>不會開機自動啟動。想要的話把 <code>EatShiamy.exe</code> 的捷徑放進「啟動」
+資料夾（按 <kbd>Win</kbd>+<kbd>R</kbd> 輸入 <code>shell:startup</code>）。</p>
 
 <h3 id="smartscreen">第一次執行會被 Windows 攔下來</h3>
 
@@ -371,6 +390,69 @@ Windows 只是不認得它。</p>
 </table>
 </div>
 
+<h3 id="tray">系統匣圖示</h3>
+
+<p>右下角通知區域會有一個圖示，<strong>從開啟到關閉一直都在</strong>。
+它的顏色就是狀態列最左邊那格的顏色，所以一眼看得出現在是哪個模式：</p>
+
+<div class="scroll">
+<table>
+<tr><th>圖示</th><th>意思</th></tr>
+<tr><td>黃底的「嘸」</td><td>嘸蝦米模式，打字會出中文</td></tr>
+<tr><td>青底的「A」</td><td>英數模式，打字直接出英文</td></tr>
+<tr><td>灰底的「嘸」</td><td>已停用，完全不攔鍵盤</td></tr>
+</table>
+</div>
+
+<div class="scroll">
+<table>
+<tr><th>動作</th><th>做什麼</th></tr>
+<tr><td><strong>左鍵點一下</strong></td>
+    <td>停用／恢復，跟狀態列右邊那顆 <span class="k">停</span> 是同一件事</td></tr>
+<tr><td><strong>右鍵</strong></td>
+    <td>跳出跟狀態列右鍵<strong>一模一樣</strong>的完整選單</td></tr>
+</table>
+</div>
+
+<div class="box">
+<p>Windows 預設會把新的系統匣圖示藏進「顯示隱藏的圖示」那個小箭頭裡。
+想讓它一直看得到，在通知區域設定裡把 <code>EatShiamy</code> 打開。</p>
+</div>
+
+<h3 id="auto-hide">沒打字時會變透明</h3>
+
+<p><strong>狀態列只在你正在拆字的時候是完全清楚的。</strong>按下第一個字根它
+立刻變清楚，選完字送出後約半秒淡回半透明。連續打字時不會一直閃。</p>
+
+<p>淡掉之後它<strong>還在原地</strong>，還看得到大概的輪廓與顏色，
+也還點得到、拖得動 —— 滑鼠移上去就會變回清楚。</p>
+
+<p>下面這幾種情況它一定是清楚的：</p>
+
+<ul>
+  <li>正在拆字（緩衝區裡有字根）。</li>
+  <li>剛切過模式 —— 按 <kbd>Shift</kbd> 換中英、換全半形、換繁簡、
+      停用或恢復，都會讓它跳出來約一秒。</li>
+  <li>有話要告訴你 —— <a href="#key-conflict">N 鍵衝突</a>、有新版可以更新。</li>
+  <li>滑鼠正停在它上面、右鍵選單開著，或你正在拖它。</li>
+</ul>
+
+<p><strong>要多透明由你決定</strong>：右鍵選單的
+<span class="k">不打字時的透明度</span> 有六個檔位。</p>
+
+<div class="scroll">
+<table>
+<tr><th>檔位</th><th>效果</th></tr>
+<tr><td><strong>0%（不透明）</strong></td>
+    <td>永遠清清楚楚，等於關掉這個功能</td></tr>
+<tr><td>30% / 50% / 65% / 80%</td>
+    <td>越大越淡。預設是 65%</td></tr>
+<tr><td><strong>100%（完全隱藏）</strong></td>
+    <td>整條消失，桌面上只剩系統匣圖示。這一檔是真的把視窗收起來，
+        所以螢幕底部那一條也不會再擋到滑鼠</td></tr>
+</table>
+</div>
+
 <h3 id="menu">右鍵選單</h3>
 <p>在狀態列上<strong>任何地方按右鍵</strong>都會跳出同一個選單，
 常用的調整都在裡面，選了立刻生效，也會被記住。</p>
@@ -395,18 +477,25 @@ Windows 只是不認得它。</p>
         <strong>Wombat</strong>；淺色：<strong>PaperColor</strong>、
         <strong>Airline Light</strong>；另有 <strong>ET-shiamy 原色</strong>
         （改版前的藍底白字）。十一種並排的樣子見<a href="themes.html">配色一覽</a></td></tr>
+<tr><td><span class="k">不打字時的透明度</span></td>
+    <td>六個檔位，0%（不透明）到 100%（完全隱藏），預設 65%。
+        見<a href="#auto-hide">上一節</a></td></tr>
 <tr><td><span class="k">字體大小</span></td>
     <td>直接挑一個字級，不必用 <span class="k">＋</span>
         <span class="k">－</span> 一格一格按</td></tr>
 <tr><td><span class="k">回到預設位置</span></td>
-    <td>條子被拖到看不見的地方時用這個救回來：整個螢幕寬、貼近底部</td></tr>
+    <td>條子被拖到看不見的地方時用這個救回來：置中、貼近底部。
+        <strong>只重設條子當下所在的那一台螢幕</strong>，別台調好的位置不受影響</td></tr>
+<tr><td><span class="k">加字加詞</span></td>
+    <td>開關加字加詞、重新載入、打開放檔案的資料夾。
+        見下方<a href="#add-word">加字加詞</a></td></tr>
 <tr><td><span class="k">送字方式</span></td>
     <td>目前只有 SendInput 一種</td></tr>
 <tr><td><span class="k">更新</span></td>
-    <td>立即檢查、下載、重啟更新、回復上一版，以及多久自動檢查一次、
-        保留幾份舊版備份。見下方<a href="#update">自動更新</a></td></tr>
+    <td>立即檢查、下載、重啟更新、回復上一版，以及要不要自動檢查。
+        見下方<a href="#update">自動更新</a></td></tr>
 <tr><td><span class="k">開啟資料夾</span></td>
-    <td>用檔案總管打開設定資料夾、字根表資料夾，或更新記錄</td></tr>
+    <td>用檔案總管打開設定資料夾、字根表資料夾、加字加詞資料夾，或更新記錄</td></tr>
 <tr><td><span class="k">使用說明</span></td>
     <td>用瀏覽器打開這份說明書（線上版，需要網路）</td></tr>
 <tr><td><span class="k">意見回饋</span></td>
@@ -427,13 +516,32 @@ Windows 只是不認得它。</p>
   <li><strong>搬移</strong>：在狀態列上任何地方按住拖曳。</li>
   <li><strong>改寬度</strong>：把游標移到狀態列<strong>最左或最右邊緣</strong>，
       游標變成左右箭頭時拖曳。</li>
-  <li>放開滑鼠就會自動記住位置、寬度與字體大小。</li>
+  <li>放開滑鼠就會自動記住位置、寬度與字體大小。位置與寬度是
+      <a href="#multi-monitor">每台螢幕各記各的</a>。</li>
 </ul>
 
 <div class="box">
 <p><strong>候選字每頁幾個，是依狀態列寬度即時算出來的。</strong>
 把狀態列拉窄，每頁就少幾個字、頁數變多；拉寬則相反（最多 9 個）。
 所以按 <kbd>3</kbd> 選第三個字之前，看的是螢幕上目前排出來的順序。</p>
+</div>
+
+<h3 id="multi-monitor">兩台以上的螢幕</h3>
+
+<p><strong>狀態列會跟著你正在用的那台螢幕跑。</strong>切到另一台螢幕上的視窗，
+狀態列就搬過去；切回來，它也跟著回來。只接一台螢幕時這件事完全不發生。</p>
+
+<p><strong>位置是每台螢幕各記各的。</strong>在筆電螢幕上把條子拖到左上角、
+在外接螢幕上維持置中貼底，兩邊都會被記住，來回切換時各自回到自己的樣子。
+還沒調過的螢幕就用預設位置（該螢幕寬的三分之一、置中、貼齊工作列上側）。</p>
+
+<p>右鍵選單的 <span class="k">回到預設位置</span> 也只重設當下那一台。</p>
+
+<div class="box">
+<p><strong>兩台螢幕的縮放比例不一樣時，條子看起來會一大一小。</strong>
+例如筆電 150%、外接螢幕 100%，同一條狀態列在外接螢幕上會顯得小一點。
+位置與寬度比例都是對的，只有視覺大小受影響 ——
+在意的話用 <span class="k">＋</span> <span class="k">－</span> 調字級。</p>
 </div>
 
 <h3 id="arrows">候選字的 <code>&lt;</code> <code>&gt;</code> 箭頭</h3>
@@ -479,6 +587,74 @@ Windows 只是不認得它。</p>
 <p>全形與繁簡兩個設定都會被記住，下次開啟維持原樣。中英模式與停用狀態不會記住，
 每次開啟都是嘸蝦米、啟用中。</p>
 
+<h2 id="add-word">加字加詞</h2>
+
+<p>內建的字根表一次只打得出一個字。想加自己的詞（<span class="k">加字加詞</span>），
+或是把某個字的順序調到前面，就在程式資料夾底下的 <code>box</code> 資料夾裡放
+<code>.box</code> 檔。右鍵選單的 <span class="k">加字加詞</span> →
+<span class="k">開啟加字加詞資料夾</span> 可以直接打開它。</p>
+
+<p>第一次啟動時程式會建好那個資料夾，並放一份 <code>example.box</code>，
+裡面是註解寫的說明，可以直接改來用。</p>
+
+<div class="box warn">
+<p><strong>不要改 <code>tables</code> 裡的檔案。</strong>
+那些是隨程式出貨的字根表，<a href="#update">自動更新</a>時會一律換成新版，
+你的修改會消失。<code>box</code> 資料夾則完全不在更新的動線上，
+更新前後都是你放進去的樣子。</p>
+</div>
+
+<h3 id="box-format">怎麼寫</h3>
+
+<p>一行一個，寫「拆碼、一段空白、要出的字詞」：</p>
+
+<pre>cox  測試
+mn   麵
+yre  上班打卡</pre>
+
+<p>存檔之後，右鍵選單 <span class="k">加字加詞</span> →
+<span class="k">重新載入</span>，打 <kbd>c</kbd><kbd>o</kbd><kbd>x</kbd>
+就會看到「測試」。</p>
+
+<ul>
+  <li><strong>自己加的排在內建的前面。</strong>同一組拆碼你加了什麼，
+      它就在候選字的最左邊。</li>
+  <li>同一組拆碼可以寫很多行，依檔案裡的先後順序排。</li>
+  <li>字詞可以是一個字，也可以是一整個詞，長度沒有限制。</li>
+  <li>拆碼不分大小寫，只能用字根鍵：<code>a</code>–<code>z</code> 與
+      <code>[ ] ; ' , . - =</code>。用到別的字元（例如數字）那一行會被跳過，
+      因為那組碼你根本敲不出來。</li>
+  <li>行首的 <code>#</code> 是註解，空白行會被略過。</li>
+  <li>資料夾裡所有 <code>.box</code> 檔都會載入，依檔名排序。
+      要分類就多開幾個檔。</li>
+  <li>存成 <strong>UTF-8</strong>（記事本的預設值就可以）。
+      舊的 Big5 檔也讀得進來。</li>
+</ul>
+
+<h3 id="box-marks">置前與清空</h3>
+
+<p>拆碼後面可以接兩個記號。</p>
+
+<p><strong>星號 <code>*</code>：置前。</strong>把這一項排到最前面，
+比其他自己加的還前面：</p>
+
+<pre>mn*  蝦</pre>
+
+<p><strong>驚嘆號 <code>!</code>：清空。</strong>把這組拆碼「在這一行之前」的
+候選全部丟掉，包含內建字根表的。這一行後面不接任何字詞：</p>
+
+<pre>ab!
+ab   甲乙</pre>
+
+<p>這樣打 <kbd>a</kbd><kbd>b</kbd> 就只剩「甲乙」一個候選。
+清空只影響它自己那一組拆碼，其他碼不受影響。</p>
+
+<div class="box">
+<p>寫錯了不會安靜地被跳過。哪一行有問題會顯示在狀態列上
+（滑鼠移上去看得到是哪一行），<span class="k">加字加詞</span> 子選單裡也一直看得到
+「已載入幾筆、幾行有問題」。整個資料夾讀不到的時候整條狀態列會變色。</p>
+</div>
+
 <h2 id="settings">設定</h2>
 
 <p>所有設定都存在 <code>plugin\window_config.json</code>。大部分用狀態列調整就好，
@@ -489,11 +665,19 @@ Windows 只是不認得它。</p>
 <tr><th>項目</th><th>預設</th><th>說明</th></tr>
 <tr><td><code>shift_toggles_mode</code></td><td><code>true</code></td>
     <td>單按 <kbd>Shift</kbd> 切換中英。改成 <code>false</code> 可完全關掉</td></tr>
-<tr><td><code>width</code></td><td><code>0</code></td>
-    <td>狀態列寬度，<code>0</code> 表示螢幕寬的一半</td></tr>
-<tr><td><code>x</code> / <code>y</code></td><td><code>-1</code> / <code>-1</code></td>
-    <td>狀態列位置。<code>x: -1</code> 表示水平置中，
-    <code>y: -1</code> 表示下緣貼齊工作列上側</td></tr>
+<tr><td><code>idle_transparency</code></td><td><code>65</code></td>
+    <td>沒打字時狀態列的透明度（%）。<code>0</code> 是不透明、
+    <code>100</code> 是完全隱藏。選單只給六個檔位，這裡 0–100 都收，
+    見<a href="#auto-hide">上面那一節</a></td></tr>
+<tr><td><code>monitors</code></td><td><code>{}</code></td>
+    <td>每一台螢幕各自的狀態列寬度與位置，鍵是 Windows 的顯示器名稱
+    （<code>\\.\DISPLAY1</code> 這種）。裡面的 <code>x</code> / <code>y</code>
+    是<strong>相對於那台螢幕左上角</strong>的偏移，不是整個桌面的座標 ——
+    改主副螢幕排列也不會跑掉。沒有出現在這裡的螢幕就用預設位置</td></tr>
+<tr><td><code>width</code> / <code>x</code> / <code>y</code></td>
+    <td><code>0</code> / <code>-1</code> / <code>-1</code></td>
+    <td>多螢幕記憶之前的舊欄位，只在 <code>monitors</code> 還是空的時候讀，
+    讀完就換成上面那個。手動改請改 <code>monitors</code></td></tr>
 <tr><td><code>font_size</code></td><td><code>18</code></td>
     <td>只接受 12、14、16、18、20、24、28、32</td></tr>
 <tr><td><code>fullwidth</code> / <code>to_simplified</code></td><td><code>false</code></td>
@@ -512,6 +696,8 @@ Windows 只是不認得它。</p>
 <tr><td><code>_internal\</code></td><td>程式執行需要的檔案</td><td>不行</td></tr>
 <tr><td><code>tables\</code></td><td>字根表與繁簡對照表</td>
     <td>不行（刪了就打不出字）</td></tr>
+<tr><td><code>box\</code></td><td>你自己加的字詞，見<a href="#add-word">加字加詞</a></td>
+    <td><strong>可以</strong>，但你加的字就沒了</td></tr>
 <tr><td><code>plugin\</code></td><td>快取與你的設定</td>
     <td><strong>可以</strong>，會自動重建，設定回預設</td></tr>
 </table>
@@ -571,7 +757,7 @@ Windows 只是不認得它。</p>
 
 <h2 id="update">自動更新</h2>
 
-<p>程式會在啟動十秒後、之後每天一次，到 GitHub 看看有沒有新版。
+<p>程式會在啟動十秒後、之後每十五分鐘一次，到 GitHub 看看有沒有新版。
 發現新版就<strong>自動下載</strong>，但<strong>不會自己重開</strong> ——
 輸入法重開的那幾秒鍵盤會回到原生狀態，打到一半被打斷很惱人，
 所以什麼時候套用由你決定。</p>
@@ -602,9 +788,10 @@ Windows 只是不認得它。</p>
 兩種狀態會讓整條狀態列換色，因為那兩種需要你動手；前三種只是講一句話，
 整條的顏色不會動。</p>
 
-<p><strong>背景那次每天一次的檢查不會跳任何訊息。</strong>沒查到新版就
-安安靜靜地過去 —— 每天彈一次「已是最新版本」只是打擾。只有你自己按下
-<span class="k">立即檢查更新</span>時才會回報結果。</p>
+<p><strong>背景那次每十五分鐘一次的檢查不會跳任何訊息。</strong>沒查到新版
+就安安靜靜地過去 —— 每十五分鐘彈一次「已是最新版本」只是打擾。只有你自己按下
+<span class="k">立即檢查更新</span>時才會回報結果。查一次只是抓一個幾百位元組
+的小檔案，一整天加起來不到 1MB。</p>
 
 <div class="box">
 <p><strong>更新後第一次啟動會比較慢</strong>（可能十幾秒）。那是 Windows
@@ -636,6 +823,9 @@ Defender 在掃描剛換上去的幾百個新檔案，掃過一次就不會再�
 <p>兩種做法都是<strong>對調</strong>而不是覆蓋，所以換回去之後還可以再換成新版，
 來回都不會弄丟東西。</p>
 
+<p>只會留<strong>最近一版</strong>：更新成功之後，再更早的那些備份會在下次
+啟動時自動清掉，所以 <code>plugin\rollback\</code> 不會愈長愈大。</p>
+
 <p>不想留這份備份的話，整個 <code>plugin\rollback\</code> 刪掉就好，
 只是以後沒辦法一鍵換回去而已，不影響更新本身。</p>
 
@@ -647,15 +837,19 @@ Defender 在掃描剛換上去的幾百個新檔案，掃過一次就不會再�
 
 <h2 id="not-yet">目前還沒有的功能</h2>
 <ul>
-  <li><strong>中文詞組</strong> —— 一次只能打一個字，還不能連打詞組或造詞。</li>
+  <li><strong>自動造詞</strong> —— 內建碼表一次只能打一個字。詞要自己加，
+      見<a href="#add-word">加字加詞</a>；程式不會記住你打過什麼。</li>
   <li><strong>英文候選補全</strong> —— 英文只能靠 <kbd>Shift</kbd>+字母
       打完再按 <kbd>Enter</kbd>。</li>
   <li><strong>唯一候選自動送出</strong> —— 即使只有一個候選字也要按
       <kbd>Space</kbd>。</li>
   <li><strong>快打（簡碼）模式</strong>、<kbd>V</kbd><kbd>R</kbd><kbd>S</kbd><kbd>F</kbd>
       選字鍵。</li>
+  <li><strong>候選字視窗跟著游標跑</strong> —— 目前狀態列固定在螢幕底部。
+      做過一版但還不夠穩，暫時收起來了。</li>
   <li><strong>設定視窗</strong> —— 部分設定只能直接編輯 JSON 檔。</li>
-  <li><strong>系統匣圖示</strong>、開機自動啟動選項。</li>
+  <li><strong>開機自動啟動選項</strong> —— 目前要自己把捷徑放進
+      <code>shell:startup</code>。</li>
 </ul>
 
 <h2 id="cli">命令列選項</h2>
