@@ -162,15 +162,19 @@
       <li><a href="#arrows">候選字的箭頭</a></li>
       <li><a href="#feedback">回報問題與建議</a></li>
     </ul></li>
-  <li><a href="#width-script">全形與繁簡</a>
+  <li><a href="#width-script">全形與輸出方式</a>
     <ul>
       <li><a href="#fullwidth">全形</a></li>
       <li><a href="#simplified">繁簡</a></li>
+      <li><a href="#speed">速成提示</a></li>
     </ul></li>
+  <li><a href="#hotstring">快速指令</a></li>
   <li><a href="#add-word">加字加詞</a>
     <ul>
       <li><a href="#box-format">怎麼寫</a></li>
       <li><a href="#box-marks">置前與清空</a></li>
+      <li><a href="#box-reserved">保留字</a></li>
+      <li><a href="#box-errors">寫錯了怎麼辦</a></li>
     </ul></li>
   <li><a href="#settings">設定</a>
     <ul><li><a href="#files">資料夾裡有什麼</a></li></ul></li>
@@ -381,8 +385,11 @@ Windows 只是不認得它。</p>
     這裡會用來顯示訊息：已是最新版本 ／ 新版 x.y.z ／ 下載 nn% ／
     重啟更新 ／ N 鍵衝突</td>
     <td>更新的訊息點得下去，見下方<a href="#update">自動更新</a></td></tr>
-<tr><td>右 1</td><td><span class="k">繁</span> / <span class="k">簡</span></td>
-    <td>切換輸出繁體或簡體字。字面就是<strong>目前</strong>送出去的那一種</td></tr>
+<tr><td>右 1</td><td><span class="k">繁</span> / <span class="k">簡</span> /
+    <span class="k">速</span></td>
+    <td>輸出方式，三選一。點一下往下一個走（繁 → 簡 → 速 → 繁）。
+    字面就是<strong>目前</strong>那一種，見下方<a href="#simplified">繁簡</a>與
+    <a href="#speed">速成提示</a></td></tr>
 <tr><td>右 2</td><td><span class="k">＋</span> <span class="k">－</span></td>
     <td>放大／縮小字體</td></tr>
 <tr><td>右 3</td><td><span class="k">停</span></td>
@@ -463,8 +470,10 @@ Windows 只是不認得它。</p>
 <tr><td><span class="k">嘸蝦米</span> / <span class="k">英數</span></td>
     <td>切換輸入模式。跟單按一下 <kbd>Shift</kbd> 是同一件事</td></tr>
 <tr><td><span class="k">全形</span></td><td>全形／半形</td></tr>
-<tr><td><span class="k">輸出簡體</span></td>
-    <td>送出去的中文轉成簡體字</td></tr>
+<tr><td><span class="k">輸出繁體</span> / <span class="k">輸出簡體</span> /
+    <span class="k">速成提示</span></td>
+    <td>三選一，跟狀態列右邊那一格是同一件事。
+        右側印著對應的<a href="#hotstring">快速指令</a></td></tr>
 <tr><td><span class="k">單按 Shift 切換中英</span></td>
     <td>關掉之後，<kbd>Shift</kbd> 就只是一般的 Shift</td></tr>
 <tr><td><span class="k">暫停輸入法</span></td>
@@ -486,6 +495,8 @@ Windows 只是不認得它。</p>
 <tr><td><span class="k">回到預設位置</span></td>
     <td>條子被拖到看不見的地方時用這個救回來：置中、貼近底部。
         <strong>只重設條子當下所在的那一台螢幕</strong>，別台調好的位置不受影響</td></tr>
+<tr><td><span class="k">快速指令</span></td>
+    <td>一覽表，可以直接點。見下方<a href="#hotstring">快速指令</a></td></tr>
 <tr><td><span class="k">加字加詞</span></td>
     <td>開關加字加詞、重新載入、打開放檔案的資料夾。
         見下方<a href="#add-word">加字加詞</a></td></tr>
@@ -495,7 +506,8 @@ Windows 只是不認得它。</p>
     <td>立即檢查、下載、重啟更新、回復上一版，以及要不要自動檢查。
         見下方<a href="#update">自動更新</a></td></tr>
 <tr><td><span class="k">開啟資料夾</span></td>
-    <td>用檔案總管打開設定資料夾、字根表資料夾、加字加詞資料夾，或更新記錄</td></tr>
+    <td>用檔案總管打開設定資料夾、字根表資料夾、加字加詞資料夾、
+        記錄資料夾，或更新記錄</td></tr>
 <tr><td><span class="k">使用說明</span></td>
     <td>用瀏覽器打開這份說明書（線上版，需要網路）</td></tr>
 <tr><td><span class="k">意見回饋</span></td>
@@ -567,7 +579,7 @@ Windows 只是不認得它。</p>
 <p>打不開瀏覽器的話，也可以自己到
 <code>github.com/0100Light/eat-shiamy-releases/issues</code> 開一則。</p>
 
-<h2 id="width-script">全形與繁簡</h2>
+<h2 id="width-script">全形與輸出方式</h2>
 
 <h3 id="fullwidth">全形</h3>
 <p>點「半形」切成「全形」之後：</p>
@@ -582,10 +594,102 @@ Windows 只是不認得它。</p>
 </ul>
 
 <h3 id="simplified">繁簡</h3>
-<p>點 <span class="k">繁</span> 切成 <span class="k">簡</span>，送出的中文字會轉成簡體
-（例如「蝦」→「虾」）。<strong>按 <kbd>Enter</kbd> 送出的英文不會被轉</strong>。</p>
-<p>全形與繁簡兩個設定都會被記住，下次開啟維持原樣。中英模式與停用狀態不會記住，
+
+<p>狀態列右邊那一格是<strong>輸出方式</strong>，三選一：</p>
+
+<div class="scroll">
+<table>
+<tr><th>顯示</th><th>送出去的中文</th><th>快速指令</th></tr>
+<tr><td><span class="k">繁</span></td><td>繁體，不做任何轉換</td>
+    <td><code>,,t</code></td></tr>
+<tr><td><span class="k">簡</span></td><td>轉成簡體（例如「蝦」→「虾」）</td>
+    <td><code>,,c</code></td></tr>
+<tr><td><span class="k">速</span></td><td>繁體，外加<a href="#speed">速成提示</a></td>
+    <td><code>,,sp</code></td></tr>
+</table>
+</div>
+
+<p>點那一格會往下一個走（繁 → 簡 → 速 → 繁）；右鍵選單裡是三個可以直接挑的項目。
+<strong>三者互斥</strong>——「速」取代的是繁／簡的選擇，所以它送出的是繁體。</p>
+
+<p><strong>按 <kbd>Enter</kbd> 送出的英文不會被轉。</strong>
+繁簡只作用在中文候選字。</p>
+
+<p>全形與輸出方式兩個設定都會被記住，下次開啟維持原樣。中英模式與停用狀態不會記住，
 每次開啟都是嘸蝦米、啟用中。</p>
+
+<h3 id="speed">速成提示</h3>
+
+<p>切到 <span class="k">速</span>（或打 <code>,,sp</code>）之後，
+每送出一個中文字都會檢查一次：<strong>有沒有更短的碼也打得出同一個字</strong>。
+有的話狀態列會講一句，<strong>但字照樣送出去</strong>——它只是提醒，不會擋你。</p>
+
+<div class="bar">
+  <span class="sa">嘸蝦米</span><span class="sb">半形</span>
+  <span class="grow sc">覆　cv</span>
+  <span class="btn">速</span>
+  <span class="btn">＋</span><span class="btn">－</span><span class="btn">停</span>
+</div>
+
+<p>上面那則的意思是：你剛剛打的是 <code>cmip</code> 再按空白，一共五鍵；
+其實打 <code>cv</code> 再按空白就好，三鍵。滑鼠移上去看得到完整的算式。</p>
+
+<p>如果那個字在建議的碼裡不是第一個，提示會直接告訴你要按哪個數字，
+例如「<code>[</code> 按 <code>4</code>」——那樣還是四鍵變兩鍵。
+只有<strong>真的比較省</strong>的時候才會講，一樣多鍵的建議不會出現。</p>
+
+<p><strong>提示會停留幾秒，按下一鍵就消失。</strong>它講的是你剛剛送出的
+那個字，所以你一開始打下一個字它就沒有意義了。停留期間狀態列不會變透明，
+不會讓你讀到一半糊掉。</p>
+
+<div class="box">
+<p><strong>每一則同時記進記錄檔。</strong>狀態列上那一則幾秒後就消失，
+但 <code>plugin\log\shiamy.log</code> 裡會留著，
+打 <code>,,log</code> 就能打開那個資料夾。想知道自己哪些字習慣打太長，
+翻那個檔比盯著狀態列有效。</p>
+</div>
+
+<p>剛切進速模式的頭一兩秒可能還不會提示——它要先把整張字根表反查一遍
+（七萬多個字詞）。這件事在背景做，不會卡住打字。</p>
+
+<h2 id="hotstring">快速指令</h2>
+
+<p>有些事不必把手移到滑鼠上：<strong>在中文模式下打一串特定的碼，
+再按 <kbd>Space</kbd></strong>，執行的就是那件事，而不是送字。</p>
+
+<div class="scroll">
+<table>
+<tr><th>打什麼</th><th>做什麼</th></tr>
+<tr><td><code>,,t</code></td><td>輸出繁體，見<a href="#simplified">繁簡</a></td></tr>
+<tr><td><code>,,c</code></td><td>輸出簡體</td></tr>
+<tr><td><code>,,sp</code></td><td>切到<a href="#speed">速成提示</a></td></tr>
+<tr><td><code>,,box</code></td><td>打開<a href="#add-word">加字加詞</a>資料夾</td></tr>
+<tr><td><code>,,log</code></td><td>打開記錄資料夾</td></tr>
+</table>
+</div>
+
+<p>記不住沒關係：狀態列按右鍵 → <span class="k">快速指令</span> 裡有同一張表，
+而且點得下去。打到一半的時候，狀態列會先告訴你按下去會發生什麼：</p>
+
+<div class="bar">
+  <span class="sa">嘸蝦米</span><span class="sb">半形</span>
+  <span class="grow sc">,,t　▶ 輸出繁體</span>
+  <span class="btn">繁</span>
+  <span class="btn">＋</span><span class="btn">－</span><span class="btn">停</span>
+</div>
+
+<p>反悔就按 <kbd>Esc</kbd> 或退格。<strong>真的想打出 <code>,,t</code>
+這三個字元</strong>的話，按 <kbd>Enter</kbd> 而不是 <kbd>Space</kbd>——
+<kbd>Enter</kbd> 一律把緩衝區原樣送出，見<a href="#mixed-input">中英混輸</a>。</p>
+
+<div class="box">
+<p><strong>打 <code>,,</code> 的時候會先閃一下候選字</strong>，那是正常的：
+<code>,,</code> 本身就是「「」的拆碼。繼續把後面的字母打完就會變成快速指令，
+只按 <kbd>Space</kbd> 則照樣送出「。</p>
+</div>
+
+<p>這幾組拆碼是<strong>保留字</strong>，不能拿來加字加詞，
+見下方<a href="#box-reserved">保留字</a>。</p>
 
 <h2 id="add-word">加字加詞</h2>
 
@@ -616,15 +720,37 @@ yre  上班打卡</pre>
 <span class="k">重新載入</span>，打 <kbd>c</kbd><kbd>o</kbd><kbd>x</kbd>
 就會看到「測試」。</p>
 
+<p><strong>一行一個候選字。</strong>同一組拆碼想要好幾個候選，就寫好幾行，
+依檔案裡的先後順序排，先寫的先出現：</p>
+
+<pre>cox  測試
+cox  策略
+cox  草案</pre>
+
+<p>這樣打 <kbd>c</kbd><kbd>o</kbd><kbd>x</kbd> 的候選字就是
+「測試 策略 草案」，然後才接內建的。</p>
+
+<p>反過來說，<strong>空白不能拿來分隔候選字</strong>：第一段空白之後的東西
+整串都算同一個字詞，中間的空白會原樣留著。這是刻意的，因為那讓你打得出
+一整句話：</p>
+
+<pre>yre  今天 天氣 不錯</pre>
+
+<p>打 <kbd>y</kbd><kbd>r</kbd><kbd>e</kbd> 就送出「今天 天氣 不錯」一整句，
+含中間的空格。</p>
+
 <ul>
   <li><strong>自己加的排在內建的前面。</strong>同一組拆碼你加了什麼，
       它就在候選字的最左邊。</li>
-  <li>同一組拆碼可以寫很多行，依檔案裡的先後順序排。</li>
-  <li>字詞可以是一個字，也可以是一整個詞，長度沒有限制。</li>
+  <li>字詞可以是一個字、一整個詞，也可以是一整句話，長度沒有限制。</li>
+  <li>同一組拆碼寫了兩次一模一樣的字詞，後面那一行沒有作用，會被列進
+      <a href="#box-errors">錯誤記錄</a>。</li>
   <li>拆碼不分大小寫，只能用字根鍵：<code>a</code>–<code>z</code> 與
       <code>[ ] ; ' , . - =</code>。用到別的字元（例如數字）那一行會被跳過，
       因為那組碼你根本敲不出來。</li>
-  <li>行首的 <code>#</code> 是註解，空白行會被略過。</li>
+  <li><strong>只有行首的 <code>#</code> 是註解</strong>，空白行會被略過。
+      寫在字詞裡的 <code>#</code> 會照樣送出去，所以
+      <code>cox&nbsp;&nbsp;C#</code> 打得出 <code>C#</code>。</li>
   <li>資料夾裡所有 <code>.box</code> 檔都會載入，依檔名排序。
       要分類就多開幾個檔。</li>
   <li>存成 <strong>UTF-8</strong>（記事本的預設值就可以）。
@@ -641,7 +767,7 @@ yre  上班打卡</pre>
 <pre>mn*  蝦</pre>
 
 <p><strong>驚嘆號 <code>!</code>：清空。</strong>把這組拆碼「在這一行之前」的
-候選全部丟掉，包含內建字根表的。這一行後面不接任何字詞：</p>
+候選全部丟掉，包含內建字根表的：</p>
 
 <pre>ab!
 ab   甲乙</pre>
@@ -649,10 +775,42 @@ ab   甲乙</pre>
 <p>這樣打 <kbd>a</kbd><kbd>b</kbd> 就只剩「甲乙」一個候選。
 清空只影響它自己那一組拆碼，其他碼不受影響。</p>
 
+<p>清空之後只想留一個字詞的話，兩行可以併成一行 —— 驚嘆號後面直接接字詞，
+意思跟上面那兩行一模一樣：</p>
+
+<pre>ab!  甲乙</pre>
+
+<h3 id="box-reserved">保留字</h3>
+
+<p>下面這幾組拆碼是<a href="#hotstring">快速指令</a>，
+<strong>不能拿來加字加詞</strong>：</p>
+
+<pre>,,t   ,,c   ,,sp   ,,box   ,,log</pre>
+
+<p>寫了的話那一行會被當成有問題（狀態列會講「幾行有問題」，
+滑鼠移上去看得到是哪一行），同一個檔裡其他行照常載入。
+加上 <code>*</code> 或 <code>!</code> 記號也一樣繞不過去。</p>
+
+<p><strong>只有這幾組確切的拆碼是保留字</strong>，<code>,,</code> 與
+<code>,,v</code> 這種本來就在字根表裡的標點照樣可以加詞。
+以後新增快速指令時，原本可以用的拆碼有可能變成保留字——真的發生時
+狀態列會講，那一行也帶著檔名與行號。</p>
+
+<h3 id="box-errors">寫錯了怎麼辦</h3>
+
+<p>不會安靜地被跳過。哪一行有問題會顯示在狀態列上（滑鼠移上去看得到前幾行），
+<span class="k">加字加詞</span> 子選單裡也一直看得到「已載入幾筆、幾行有問題」。
+整個資料夾讀不到的時候整條狀態列會變色。</p>
+
+<p><strong>完整的清單在錯誤記錄裡。</strong>有問題的時候，
+<span class="k">加字加詞</span> 子選單那一行狀態會變成可以點的
+（後面接著「開啟記錄」），點下去就打得開，裡面逐行列出是哪個檔的第幾行、
+出了什麼問題。</p>
+
 <div class="box">
-<p>寫錯了不會安靜地被跳過。哪一行有問題會顯示在狀態列上
-（滑鼠移上去看得到是哪一行），<span class="k">加字加詞</span> 子選單裡也一直看得到
-「已載入幾筆、幾行有問題」。整個資料夾讀不到的時候整條狀態列會變色。</p>
+<p>錯誤記錄是自動產生的，全部修好之後重新載入，它就會自己消失
+（那一行狀態也跟著變回不能點）。所以「有沒有那個檔」就等於「現在有沒有問題」，
+不用自己去刪。</p>
 </div>
 
 <h2 id="settings">設定</h2>
@@ -700,6 +858,11 @@ ab   甲乙</pre>
     <td><strong>可以</strong>，但你加的字就沒了</td></tr>
 <tr><td><code>plugin\</code></td><td>快取與你的設定</td>
     <td><strong>可以</strong>，會自動重建，設定回預設</td></tr>
+<tr><td><code>plugin\log\</code></td>
+    <td>程式的記錄檔。打不出字、鍵衝突、<a href="#speed">速成提示</a>
+        都記在這裡。打 <code>,,log</code> 或用右鍵選單的
+        <span class="k">開啟資料夾</span> 可以打開它</td>
+    <td><strong>可以</strong>，只是少一份歷史</td></tr>
 </table>
 </div>
 
@@ -843,8 +1006,9 @@ Defender 在掃描剛換上去的幾百個新檔案，掃過一次就不會再�
       打完再按 <kbd>Enter</kbd>。</li>
   <li><strong>唯一候選自動送出</strong> —— 即使只有一個候選字也要按
       <kbd>Space</kbd>。</li>
-  <li><strong>快打（簡碼）模式</strong>、<kbd>V</kbd><kbd>R</kbd><kbd>S</kbd><kbd>F</kbd>
-      選字鍵。</li>
+  <li><strong>打到最簡碼就自動送出</strong>——目前只會<a href="#speed">提示</a>，
+      不會替你按空白。<kbd>V</kbd><kbd>R</kbd><kbd>S</kbd><kbd>F</kbd>
+      選字鍵也還沒有。</li>
   <li><strong>候選字視窗跟著游標跑</strong> —— 目前狀態列固定在螢幕底部。
       做過一版但還不夠穩，暫時收起來了。</li>
   <li><strong>設定視窗</strong> —— 部分設定只能直接編輯 JSON 檔。</li>
