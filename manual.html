@@ -158,6 +158,7 @@
     <ul>
       <li><a href="#tray">系統匣圖示</a></li>
       <li><a href="#auto-hide">沒打字時會變透明</a></li>
+      <li><a href="#notify">通知方式</a></li>
       <li><a href="#menu">右鍵選單</a></li>
       <li><a href="#move-resize">搬移與調整寬度</a></li>
       <li><a href="#multi-monitor">兩台以上的螢幕</a></li>
@@ -184,6 +185,9 @@
       <li><a href="#dotted-underline"
              title="標點符號底下有一條虛線，要再按 Enter 才會真的出現"
              >標點底下有虛線</a></li>
+      <li><a href="#auto-ime"
+             title="開始打字時自動切換系統輸入法"
+             >自動切換系統輸入法</a></li>
       <li><a href="#key-conflict">狀態列顯示「N 鍵衝突」</a></li>
       <li><a href="#elevated-windows"
              title="在工作管理員、登錄檔編輯器裡打不出中文"
@@ -425,6 +429,62 @@
 30% / 50% / <strong>65%（預設）</strong> / 80%，以及 <strong>100%</strong>：
 整條真的收起來，桌面上只剩系統匣圖示，螢幕底部那一條也不會再擋到滑鼠。</p>
 
+<h3 id="notify">通知方式</h3>
+
+<p>這幾種訊息會主動找你：</p>
+<ul>
+  <li><strong><a href="#update">更新</a></strong>：有新版、更新失敗，
+      以及你按<span class="k">立即檢查更新</span>之後的結果
+      （「已是最新版本」或「查不到更新資訊」）。</li>
+  <li><strong><a href="#add-word">加字加詞</a></strong>：載入的結果或錯誤。</li>
+  <li><strong><a href="#key-conflict">熱鍵被別的程式佔走</a></strong>。</li>
+</ul>
+<p>它們一律寫在狀態列中間那塊空白，但那條會淡掉，也可能被你調成完全隱藏 ——
+所以<strong>預設會另外跳一則 Windows 通知</strong>。</p>
+
+<p>右鍵選單的 <span class="k">通知方式</span> 三選一：</p>
+
+<div class="scroll">
+<table>
+<tr><th>選項</th><th>長什麼樣</th><th>什麼時候選它</th></tr>
+<tr><td><span class="k">桌面通知</span>（預設）</td>
+    <td>右下角跳一則 Windows 通知，之後在通知中心裡找得回來</td>
+    <td>平常就用這個</td></tr>
+<tr><td><span class="k">浮動視窗</span></td>
+    <td>程式自己畫的一則小提示，配色跟狀態列一樣，幾秒後自己消失，
+        點一下馬上收掉</td>
+    <td>你關掉了 Windows 通知，或開著<strong>專注輔助</strong>又不想漏掉訊息</td></tr>
+<tr><td><span class="k">只在狀態列</span></td>
+    <td>什麼都不彈，訊息只寫在狀態列上（＝ 0.1.10 以前的樣子）</td>
+    <td>不想被打擾</td></tr>
+</table>
+</div>
+
+<p><strong>不管選哪一種，狀態列照樣會顯示。</strong>
+這三個決定的是「要不要另外彈一則出來」。</p>
+
+<div class="box">
+<p><strong>「重啟更新」只出現在狀態列上，不會跳通知。</strong>
+那一則是要你<strong>按下去</strong>的，而 Windows 通知按不到 ——
+跳一則長得像按鈕、按下去卻沒反應的東西比不跳還糟。所以下載完成之後，
+請在狀態列上點<span class="k">重啟更新</span>，或用右鍵選單的
+<span class="k">更新</span>。</p>
+</div>
+
+<div class="box">
+<p><strong>「不跳通知」不等於「看不到」。</strong>
+上面沒列到的那些 —— 下載百分比、解壓中、檢查更新中、
+<a href="#speed">速成提示</a>、<a href="#hotstring">快速指令</a>的回饋
+（「輸出繁體」那種）—— 都照樣寫在狀態列上，而且下載期間狀態列會
+<strong>一直維持清楚不淡掉</strong>。它們只是不另外彈一則出來：
+進度每秒都在變，回饋每打幾個字就來一次，做成通知會洗版。</p>
+</div>
+
+<p>桌面通知會受 Windows 自己的通知設定影響：關掉了、或正在
+<strong>專注輔助</strong>底下，它就不會出現，而程式沒有辦法知道這件事。
+覺得該有通知卻沒看到的話，改用<span class="k">浮動視窗</span>，
+那一種一定畫得出來。</p>
+
 <h3 id="menu">右鍵選單</h3>
 <p>在狀態列或系統匣圖示上按右鍵都是同一個選單，選了立刻生效，也會被記住。
 最上面那一行是<strong>版本號</strong>。</p>
@@ -445,6 +505,9 @@
     <span class="k">不打字時的透明度</span></td>
     <td>外觀三項。配色十一種，見<a href="themes.html">配色一覽</a>；
         字級直接挑一個，不必用 <span class="k">＋</span> <span class="k">－</span> 慢慢按</td></tr>
+<tr><td><span class="k">通知方式</span></td>
+    <td>更新、加字加詞與鍵衝突的訊息要不要另外彈一則出來。
+        見<a href="#notify">通知方式</a></td></tr>
 <tr><td><span class="k">回到預設位置</span></td>
     <td>條子被拖到看不見的地方時救回來。<strong>只重設當下所在的那一台螢幕</strong></td></tr>
 <tr><td><span class="k">快速指令</span></td>
@@ -452,6 +515,9 @@
 <tr><td><span class="k">加字加詞</span></td>
     <td>開關、重新載入、打開資料夾，以及「已載入幾筆、幾行有問題」。
         見<a href="#add-word">加字加詞</a></td></tr>
+<tr><td><span class="k">自動切換系統輸入法</span></td>
+    <td>開始拆字時自動把系統輸入法切成你指定的那個。<strong>預設關閉</strong>，
+        見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
 <tr><td><span class="k">送字方式</span></td><td>目前只有 SendInput 一種</td></tr>
 <tr><td><span class="k">更新</span></td>
     <td>立即檢查、重啟並更新、開啟下載頁、回復上一版，以及要不要自動檢查。
@@ -671,10 +737,12 @@ yre  今天 天氣 不錯</pre>
 
 <h3 id="box-errors">寫錯了怎麼辦</h3>
 
-<p>不會安靜地被跳過，四個地方都看得到：</p>
+<p>不會安靜地被跳過，五個地方都看得到：</p>
 <ul>
   <li><strong>狀態列</strong>講有幾行有問題（滑鼠移上去看得到前幾行）。
       整個資料夾讀不到的時候整條會變色。</li>
+  <li><strong>一則<a href="#notify">桌面通知</a></strong>（預設）。狀態列會淡掉，
+      通知留得住。</li>
   <li><strong>右鍵選單</strong>的 <span class="k">加字加詞</span> 子選單裡一直看得到
       「已載入幾筆、幾行有問題」。</li>
   <li><strong>錯誤記錄 <code>plugin\box.log</code></strong> 是完整的那一份，逐行列出
@@ -692,10 +760,10 @@ yre  今天 天氣 不錯</pre>
 
 <p>設定都存在 <code>plugin\window_config.json</code>。
 <strong>大部分用<a href="#menu">右鍵選單</a>調就好</strong>（配色、字級、透明度、
-單按 Shift、輸出方式、加字加詞開關、自動檢查更新），選了立刻生效也會存檔。</p>
+單按 Shift、通知方式、輸出方式、加字加詞開關、自動檢查更新），選了立刻生效也會存檔。</p>
 
-<p>下面這張表是設定檔裡有什麼。<strong>只有 <code>font_family</code> 與
-<code>follow_caret</code> 沒有選單入口</strong>，非改不可時才動手：</p>
+<p>下面這張表是設定檔裡有什麼。<strong>只有 <code>font_family</code>
+沒有選單入口</strong>，非改不可時才動手：</p>
 
 <div class="box warn">
 <p><strong>手改之前請先結束程式。</strong>程式執行中會在拖曳狀態列等時機整份重寫這個檔，
@@ -707,9 +775,6 @@ yre  今天 天氣 不錯</pre>
 <tr><th>項目</th><th>預設</th><th>說明</th></tr>
 <tr><td><code>font_family</code></td><td><code>微軟正黑體</code></td>
     <td>狀態列字型。<strong>沒有選單入口</strong></td></tr>
-<tr><td><code>follow_caret</code></td><td><code>false</code></td>
-    <td>組字時把狀態列移到游標插入點下方。<strong>沒有選單入口</strong> ——
-    實測會亂跳，還在實驗階段，想試的人自己打開</td></tr>
 <tr><td><code>output_mode</code></td><td><code>"trad"</code></td>
     <td>輸出方式：<code>"trad"</code> 繁體 / <code>"simp"</code> 簡體 /
     <code>"speed"</code> 速成提示，見<a href="#simplified">繁簡</a></td></tr>
@@ -723,8 +788,18 @@ yre  今天 天氣 不錯</pre>
 <tr><td><code>theme</code> / <code>font_size</code></td>
     <td><code>"dark"</code> / <code>18</code></td>
     <td>配色與字級。字級只接受 12、14、16、18、20、24、28、32</td></tr>
+<tr><td><code>imselect_code</code></td><td><code>0</code></td>
+    <td>開始拆字時要切成哪一個輸入法（<code>0</code> = 沒設定，也就是關閉）。
+    見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
+<tr><td><code>imselect_gap_s</code></td><td><code>5</code></td>
+    <td>距離上次拆字幾秒以上才切一次。<code>0</code> = 每次都切。
+    選單只給三個檔位，這裡 0–3600 都收</td></tr>
 <tr><td><code>use_box</code> / <code>update_check</code></td><td><code>true</code></td>
     <td>要不要載入<a href="#add-word">加字加詞</a>、要不要背景檢查更新</td></tr>
+<tr><td><code>notify_channel</code></td><td><code>"desktop"</code></td>
+    <td>訊息怎麼彈出來：<code>"desktop"</code> Windows 通知 /
+    <code>"popup"</code> 浮動視窗 / <code>"bar"</code> 只在狀態列。
+    見<a href="#notify">通知方式</a></td></tr>
 <tr><td><code>monitors</code></td><td><code>{}</code></td>
     <td>每台螢幕各自的狀態列寬度與位置，鍵是 Windows 的顯示器名稱
     （<code>\\.\DISPLAY1</code> 這種）。裡面的 <code>x</code> / <code>y</code> 是
@@ -780,6 +855,50 @@ yre  今天 天氣 不錯</pre>
 
 <p>這是改 Windows 的設定，不是改本程式。Windows 更新有可能把它重設回去，
 換一台電腦也要重設一次。</p>
+
+<p><strong>另一條路</strong>是讓本程式在你開始拆字的時候自動把系統輸入法切成
+英數，見<a href="#auto-ime">下一節</a>。兩條都可以走，也可以兩條都走。</p>
+
+<h3 id="auto-ime">開始打字時自動切換系統輸入法</h3>
+
+<p>你可以指定一個輸入法，讓本程式在<strong>每次開始拆字的時候</strong>自動幫你
+切過去。最常見的用法是切成<strong>英文（美國）</strong> —— 系統輸入法變成純鍵盤
+配置之後，就不會再來搶我們送出去的標點（也就是上一節那個虛線問題）。</p>
+
+<p><strong>預設是關的。</strong>要用的話三步：</p>
+
+<ol>
+<li>先自己把系統輸入法切成你要的那個（<kbd>Ctrl</kbd>+<kbd>Shift</kbd>、
+    <kbd>Win</kbd>+<kbd>Space</kbd>，或點工作列右下角的語言指示器）。</li>
+<li>在狀態列上按右鍵 &rarr; <span class="k">自動切換系統輸入法</span> &rarr;
+    <span class="k">設為目前的系統輸入法</span>。</li>
+<li>狀態列會出現一句<span class="k">已設定 im-select：1033</span>。
+    <strong>核對一下那個數字</strong> —— 英文（美國）是 <code>1033</code>、
+    中文（繁體）是 <code>1028</code>。設好之後，那個子選單的第一行會一直寫著
+    <span class="k">開始組字時切成 1033</span>。</li>
+</ol>
+
+<div class="box">
+<p><strong>數字不對怎麼辦。</strong>本程式讀的是「目前最前面那個視窗」用的輸入法，
+而你按選單的當下最前面的是狀態列自己。Windows 預設所有程式共用同一個輸入法，
+所以通常會對；如果你開過<strong>「讓我為每個應用程式視窗設定不同的輸入法」</strong>
+（設定 &rarr; 時間與語言 &rarr; 輸入 &rarr; 進階鍵盤設定），就可能讀到別的。
+那時先把那個選項關掉，再設一次。</p>
+</div>
+
+<p><strong>多久切一次。</strong>同一個子選單下半部可以選
+<span class="k">每次組字都切換</span>、<span class="k">5 秒內不重複切換</span>、
+<span class="k">30 秒內不重複切換</span>（預設是 5 秒）。連續打字的時候不會一直切；
+停手超過那個時間之後，下一次開始拆字才會再切一次 —— 因為這段期間你可能自己換過。</p>
+
+<p><strong>打完不會幫你切回去。</strong>這是刻意的：切回去等於每個字都要付兩次切換，
+而且你在別的視窗手動換輸入法時容易被搶走。本程式留下的狀態，跟你自己按
+<kbd>Win</kbd>+<kbd>Space</kbd> 留下的完全一樣。</p>
+
+<p><strong>要關掉</strong>就按同一個子選單裡的
+<span class="k">取消自動切換</span>。萬一你覺得
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd> 切換輸入法變得怪怪的，<strong>先把這個功能關掉</strong>
+再看看，並且<a href="#feedback">回報給我們</a>。</p>
 
 <h3 id="key-conflict">狀態列顯示「N 鍵衝突」</h3>
 <p>有 N 顆鍵被<strong>其他常駐程式註冊成全域快速鍵</strong>了，本程式搶不到，
@@ -869,8 +988,8 @@ yre  今天 天氣 不錯</pre>
   <li><strong>唯一候選自動送出</strong>、<strong>打到最簡碼自動送出</strong> ——
       目前只會<a href="#speed">提示</a>，不會替你按空白。
       <kbd>V</kbd><kbd>R</kbd><kbd>S</kbd><kbd>F</kbd> 選字鍵也還沒有。</li>
-  <li><strong>候選字視窗跟著游標跑</strong> —— 做過一版但還不夠穩，
-      收在設定檔的 <code>follow_caret</code> 裡，見<a href="#settings">設定</a>。</li>
+  <li><strong>候選字視窗跟著游標跑</strong> —— 做過一版，實測會亂跳，已經拿掉了。
+      候選字目前一律顯示在狀態列上。</li>
   <li><strong>設定視窗</strong>、<strong>開機自動啟動選項</strong>。</li>
 </ul>
 
