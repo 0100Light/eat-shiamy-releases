@@ -516,8 +516,8 @@
     <td>開關、重新載入、打開資料夾，以及「已載入幾筆、幾行有問題」。
         見<a href="#add-word">加字加詞</a></td></tr>
 <tr><td><span class="k">自動切換系統輸入法</span></td>
-    <td>開始拆字時自動把系統輸入法切成你指定的那個。<strong>預設關閉</strong>，
-        見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
+    <td>開始拆字時自動把系統輸入法切成你指定的那個。<strong>預設是開的</strong>
+        （切成英文美式），見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
 <tr><td><span class="k">送字方式</span></td><td>目前只有 SendInput 一種</td></tr>
 <tr><td><span class="k">更新</span></td>
     <td>立即檢查、重啟並更新、開啟下載頁、回復上一版，以及要不要自動檢查。
@@ -788,12 +788,17 @@ yre  今天 天氣 不錯</pre>
 <tr><td><code>theme</code> / <code>font_size</code></td>
     <td><code>"dark"</code> / <code>18</code></td>
     <td>配色與字級。字級只接受 12、14、16、18、20、24、28、32</td></tr>
-<tr><td><code>imselect_code</code></td><td><code>0</code></td>
-    <td>開始拆字時要切成哪一個輸入法（<code>0</code> = 沒設定，也就是關閉）。
-    見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
+<tr><td><code>imselect_code</code></td><td><code>1033</code></td>
+    <td>開始拆字時要切成哪一個輸入法（<code>0</code> = 關閉）。預設的
+    <code>1033</code> 是英文（美國）；你的電腦上沒有它的話，本程式第一次啟動
+    就會把這裡改成 <code>0</code>。見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
 <tr><td><code>imselect_gap_s</code></td><td><code>5</code></td>
     <td>距離上次拆字幾秒以上才切一次。<code>0</code> = 每次都切。
     選單只給三個檔位，這裡 0–3600 都收</td></tr>
+<tr><td><code>imselect_checked</code></td><td><code>false</code></td>
+    <td>上面那個預設值在這台電腦上驗過了沒。本程式第一次啟動時會驗一次
+    （看你有沒有裝英文（美國）），驗完就寫 <code>true</code>，
+    之後那個值就完全由你決定。<strong>不必手動改它</strong></td></tr>
 <tr><td><code>use_box</code> / <code>update_check</code></td><td><code>true</code></td>
     <td>要不要載入<a href="#add-word">加字加詞</a>、要不要背景檢查更新</td></tr>
 <tr><td><code>notify_channel</code></td><td><code>"desktop"</code></td>
@@ -857,15 +862,29 @@ yre  今天 天氣 不錯</pre>
 換一台電腦也要重設一次。</p>
 
 <p><strong>另一條路</strong>是讓本程式在你開始拆字的時候自動把系統輸入法切成
-英數，見<a href="#auto-ime">下一節</a>。兩條都可以走，也可以兩條都走。</p>
+英數 —— 那是<strong>預設就開著</strong>的，見<a href="#auto-ime">下一節</a>。
+兩條都可以走，也可以兩條都走。</p>
 
 <h3 id="auto-ime">開始打字時自動切換系統輸入法</h3>
 
-<p>你可以指定一個輸入法，讓本程式在<strong>每次開始拆字的時候</strong>自動幫你
-切過去。最常見的用法是切成<strong>英文（美國）</strong> —— 系統輸入法變成純鍵盤
-配置之後，就不會再來搶我們送出去的標點（也就是上一節那個虛線問題）。</p>
+<p>本程式會在<strong>每次開始拆字的時候</strong>自動把系統輸入法切成
+<strong>英文（美國）</strong> —— 系統輸入法變成純鍵盤配置之後，就不會再來搶
+我們送出去的標點（也就是上一節那個虛線問題）。</p>
 
-<p><strong>預設是關的。</strong>要用的話三步：</p>
+<p><strong>預設就是開的</strong>，不必設定。那個子選單的第一行會寫著
+<span class="k">開始組字時切成 1033</span>（<code>1033</code> 就是英文（美國））。</p>
+
+<div class="box">
+<p><strong>如果你的電腦上沒有「英文（美國）」鍵盤</strong>，本程式第一次啟動時
+會發現這件事，並且<strong>自動把這個功能關掉</strong> —— 因為切不過去的話，
+每次拆字都會白送一則訊息出去。那時子選單的第一行會寫
+<span class="k">目前關閉（先把系統輸入法切成你要的）</span>。</p>
+<p>你可以照下面三步自己指定一個，或者到
+設定 &rarr; 時間與語言 &rarr; 語言與地區 裡把「英文（美國）」加進去、
+重開本程式，再照下面三步設一次。</p>
+</div>
+
+<p><strong>要換成別的輸入法</strong>（或是被自動關掉之後要自己開），三步：</p>
 
 <ol>
 <li>先自己把系統輸入法切成你要的那個（<kbd>Ctrl</kbd>+<kbd>Shift</kbd>、
@@ -896,7 +915,8 @@ yre  今天 天氣 不錯</pre>
 <kbd>Win</kbd>+<kbd>Space</kbd> 留下的完全一樣。</p>
 
 <p><strong>要關掉</strong>就按同一個子選單裡的
-<span class="k">取消自動切換</span>。萬一你覺得
+<span class="k">取消自動切換</span>。關掉之後就一直是關的，
+不會被下次啟動重新打開。萬一你覺得
 <kbd>Ctrl</kbd>+<kbd>Shift</kbd> 切換輸入法變得怪怪的，<strong>先把這個功能關掉</strong>
 再看看，並且<a href="#feedback">回報給我們</a>。</p>
 
