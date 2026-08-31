@@ -306,9 +306,14 @@
     <td>選這一頁的第 n 個。<strong>選不到就是打數字</strong> ——
         沒有候選字、或這頁沒有第 n 個，數字就直接進緩衝區，
         所以 <code>a1</code>、<code>-2024</code> 也打得出來</td></tr>
-<tr><td><kbd>←</kbd> / <kbd>→</kbd></td>
-    <td>上一頁 / 下一頁。候選字右邊出現 <code>&gt;</code> 代表後面還有，
-        左邊出現 <code>&lt;</code> 代表前面還有</td></tr>
+<tr><td><kbd>←</kbd> / <kbd>→</kbd><br>
+        <kbd>&lt;</kbd> / <kbd>&gt;</kbd></td>
+    <td>上一頁 / 下一頁。候選字左右出現的 <code>&lt;</code> <code>&gt;</code>
+        代表前面／後面還有 —— 跟按鍵是同一個符號
+        （<kbd>&lt;</kbd> 就是 <kbd>Shift</kbd>+<kbd>,</kbd>、
+        <kbd>&gt;</kbd> 是 <kbd>Shift</kbd>+<kbd>.</kbd>）。
+        只在組字中生效；沒在組字時 <kbd>&lt;</kbd> <kbd>&gt;</kbd>
+        照樣打得出半形符號</td></tr>
 <tr><td><kbd>Backspace</kbd></td><td>退掉一個字根</td></tr>
 <tr><td><kbd>Esc</kbd></td><td>整串清掉，不送出</td></tr>
 <tr><td><kbd>Enter</kbd></td>
