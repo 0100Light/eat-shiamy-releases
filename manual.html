@@ -319,13 +319,13 @@
 <tr><td><kbd>Enter</kbd></td>
     <td>把目前打的碼<strong>原樣當英文送出</strong>，見<a href="#mixed-input">中英混輸</a></td></tr>
 <tr><td><kbd>-</kbd> <kbd>=</kbd></td>
-    <td>不是字根，但隨時打得進緩衝區 —— 留給 <code>e-mail</code>、<code>x=y</code> 用。
-        中文狀態下要打出這兩個符號，按完再按 <kbd>Enter</kbd></td></tr>
+    <td>沒在打字時按下去就直接送出（全形設定有效）。打到一半才按的話會進緩衝區，
+        留給 <code>e-mail</code>、<code>x=y</code> 用，打完再按 <kbd>Enter</kbd></td></tr>
 </table>
 </div>
 
 <div class="box">
-<p><strong>沒在打字的時候，這些鍵全部是原生的</strong>（<kbd>-</kbd> <kbd>=</kbd> 除外）。
+<p><strong>沒在打字的時候，這些鍵全部是原生的</strong>（<kbd>-</kbd> <kbd>=</kbd> 例外：它們經過輸入法送出，所以全形設定對它們有效）。
 按數字就是數字、<kbd>Enter</kbd> 就是換行、方向鍵就是移動游標。
 輸入法只在「正在組字」那一瞬間接管它們。</p>
 </div>
@@ -347,7 +347,7 @@
 <kbd>Shift</kbd>+<kbd>H</kbd> → <code>ello</code> → <kbd>Enter</kbd>
 送出 <code>Hello</code>。</p>
 
-<p><kbd>-</kbd> <kbd>=</kbd> 與（選不到候選字時的）數字也會進緩衝區，
+<p>打到一半按的 <kbd>-</kbd> <kbd>=</kbd>，以及（選不到候選字時的）數字也會進緩衝區，
 所以 <code>e-mail</code>、<code>x=y</code>、<code>a1</code> 都是照打再按 <kbd>Enter</kbd>。</p>
 
 <p>打到一半才發現接下來是一長串英文，就<strong>輕按一下 <kbd>Shift</kbd></strong> ——
@@ -701,8 +701,9 @@ yre  今天 天氣 不錯</pre>
   <li><strong>自己加的排在內建的前面。</strong></li>
   <li>字詞可以是一個字、一整個詞或一整句話，長度沒有限制。</li>
   <li>拆碼不分大小寫，只能用字根鍵 <code>a</code>–<code>z</code> 與
-      <code>[ ] ; ' , . - =</code>。用到別的字元（例如數字）那一行會被跳過，
-      因為那組碼你根本敲不出來。</li>
+      <code>[ ] ; ' , . - =</code>，而且 <code>-</code> <code>=</code> 不能放開頭
+      （沒在打字時按下去會直接送出，那一行永遠打不到）。
+      用到別的字元（例如數字）那一行會被跳過，因為那組碼你根本敲不出來。</li>
   <li><strong>只有行首的 <code>#</code> 是註解</strong>，空白行略過。
       寫在字詞裡的 <code>#</code> 會照樣送出去，所以
       <code>cox&nbsp;&nbsp;C#</code> 打得出 <code>C#</code>。</li>
