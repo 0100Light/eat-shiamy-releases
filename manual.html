@@ -153,7 +153,8 @@
   <li><a href="#typing">打字</a>
     <ul><li><a href="#punctuation">標點符號</a></li></ul></li>
   <li><a href="#mixed-input">中英混輸</a>
-    <ul><li><a href="#switch-mode">切換中文／英數</a></li></ul></li>
+    <ul><li><a href="#switch-mode">切換中文／英數</a></li>
+        <li><a href="#custom-hotkey">自訂切換鍵與停用鍵</a></li></ul></li>
   <li><a href="#status-bar">狀態列</a>
     <ul>
       <li><a href="#tray">系統匣圖示</a></li>
@@ -195,6 +196,9 @@
       <li><a href="#wont-start">雙擊沒反應</a></li>
       <li><a href="#fullscreen-games">全螢幕遊戲裡打不出字</a></li>
       <li><a href="#shift-toggle">單按 Shift 常常誤切模式</a></li>
+      <li><a href="#remote-shift"
+             title="透過遠端桌面或軟體 KVM 時單按 Shift 沒反應"
+             >遠端機器上單按 Shift 沒反應</a></li>
     </ul></li>
   <li><a href="#update">自動更新</a>
     <ul>
@@ -234,7 +238,8 @@
     <td><kbd>Shift</kbd>+字母起頭，打完按 <kbd>Enter</kbd> 原樣送出。
         見<a href="#mixed-input">中英混輸</a></td></tr>
 <tr><td>切中文／英數</td>
-    <td>輕按一下 <kbd>Shift</kbd>，或點狀態列最左那格</td></tr>
+    <td>輕按一下 <kbd>Shift</kbd>，或點狀態列最左那格。也可以
+        <a href="#custom-hotkey">自己設一顆</a>，例如 <kbd>Ctrl</kbd>+<kbd>Space</kbd></td></tr>
 <tr><td>全形／半形</td><td>點狀態列左邊第二格</td></tr>
 <tr><td>繁體／簡體／<a href="#speed">速成提示</a></td>
     <td>點狀態列的 <span class="k">繁</span> 那格循環切換，
@@ -367,8 +372,36 @@
       你正在打字的地方，這時送字只會送到不見。</li>
 </ul>
 
-<p>覺得單按 <kbd>Shift</kbd> 容易誤觸的話，右鍵選單的
-<span class="k">單按 Shift 切換中英</span> 可以直接關掉。</p>
+<p>覺得單按 <kbd>Shift</kbd> 容易誤觸的話，右鍵選單
+<span class="k">切換鍵</span> 裡的 <span class="k">單按 Shift 切換中英</span>
+可以直接關掉。</p>
+
+<h3 id="custom-hotkey">自訂切換鍵與停用鍵</h3>
+<p>除了單按 <kbd>Shift</kbd>，還可以<strong>自己設一顆</strong>切換中英的鍵，
+例如 <kbd>Ctrl</kbd>+<kbd>Space</kbd>、<kbd>Shift</kbd>+<kbd>Space</kbd> 或 <kbd>F4</kbd>。
+兩者<strong>並存</strong>：設了自訂鍵，單按 <kbd>Shift</kbd> 照樣有效，不想要再去關。
+另外還有一顆<strong>停用／恢復</strong>鍵，跟狀態列的 <span class="k">停</span> 那格同一件事，
+差別是停用之後可以用鍵盤叫回來。</p>
+
+<p>設定的地方在右鍵選單的 <span class="k">切換鍵</span>：點
+<span class="k">中英切換：自訂…</span>（或 <span class="k">停用／恢復：自訂…</span>），
+狀態列上方會跳出一個小視窗問你要哪一顆 —— <strong>把想要的組合直接按下去</strong>就好，
+組合鍵一起按住。按 <kbd>Esc</kbd> 或點那個視窗取消。設好之後那一項會顯示現在是哪一顆，
+點 <span class="k">中英切換：無</span> 拿掉。</p>
+
+<p>用自訂鍵切換時，打到一半的字碼跟單按 <kbd>Shift</kbd> 一樣<strong>原樣送出</strong>。
+它在<strong>英數半形模式下也照樣攔得到</strong> —— 那是它跟其他鍵唯一的例外，
+其他時候半形英數仍然一顆鍵都不攔。</p>
+
+<p>幾種設不進去的情況，狀態列都會講一句：</p>
+<ul>
+  <li><strong>輸入法自己在用的鍵</strong>：字根、<kbd>Space</kbd>、<kbd>Enter</kbd>、數字、
+      <kbd>Shift</kbd>+字母這些打字要用的，一律拒絕。</li>
+  <li><strong>被別的程式佔走的鍵</strong>：跟<a href="#key-conflict">鍵衝突</a>同一回事，
+      程式會真的去註冊一次，搶不到就維持原設定。</li>
+  <li><strong>Windows 自己保留的鍵</strong>：<kbd>Win</kbd>+<kbd>Space</kbd> 之類的按下去
+      系統先吃掉，那個小視窗根本收不到，看起來像「按了沒反應」。換一組。</li>
+</ul>
 
 <h2 id="status-bar">狀態列</h2>
 
@@ -443,6 +476,9 @@
       （「已是最新版本」或「查不到更新資訊」）。</li>
   <li><strong><a href="#add-word">加字加詞</a></strong>：載入的結果或錯誤。</li>
   <li><strong><a href="#key-conflict">熱鍵被別的程式佔走</a></strong>。</li>
+  <li><strong>你剛改的設定</strong>：切換鍵設成了哪一顆、輸出方式切成什麼、
+      自動切換輸入法記下了哪個，這類按完就要有回應的事。
+      <a href="#speed">速成提示</a>不算 —— 那個每打一個字就可能一則，只寫在狀態列。</li>
 </ul>
 <p>它們一律寫在狀態列中間那塊空白，但那條會淡掉，也可能被你調成完全隱藏 ——
 所以<strong>預設會另外跳一則 Windows 通知</strong>。</p>
@@ -453,7 +489,9 @@
 <table>
 <tr><th>選項</th><th>長什麼樣</th><th>什麼時候選它</th></tr>
 <tr><td><span class="k">桌面通知</span>（預設）</td>
-    <td>右下角跳一則 Windows 通知，之後在通知中心裡找得回來</td>
+    <td>右下角跳一則 Windows 通知，之後在通知中心裡找得回來。
+        連著來兩則時後到的會壓過前面的；停留幾秒由 Windows 的
+        「協助工具 → 視覺效果」那個設定決定</td>
     <td>平常就用這個</td></tr>
 <tr><td><span class="k">浮動視窗</span></td>
     <td>程式自己畫的一則小提示，配色跟狀態列一樣，幾秒後自己消失，
@@ -503,20 +541,20 @@
 <tr><td><span class="k">輸出繁體</span> / <span class="k">輸出簡體</span> /
     <span class="k">速成提示</span></td>
     <td>三選一，右側印著對應的<a href="#hotstring">快速指令</a></td></tr>
-<tr><td><span class="k">單按 Shift 切換中英</span></td>
-    <td>關掉之後 <kbd>Shift</kbd> 就只是一般的 Shift</td></tr>
+<tr><td><span class="k">切換鍵</span></td>
+    <td><span class="k">單按 Shift 切換中英</span> 的開關（關掉之後 <kbd>Shift</kbd>
+        就只是一般的 Shift），以及自訂的中英切換鍵與停用／恢復鍵。
+        見<a href="#custom-hotkey">自訂切換鍵與停用鍵</a></td></tr>
 <tr><td><span class="k">暫停輸入法</span></td><td>完全不攔鍵盤，等於暫時關掉</td></tr>
 <tr><td><span class="k">配色</span> / <span class="k">字體大小</span> /
     <span class="k">不打字時的透明度</span></td>
     <td>外觀三項。配色十一種，見<a href="themes.html">配色一覽</a>；
         字級直接挑一個，不必用 <span class="k">＋</span> <span class="k">－</span> 慢慢按</td></tr>
 <tr><td><span class="k">通知方式</span></td>
-    <td>更新、加字加詞與鍵衝突的訊息要不要另外彈一則出來。
+    <td>更新、加字加詞、鍵衝突與設定回饋的訊息要不要另外彈一則出來。
         見<a href="#notify">通知方式</a></td></tr>
 <tr><td><span class="k">回到預設位置</span></td>
     <td>條子被拖到看不見的地方時救回來。<strong>只重設當下所在的那一台螢幕</strong></td></tr>
-<tr><td><span class="k">快速指令</span></td>
-    <td>一覽表，可以直接點。見<a href="#hotstring">快速指令</a></td></tr>
 <tr><td><span class="k">加字加詞</span></td>
     <td>開關、重新載入、打開資料夾，以及「已載入幾筆、幾行有問題」。
         見<a href="#add-word">加字加詞</a></td></tr>
@@ -648,7 +686,7 @@
 </table>
 </div>
 
-<p>記不住沒關係，右鍵選單的 <span class="k">快速指令</span> 有同一張表而且點得下去。
+<p>記不住沒關係，右鍵選單裡對應的項目右側都印著，而且點得下去。
 打到一半，狀態列會先告訴你按下去會發生什麼：</p>
 
 <div class="bar">
@@ -770,7 +808,7 @@ yre  今天 天氣 不錯</pre>
 
 <p>設定都存在 <code>plugin\window_config.json</code>。
 <strong>大部分用<a href="#menu">右鍵選單</a>調就好</strong>（配色、字級、透明度、
-單按 Shift、通知方式、輸出方式、加字加詞開關、自動檢查更新），選了立刻生效也會存檔。</p>
+切換鍵、通知方式、輸出方式、加字加詞開關、自動檢查更新），選了立刻生效也會存檔。</p>
 
 <p>下面這張表是設定檔裡有什麼。<strong>只有 <code>font_family</code>
 沒有選單入口</strong>，非改不可時才動手：</p>
@@ -792,6 +830,15 @@ yre  今天 天氣 不錯</pre>
     <td>開機時的全形狀態</td></tr>
 <tr><td><code>shift_toggles_mode</code></td><td><code>true</code></td>
     <td>單按 <kbd>Shift</kbd> 切換中英</td></tr>
+<tr><td><code>toggle_key</code> / <code>suspend_key</code></td>
+    <td><code>""</code> / <code>""</code></td>
+    <td>自訂的中英切換鍵與停用／恢復鍵，空字串 = 沒有。寫法是修飾詞加鍵名、
+    用 <code>+</code> 相接：<code>"ctrl+space"</code>、<code>"shift+space"</code>、
+    <code>"f4"</code>、<code>"ctrl+alt+k"</code>。修飾詞有 <code>ctrl</code>、<code>alt</code>、
+    <code>shift</code>、<code>win</code>；鍵名是單一字元，或 <code>space</code>、
+    <code>f1</code>～<code>f24</code>、<code>capslock</code>、<code>insert</code>、
+    <code>home</code>、<code>pgup</code> 這類。大小寫與空白不計較。寫錯、或寫到輸入法
+    自己在用的鍵，啟動時會清掉並記在記錄檔裡。見<a href="#custom-hotkey">自訂切換鍵與停用鍵</a></td></tr>
 <tr><td><code>idle_transparency</code></td><td><code>65</code></td>
     <td>沒打字時的透明度（%）。<code>0</code> 不透明、<code>100</code> 完全隱藏。
     選單只給六個檔位，這裡 0–100 都收</td></tr>
@@ -934,6 +981,9 @@ yre  今天 天氣 不錯</pre>
 <p>有 N 顆鍵被<strong>其他常駐程式註冊成全域快速鍵</strong>了，本程式搶不到，
 那幾顆打下去會直接輸出原本的字元。常見來源是螢幕截圖工具、錄影軟體、遊戲平台、
 巨集工具 —— 把那些程式的快速鍵改掉，或先關掉它們再開本程式。</p>
+<p>你<a href="#custom-hotkey">自己設的切換鍵</a>也算在裡面：設定的當下搶不到會立刻
+維持原設定並講一句，但如果是之後才有別的程式把它搶走，啟動時就會多出一顆衝突，
+記錄檔會寫出是哪一顆。</p>
 
 <h3 id="elevated-windows">在工作管理員、登錄檔編輯器裡打不出中文</h3>
 <p>那些視窗是<strong>以系統管理員權限執行</strong>的，Windows 不允許一般權限的程式
@@ -958,7 +1008,14 @@ yre  今天 天氣 不錯</pre>
 <h3 id="shift-toggle">單按 Shift 常常誤切模式</h3>
 <p>按住 <kbd>Shift</kbd> 用滑鼠選字、或按 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>
 切換系統輸入法時都<strong>不會</strong>誤判成單按。還是覺得容易誤觸的話，
-右鍵選單的 <span class="k">單按 Shift 切換中英</span> 直接關掉它。</p>
+右鍵選單 <span class="k">切換鍵</span> 裡的 <span class="k">單按 Shift 切換中英</span>
+直接關掉它，改<a href="#custom-hotkey">設一顆自己的</a>。</p>
+
+<h3 id="remote-shift">透過遠端桌面或軟體 KVM 時單按 Shift 沒反應</h3>
+<p>用 Synergy、Deskflow 這類軟體 KVM 連到裝了本程式的機器，或是在遠端桌面裡用，
+單按 <kbd>Shift</kbd> 常常切不了模式 —— 那些工具送過來的按鍵是「合成」的，
+單按 Shift 的偵測只看實體鍵盤。<a href="#custom-hotkey">設一顆自訂的切換鍵</a>
+（例如 <kbd>Ctrl</kbd>+<kbd>Space</kbd>）就好，它走的是另一條路，合成的按鍵一樣攔得到。</p>
 
 <h2 id="update">自動更新</h2>
 
