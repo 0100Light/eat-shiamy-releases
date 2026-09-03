@@ -549,7 +549,8 @@
 <tr><td><span class="k">配色</span> / <span class="k">字體大小</span> /
     <span class="k">不打字時的透明度</span></td>
     <td>外觀三項。配色十一種，見<a href="themes.html">配色一覽</a>；
-        字級直接挑一個，不必用 <span class="k">＋</span> <span class="k">－</span> 慢慢按</td></tr>
+        字級從 8 到 32 直接挑一個，不必用 <span class="k">＋</span>
+        <span class="k">－</span> 慢慢按</td></tr>
 <tr><td><span class="k">通知方式</span></td>
     <td>更新、加字加詞、鍵衝突與設定回饋的訊息要不要另外彈一則出來。
         見<a href="#notify">通知方式</a></td></tr>
@@ -595,7 +596,10 @@
 
 <div class="box">
 <p><strong>兩台縮放比例不一樣時，條子看起來會一大一小</strong>（例如筆電 150%、
-外接 100%）。位置與寬度比例都是對的，只有視覺大小受影響，在意的話調字級。</p>
+外接 100%）。位置與寬度比例都是對的。</p>
+<p><strong>縮放不是 100% 的螢幕上，小字級會偏糊。</strong>狀態列是用實際像素畫的，
+再由 Windows 整個放大到你設定的比例，所以 8、9、10、11 這幾檔的筆畫會被拉成
+一點多個像素。想要銳利就把字級調大一點，或把條子拖到 100% 的那台螢幕上。</p>
 </div>
 
 <h3 id="feedback">回報問題與建議</h3>
@@ -844,7 +848,7 @@ yre  今天 天氣 不錯</pre>
     選單只給六個檔位，這裡 0–100 都收</td></tr>
 <tr><td><code>theme</code> / <code>font_size</code></td>
     <td><code>"dark"</code> / <code>18</code></td>
-    <td>配色與字級。字級只接受 12、14、16、18、20、24、28、32</td></tr>
+    <td>配色與字級。字級只接受 8、9、10、11、12、14、16、18、20、24、28、32</td></tr>
 <tr><td><code>imselect_code</code></td><td><code>1033</code></td>
     <td>開始拆字時要切成哪一個輸入法（<code>0</code> = 關閉）。預設的
     <code>1033</code> 是英文（美國）；你的電腦上沒有它的話，本程式第一次啟動
