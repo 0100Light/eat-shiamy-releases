@@ -310,7 +310,13 @@
 <tr><td><kbd>1</kbd>～<kbd>9</kbd></td>
     <td>選這一頁的第 n 個。<strong>選不到就是打數字</strong> ——
         沒有候選字、或這頁沒有第 n 個，數字就直接進緩衝區，
-        所以 <code>a1</code>、<code>-2024</code> 也打得出來</td></tr>
+        所以 <code>a1</code>、<code>-2024</code> 也打得出來。
+        <kbd>0</kbd> 不選字，一律進緩衝區（<code>mr400</code>）</td></tr>
+<tr><td>其他符號</td>
+    <td><kbd>/</kbd> <kbd>\</kbd> <kbd>`</kbd> 與所有 <kbd>Shift</kbd> 上檔符號
+        （<code>@</code> <code>_</code> <code>:</code> <code>?</code> …）打到一半才按的話
+        一律進緩衝區，打完按 <kbd>Enter</kbd> 原樣送出，
+        所以 <code>foo_bar@x.com</code>、<code>C:\</code> 也打得出來</td></tr>
 <tr><td><kbd>←</kbd> / <kbd>→</kbd><br>
         <kbd>&lt;</kbd> / <kbd>&gt;</kbd></td>
     <td>上一頁 / 下一頁。候選字左右出現的 <code>&lt;</code> <code>&gt;</code>
@@ -352,8 +358,10 @@
 <kbd>Shift</kbd>+<kbd>H</kbd> → <code>ello</code> → <kbd>Enter</kbd>
 送出 <code>Hello</code>。</p>
 
-<p>打到一半按的 <kbd>-</kbd> <kbd>=</kbd>，以及（選不到候選字時的）數字也會進緩衝區，
-所以 <code>e-mail</code>、<code>x=y</code>、<code>a1</code> 都是照打再按 <kbd>Enter</kbd>。</p>
+<p>打到一半按的 <kbd>-</kbd> <kbd>=</kbd>、（選不到候選字時的）數字，以及
+<kbd>/</kbd> <kbd>\</kbd> <kbd>`</kbd> 與 <kbd>Shift</kbd> 上檔符號也都會進緩衝區，
+所以 <code>e-mail</code>、<code>x=y</code>、<code>a1</code>、<code>mr400</code>、
+<code>foo_bar@x.com</code>、<code>C:\</code> 都是照打再按 <kbd>Enter</kbd>。</p>
 
 <p>打到一半才發現接下來是一長串英文，就<strong>輕按一下 <kbd>Shift</kbd></strong> ——
 已經打進去的字母原樣送出，同時切到英數模式。</p>
@@ -373,7 +381,7 @@
 </ul>
 
 <p>覺得單按 <kbd>Shift</kbd> 容易誤觸的話，右鍵選單
-<span class="k">切換鍵</span> 裡的 <span class="k">單按 Shift 切換中英</span>
+<span class="k">快速鍵設定</span> 裡的 <span class="k">單按 Shift 切換中英</span>
 可以直接關掉。</p>
 
 <h3 id="custom-hotkey">自訂切換鍵與停用鍵</h3>
@@ -383,7 +391,7 @@
 另外還有一顆<strong>停用／恢復</strong>鍵，跟狀態列的 <span class="k">停</span> 那格同一件事，
 差別是停用之後可以用鍵盤叫回來。</p>
 
-<p>設定的地方在右鍵選單的 <span class="k">切換鍵</span>：點
+<p>設定的地方在右鍵選單的 <span class="k">快速鍵設定</span>：點
 <span class="k">中英切換：自訂…</span>（或 <span class="k">停用／恢復：自訂…</span>），
 狀態列上方會跳出一個小視窗問你要哪一顆 —— <strong>把想要的組合直接按下去</strong>就好，
 組合鍵一起按住。按 <kbd>Esc</kbd> 或點那個視窗取消。設好之後那一項會顯示現在是哪一顆，
@@ -541,11 +549,11 @@
 <tr><td><span class="k">輸出繁體</span> / <span class="k">輸出簡體</span> /
     <span class="k">速成提示</span></td>
     <td>三選一，右側印著對應的<a href="#hotstring">快速指令</a></td></tr>
-<tr><td><span class="k">切換鍵</span></td>
+<tr><td><span class="k">暫停輸入法</span></td><td>完全不攔鍵盤，等於暫時關掉</td></tr>
+<tr><td><span class="k">快速鍵設定</span></td>
     <td><span class="k">單按 Shift 切換中英</span> 的開關（關掉之後 <kbd>Shift</kbd>
         就只是一般的 Shift），以及自訂的中英切換鍵與停用／恢復鍵。
         見<a href="#custom-hotkey">自訂切換鍵與停用鍵</a></td></tr>
-<tr><td><span class="k">暫停輸入法</span></td><td>完全不攔鍵盤，等於暫時關掉</td></tr>
 <tr><td><span class="k">配色</span> / <span class="k">字體大小</span> /
     <span class="k">不打字時的透明度</span></td>
     <td>外觀三項。配色十一種，見<a href="themes.html">配色一覽</a>；
@@ -1012,7 +1020,7 @@ yre  今天 天氣 不錯</pre>
 <h3 id="shift-toggle">單按 Shift 常常誤切模式</h3>
 <p>按住 <kbd>Shift</kbd> 用滑鼠選字、或按 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>
 切換系統輸入法時都<strong>不會</strong>誤判成單按。還是覺得容易誤觸的話，
-右鍵選單 <span class="k">切換鍵</span> 裡的 <span class="k">單按 Shift 切換中英</span>
+右鍵選單 <span class="k">快速鍵設定</span> 裡的 <span class="k">單按 Shift 切換中英</span>
 直接關掉它，改<a href="#custom-hotkey">設一顆自己的</a>。</p>
 
 <h3 id="remote-shift">透過遠端桌面或軟體 KVM 時單按 Shift 沒反應</h3>
