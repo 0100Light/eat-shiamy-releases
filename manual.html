@@ -157,6 +157,7 @@
         <li><a href="#custom-hotkey">自訂切換鍵與停用鍵</a></li></ul></li>
   <li><a href="#status-bar">狀態列</a>
     <ul>
+      <li><a href="#alert-strip">有事要你處理時，上面會多一條</a></li>
       <li><a href="#tray">系統匣圖示</a></li>
       <li><a href="#auto-hide">可見度（打字時與不打字時各一個）</a></li>
       <li><a href="#notify">通知方式</a></li>
@@ -170,6 +171,12 @@
       <li><a href="#fullwidth">全形</a></li>
       <li><a href="#simplified">繁簡</a></li>
       <li><a href="#speed">速成提示</a></li>
+    </ul></li>
+  <li><a href="#scheme">拼音與注音</a>
+    <ul>
+      <li><a href="#scheme-switch">怎麼進出</a></li>
+      <li><a href="#scheme-typing">怎麼打</a></li>
+      <li><a href="#scheme-limits">只有單字</a></li>
     </ul></li>
   <li><a href="#hotstring">快速指令</a></li>
   <li><a href="#add-word">加字加詞</a>
@@ -251,7 +258,7 @@
     <td>狀態列按<strong>右鍵</strong>。見<a href="#menu">右鍵選單</a></td></tr>
 <tr><td>暫時關掉</td>
     <td>點 <span class="k">停</span>，或左鍵點<a href="#tray">系統匣圖示</a></td></tr>
-<tr><td>結束程式</td><td>右鍵 → <span class="k">結束</span></td></tr>
+<tr><td>結束程式</td><td>右鍵 → <span class="k">結束</span>，或打 <code>,,q</code></td></tr>
 </table>
 </div>
 
@@ -318,6 +325,12 @@
         （<code>@</code> <code>_</code> <code>:</code> <code>?</code> …）打到一半才按的話
         一律進緩衝區，打完按 <kbd>Enter</kbd> 原樣送出，
         所以 <code>foo_bar@x.com</code>、<code>C:\</code> 也打得出來</td></tr>
+<tr><td>數字鍵盤</td>
+    <td>數字與 <kbd>*</kbd> <kbd>+</kbd> <kbd>-</kbd> <kbd>.</kbd> <kbd>/</kbd>
+        打到一半才按的話一律進緩衝區，打完按 <kbd>Enter</kbd> 原樣送出。
+        <strong>數字鍵盤不選字</strong> —— 選字只有主鍵盤那排
+        <kbd>1</kbd>～<kbd>9</kbd>。要用它請開著 <kbd>NumLock</kbd>，
+        關掉的時候那些鍵在 Windows 眼中就是方向鍵那一組</td></tr>
 <tr><td><kbd>←</kbd> / <kbd>→</kbd><br>
         <kbd>&lt;</kbd> / <kbd>&gt;</kbd></td>
     <td>上一頁 / 下一頁。候選字左右出現的 <code>&lt;</code> <code>&gt;</code>
@@ -338,7 +351,8 @@
 
 <div class="box">
 <p><strong>沒在打字的時候，這些鍵全部是原生的</strong>（<kbd>-</kbd> <kbd>=</kbd> 例外：它們經過輸入法送出，所以全形設定對它們有效）。
-按數字就是數字、<kbd>Enter</kbd> 就是換行、方向鍵就是移動游標。
+按數字就是數字、<kbd>Enter</kbd> 就是換行、方向鍵就是移動游標，
+<strong>整個數字鍵盤也完全不受影響</strong>。
 輸入法只在「正在組字」那一瞬間接管它們。</p>
 </div>
 
@@ -362,7 +376,8 @@
 <p>打到一半按的 <kbd>-</kbd> <kbd>=</kbd>、（選不到候選字時的）數字，以及
 <kbd>/</kbd> <kbd>\</kbd> <kbd>`</kbd> 與 <kbd>Shift</kbd> 上檔符號也都會進緩衝區，
 所以 <code>e-mail</code>、<code>x=y</code>、<code>a1</code>、<code>mr400</code>、
-<code>foo_bar@x.com</code>、<code>C:\</code> 都是照打再按 <kbd>Enter</kbd>。</p>
+<code>foo_bar@x.com</code>、<code>C:\</code> 都是照打再按 <kbd>Enter</kbd>。
+<strong>數字鍵盤走同一條路</strong>，而且它不選字，打什麼進什麼。</p>
 
 <p>打到一半才發現接下來是一長串英文，就<strong>輕按一下 <kbd>Shift</kbd></strong> ——
 已經打進去的字母原樣送出，同時切到英數模式。</p>
@@ -423,7 +438,8 @@
     <td>切換全形／半形</td></tr>
 <tr><td>中間</td>
     <td>打的碼與候選字。<strong>沒在打字的時候</strong>改顯示訊息：
-        速成提示、快速指令回饋、加字加詞的問題、更新進度、N 鍵衝突</td>
+        速成提示、快速指令回饋、加字加詞有幾行寫壞、更新進度。
+        要你動手的那幾則改走<a href="#alert-strip">上面那條橫條</a></td>
     <td>更新的訊息點得下去，見<a href="#update">自動更新</a></td></tr>
 <tr><td>右 1</td><td><span class="k">繁</span> / <span class="k">簡</span> /
     <span class="k">速</span></td>
@@ -436,10 +452,29 @@
 </table>
 </div>
 
-<p><strong>訊息只在你沒打字的時候出現</strong>，一開始打字根碼它就讓開，
+<p><strong>中間那格的訊息只在你沒打字的時候出現</strong>，一開始打字根碼它就讓開，
 緩衝區空了再自己回來。<strong>整條的顏色代表狀態</strong>：中文一種、英數另一種，
-有需要你處理的事（鍵衝突、可以重啟更新、更新失敗）換第三種，停用時變灰。
-十一種配色實際長什麼樣，攤成一頁在<a href="themes.html">配色一覽</a>。</p>
+停用時變灰。十一種配色實際長什麼樣，攤成一頁在<a href="themes.html">配色一覽</a>。</p>
+
+<h3 id="alert-strip">有事要你處理時，上面會多一條</h3>
+
+<p>有需要你動手的事情時，<strong>狀態列正上方會多出一條顏色不一樣的橫條</strong>，
+事情過去了它自己消失，不佔位置。目前有四種：</p>
+<ul>
+  <li><a href="#key-conflict">N 鍵衝突</a>。</li>
+  <li><span class="k">重啟更新</span> —— 新版下載好了，<strong>點這條橫條</strong>就換版重開，
+      見<a href="#update">自動更新</a>。</li>
+  <li><strong>更新失敗</strong>，點一下重試。</li>
+  <li><a href="#box-errors">加字加詞整份沒載進來</a>。</li>
+</ul>
+
+<p>跟中間那格的訊息有兩點不一樣：<strong>打字打到一半照樣看得到</strong>，
+不會被你正在打的碼擠掉；<strong>停用中也還在</strong>。而且橫條在的期間
+整條一律完全清楚，就算你把<a href="#auto-hide">可見度</a>調到 0% 它也會冒出來 ——
+不然這幾則就沒有任何地方講得出來了。</p>
+
+<p>「有新版可以下載」「下載中」「加字加詞有幾行寫壞」這種知道就好的訊息不開橫條，
+照舊寫在中間那格。</p>
 
 <h3 id="tray">系統匣圖示</h3>
 
@@ -458,8 +493,8 @@
 <h3 id="auto-hide">可見度（打字時與不打字時各一個）</h3>
 
 <p><strong>數字越大越清楚</strong>：100% 是完全清楚，0% 是整條收起來。
-按下第一個字根立刻切成「打字時」那個可見度（預設 100%），
-送出後約半秒淡回「不打字時」那個（預設 30%）。淡掉之後它<strong>還在原地</strong>，
+按下第一個字根立刻切成「打字時」那個可見度（預設 80%），
+送出後約半秒淡回「不打字時」那個（預設 20%）。淡掉之後它<strong>還在原地</strong>，
 也還點得到、拖得動，滑鼠移上去就變清楚。連續打字時不會一直閃。</p>
 
 <p>下面這幾種情況套的是「打字時」那個值：</p>
@@ -467,20 +502,21 @@
   <li>正在拆字。</li>
   <li><strong>右鍵選單開著</strong> —— 這樣才看得出自己挑的那一檔長什麼樣。</li>
   <li>剛切過模式（中英、全半形、輸出方式、停用或恢復）—— 會跳出來約一秒。</li>
-  <li><strong>有話要告訴你</strong> —— <a href="#key-conflict">N 鍵衝突</a>、有新版可以更新、
-      <a href="#speed">速成提示</a>、<a href="#hotstring">快速指令</a>的回饋、
-      <a href="#box-errors">加字加詞的問題</a>。訊息在的期間整條都不會淡，
-      不會讓你讀到一半糊掉。</li>
+  <li><strong>有話要告訴你</strong> —— 有新版可以更新、<a href="#speed">速成提示</a>、
+      <a href="#hotstring">快速指令</a>的回饋、<a href="#box-errors">加字加詞的問題</a>。
+      訊息在的期間整條都不會淡，不會讓你讀到一半糊掉。</li>
 </ul>
 
 <p><strong>滑鼠停在它上面、或你正在拖它的時候一律完全清楚</strong>，
 兩個值都設得再淡也一樣 —— 手就在那條東西上，而滑鼠移上去也是把可見度
-調回來的地方。</p>
+調回來的地方。<a href="#alert-strip">警示橫條</a>在的時候同理，
+調到 0% 也會冒出來。</p>
 
 <p><strong>要多清楚由你決定</strong>：右鍵選單有
 <span class="k">打字時的可見度</span> 與 <span class="k">不打字時的可見度</span>
 兩項，各是 <strong>100%</strong>（完全清楚）到 <strong>0%</strong>（完全隱藏）
-每 10% 一檔。預設是<strong>打字時 100%、不打字時 30%</strong>。</p>
+每 10% 一檔。預設是<strong>打字時 80%、不打字時 20%</strong>，
+右鍵選單的 <span class="k">回到預設外觀</span> 會把兩個都放回這兩個值。</p>
 
 <p>兩個 <strong>0%</strong> 的意思不一樣：</p>
 <ul>
@@ -494,10 +530,11 @@
       選單開著的期間條子會冒出來讓你看，收掉之後又不見。</li>
 </ul>
 
-<p>打字時設成 0% 的話，<strong>寫在條子上的訊息也一起看不到了</strong>
-（有新版、<a href="#key-conflict">N 鍵衝突</a>、<a href="#box-errors">加字加詞的問題</a>
-那類）。想繼續收到就把<a href="#notify">通知方式</a>設成桌面通知或浮動視窗 ——
-只有<span class="k">重啟更新</span>那一則永遠只出現在條子上。</p>
+<p>打字時設成 0% 的話，<strong>寫在中間那格的訊息也一起看不到了</strong>
+（有新版、<a href="#speed">速成提示</a>、<a href="#box-errors">加字加詞有幾行寫壞</a>
+那類）。想繼續收到就把<a href="#notify">通知方式</a>設成桌面通知或浮動視窗。
+要你動手的那幾則不受影響 —— 它們走<a href="#alert-strip">警示橫條</a>，
+那條東西自己會冒出來，<span class="k">重啟更新</span>照樣點得到。</p>
 
 <p><strong>不打字時 100%</strong> 就等於關掉「沒打字時會變透明」這件事。</p>
 
@@ -514,7 +551,8 @@
       自動切換輸入法記下了哪個，這類按完就要有回應的事。
       <a href="#speed">速成提示</a>不算 —— 那個每打一個字就可能一則，只寫在狀態列。</li>
 </ul>
-<p>它們一律寫在狀態列中間那塊空白，但那條會淡掉，也可能被你調成完全隱藏 ——
+<p>它們一律寫在狀態列上（要你動手的那幾則走<a href="#alert-strip">警示橫條</a>，
+其餘寫在中間那塊空白），但那條會淡掉，也可能被你調成完全隱藏 ——
 所以<strong>預設會另外跳一則 Windows 通知</strong>。</p>
 
 <p>右鍵選單的 <span class="k">通知方式</span> 三選一：</p>
@@ -544,8 +582,8 @@
 <p><strong>「重啟更新」只出現在狀態列上，不會跳通知。</strong>
 那一則是要你<strong>按下去</strong>的，而 Windows 通知按不到 ——
 跳一則長得像按鈕、按下去卻沒反應的東西比不跳還糟。所以下載完成之後，
-請在狀態列上點<span class="k">重啟更新</span>，或用右鍵選單的
-<span class="k">更新</span>。</p>
+請點狀態列上方那條<a href="#alert-strip">寫著<span class="k">重啟更新</span>的橫條</a>，
+或用右鍵選單的<span class="k">更新</span>。</p>
 </div>
 
 <div class="box">
@@ -589,8 +627,10 @@
 <tr><td><span class="k">通知方式</span></td>
     <td>更新、加字加詞、鍵衝突與設定回饋的訊息要不要另外彈一則出來。
         見<a href="#notify">通知方式</a></td></tr>
-<tr><td><span class="k">回到預設位置</span></td>
-    <td>條子被拖到看不見的地方時救回來。<strong>只重設當下所在的那一台螢幕</strong></td></tr>
+<tr><td><span class="k">回到預設外觀</span></td>
+    <td>把位置、寬度與兩個可見度一起放回預設值（打字時 80%、不打字時 20%）。
+        條子被拖到看不見的地方、或調得太淡找不到時就按這個。
+        <strong>位置只重設當下所在的那一台螢幕</strong>，可見度則是兩軸一起回</td></tr>
 <tr><td><span class="k">加字加詞</span></td>
     <td>開關、重新載入、打開資料夾，以及「已載入幾筆、幾行有問題」。
         見<a href="#add-word">加字加詞</a></td></tr>
@@ -655,7 +695,7 @@
 <p>點「半形」切成「全形」之後：</p>
 <ul>
   <li><strong>英數模式</strong>下每個字元都變全形，包含空白（　）、數字（１２３）
-      與符號（！＠＃）。</li>
+      與符號（！＠＃）。<strong>數字鍵盤打出來的也是全形</strong>。</li>
   <li><strong>嘸蝦米模式</strong>下只作用在<strong>送出的文字</strong>，
       也就是按 <kbd>Enter</kbd> 送出的那串英文。中文字本來就是全形寬度。
       這時直接打的數字仍是半形 —— 沒在組字的時候輸入法不攔那些鍵。</li>
@@ -709,6 +749,93 @@
 <p>剛切進速模式的頭一兩秒可能還不會提示 —— 它要先把整張字根表反查一遍
 （七萬多個字），在背景做，不卡打字。</p>
 
+<h2 id="scheme">拼音與注音</h2>
+
+<p><strong>認得這個字、也唸得出來，就是不知道嘸蝦米怎麼拆</strong> ——
+這兩個模式就是為了這件事。用讀音把字打出來，送出的同時狀態列會告訴你
+它的嘸蝦米拆碼，<strong>最省鍵的排在最前面</strong>。</p>
+
+<div class="bar">
+  <span class="sa">注音</span><span class="sb">半形</span>
+  <span class="grow sc">對　a ／ faa ／ uaa 按 2 ／ waa</span>
+  <span class="sb">繁</span>
+  <span class="sa">＋</span><span class="sa">－</span><span class="sa">停</span>
+</div>
+
+<p>上面這則是打完「對」之後看到的：它最省的拆碼是 <code>a</code>，
+一個字母加一次 <kbd>Space</kbd> 就打得出來。滑鼠移到那行字上，
+會看到完整的清單與各要按幾鍵。</p>
+
+<div class="box">
+<p><strong>這是學嘸蝦米用的輔助，不是第二套輸入法。</strong>
+它只收單字、沒有詞庫，也沒有選字記憶 —— 拿來打長篇文章會很痛苦。
+打字還是回嘸蝦米。</p>
+</div>
+
+<h3 id="scheme-switch">怎麼進出</h3>
+
+<p>狀態列<strong>最左邊那一格</strong>會寫著目前是哪一個。
+三種方式都可以切：</p>
+
+<div class="scroll">
+<table>
+<tr><th>打什麼</th><th>切到</th></tr>
+<tr><td><code>,,pin</code></td><td>拼音</td></tr>
+<tr><td><code>,,zhu</code></td><td>注音</td></tr>
+<tr><td><code>,,liu</code></td><td>回嘸蝦米</td></tr>
+</table>
+</div>
+
+<p>右鍵選單裡也有這三項（在輸出方式底下）。切過去的那一刻條子會亮一下，
+那就是切成功了 —— <strong>顏色不會變</strong>，因為拼音與注音一樣是中文輸入。</p>
+
+<p>切換會<strong>丟掉正在打的那半截碼</strong>。系統匣的圖示也不會變，
+它只回答「中文、英數，還是停用」。</p>
+
+<h3 id="scheme-typing">怎麼打</h3>
+
+<p><strong>注音</strong>用大千鍵盤（就是鍵帽上印的那個）。
+一聲不用打，二三四聲與輕聲是 <kbd>6</kbd> <kbd>3</kbd> <kbd>4</kbd> <kbd>7</kbd>。
+緩衝區會顯示成注音符號：</p>
+
+<div class="bar">
+  <span class="sa">注音</span><span class="sb">半形</span>
+  <span class="grow sc">ㄋㄧˇ　⇧1你  ⇧2妳  ⇧3擬  ⇧4禰</span>
+  <span class="sb">繁</span>
+  <span class="sa">＋</span><span class="sa">－</span><span class="sa">停</span>
+</div>
+
+<p><strong>拼音</strong>就是漢語拼音，聲調用數字 <kbd>2</kbd>–<kbd>5</kbd>
+接在後面（<code>ni3</code>）。</p>
+
+<p>兩個模式都有兩件事跟嘸蝦米不一樣：</p>
+
+<ul>
+  <li><strong>選字要按 <kbd>Shift</kbd>＋數字</strong>，所以候選前面標著
+      <code>⇧</code>。大千鍵盤把十個數字都給了注音符號與聲調，數字鍵不能拿來選字。
+      <kbd>Space</kbd> 送出第一個、方向鍵翻頁，跟嘸蝦米一樣。</li>
+  <li><strong>聲調可以不打。</strong>打 <code>ㄋㄧ</code>（不加聲調）也查得到「你」，
+      只是候選會多很多。不確定音調的時候很好用。</li>
+</ul>
+
+<p>注音模式下打不出半形數字（那些鍵被注音符號佔走了），拼音模式下可以。
+要打數字就切回嘸蝦米或英數。</p>
+
+<h3 id="scheme-limits">只有單字</h3>
+
+<p>這兩個模式<strong>只能一個字一個字打</strong>，沒有詞庫。
+打「你好」要選兩次。另外：</p>
+
+<ul>
+  <li><a href="#add-word">加字加詞</a><strong>只對嘸蝦米有效</strong>。</li>
+  <li><a href="#speed">速成提示</a>在這兩個模式下不會出現 ——
+      拆碼提示已經在講同一件事了。</li>
+  <li><a href="#simplified">繁簡</a>與<a href="#fullwidth">全形</a>照常作用，
+      用注音打字、輸出簡體是可以的。</li>
+  <li>拆碼提示會一直留在狀態列上，直到你送出下一個字。它不會擋住
+      「有新版」之類的訊息 —— 那些一出現它就讓位。</li>
+</ul>
+
 <h2 id="hotstring">快速指令</h2>
 
 <p><strong>在中文模式下打一串特定的碼，再按 <kbd>Space</kbd></strong>，
@@ -720,8 +847,12 @@
 <tr><td><code>,,t</code></td><td>輸出繁體，見<a href="#simplified">繁簡</a></td></tr>
 <tr><td><code>,,c</code></td><td>輸出簡體</td></tr>
 <tr><td><code>,,sp</code></td><td>切到<a href="#speed">速成提示</a></td></tr>
-<tr><td><code>,,box</code></td><td>打開<a href="#add-word">加字加詞</a>資料夾</td></tr>
+<tr><td><code>,,x</code></td><td>打開<a href="#add-word">加字加詞</a>資料夾</td></tr>
 <tr><td><code>,,log</code></td><td>打開記錄資料夾</td></tr>
+<tr><td><code>,,liu</code></td><td>回嘸蝦米，見<a href="#scheme">拼音與注音</a></td></tr>
+<tr><td><code>,,pin</code></td><td>切到拼音</td></tr>
+<tr><td><code>,,zhu</code></td><td>切到注音</td></tr>
+<tr><td><code>,,q</code></td><td>結束程式（跟右鍵選單的「結束」同一件事，不會再問一次）</td></tr>
 </table>
 </div>
 
@@ -751,7 +882,7 @@
 <p>內建字根表一次只打得出一個字。想加自己的詞、或把某個字的順序調到前面，
 就在程式資料夾底下的 <code>box</code> 資料夾裡放 <code>.box</code> 檔
 （右鍵選單 <span class="k">加字加詞</span> → <span class="k">開啟加字加詞資料夾</span>，
-或打 <code>,,box</code>）。第一次啟動時程式會建好那個資料夾並放一份
+或打 <code>,,x</code>）。第一次啟動時程式會建好那個資料夾並放一份
 <code>example.box</code>，裡面是註解寫的說明，可以直接改來用。</p>
 
 <div class="box warn">
@@ -816,7 +947,7 @@ yre  今天 天氣 不錯</pre>
 
 <p>下面這幾組拆碼是<a href="#hotstring">快速指令</a>，<strong>不能拿來加字加詞</strong>：</p>
 
-<pre>,,t   ,,c   ,,sp   ,,box   ,,log</pre>
+<pre>,,t   ,,c   ,,sp   ,,x   ,,log   ,,liu   ,,pin   ,,zhu   ,,q</pre>
 
 <p>寫了的話那一行會被當成有問題，同一個檔裡其他行照常載入，加上
 <code>*</code> 或 <code>!</code> 也繞不過去。<strong>只有這幾組確切的拆碼是保留字</strong> ——
@@ -878,10 +1009,10 @@ yre  今天 天氣 不錯</pre>
     <code>f1</code>～<code>f24</code>、<code>capslock</code>、<code>insert</code>、
     <code>home</code>、<code>pgup</code> 這類。大小寫與空白不計較。寫錯、或寫到輸入法
     自己在用的鍵，啟動時會清掉並記在記錄檔裡。見<a href="#custom-hotkey">自訂切換鍵與停用鍵</a></td></tr>
-<tr><td><code>idle_opacity</code></td><td><code>30</code></td>
+<tr><td><code>idle_opacity</code></td><td><code>20</code></td>
     <td>沒打字時的可見度（%）。<code>100</code> 完全清楚、<code>0</code> 整條收起來。
     選單給的是 10% 一階的檔位，這裡 0–100 都收</td></tr>
-<tr><td><code>active_opacity</code></td><td><code>100</code></td>
+<tr><td><code>active_opacity</code></td><td><code>80</code></td>
     <td>打字時的可見度（%）。<code>0</code> 是「連拆字都收起來」，
     那時看不到候選字。同樣 0–100 都收。
     <br>舊版這兩個叫 <code>idle_transparency</code> / <code>active_transparency</code>
@@ -1074,7 +1205,7 @@ yre  今天 天氣 不錯</pre>
 
 <div class="scroll">
 <table>
-<tr><th>中間那塊顯示</th><th>意思</th><th>點下去</th></tr>
+<tr><th>狀態列顯示</th><th>意思</th><th>點下去</th></tr>
 <tr><td>檢查更新中…</td><td>正在查（只有你自己按時才看得到）</td><td>不能點</td></tr>
 <tr><td>已是最新版本 0.1.9</td><td>查過了，沒有更新</td>
     <td>不能點，五秒後自己消失</td></tr>
@@ -1082,15 +1213,18 @@ yre  今天 天氣 不錯</pre>
     <td>不能點，五秒後自己消失，過一陣子會自動再試</td></tr>
 <tr><td>新版 0.2.0</td><td>發現新版了</td><td>開始下載（通常不必點，它會自己下載）</td></tr>
 <tr><td>下載 42% ／ 解壓中</td><td>下載、檢查與解壓縮</td><td>不能點</td></tr>
-<tr><td><strong>重啟更新</strong></td><td>準備好了</td>
+<tr><td><strong>重啟更新</strong>（走<a href="#alert-strip">警示橫條</a>）</td>
+    <td>準備好了</td>
     <td><strong>點它就會重開並更新</strong></td></tr>
 <tr><td>更新中…</td><td>正在換檔案，這時會有一個提示視窗</td><td>不能點</td></tr>
-<tr><td>更新失敗</td><td>出了問題</td><td>再點一次重試。滑鼠停上去會顯示原因</td></tr>
+<tr><td>更新失敗（同上）</td><td>出了問題</td>
+    <td>再點一次重試。滑鼠停上去會顯示原因</td></tr>
 </table>
 </div>
 
-<p>滑鼠停在訊息上會顯示這一版改了什麼。「重啟更新」與「更新失敗」會讓整條換色，
-因為那兩種需要你動手；其餘只是講一句話。<strong>更新後第一次啟動會比較慢</strong>
+<p>滑鼠停在訊息上會顯示這一版改了什麼。「重啟更新」與「更新失敗」走的是
+狀態列上方那條<a href="#alert-strip">警示橫條</a>，因為那兩種需要你動手；
+其餘只是講一句話，寫在中間那塊空白。<strong>更新後第一次啟動會比較慢</strong>
 （可能十幾秒），那是 Defender 在掃剛換上去的幾百個新檔案，掃過一次就不會再慢。</p>
 
 <h3 id="rollback">回到上一版</h3>
