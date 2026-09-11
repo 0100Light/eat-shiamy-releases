@@ -158,7 +158,7 @@
   <li><a href="#status-bar">狀態列</a>
     <ul>
       <li><a href="#tray">系統匣圖示</a></li>
-      <li><a href="#auto-hide">沒打字時會變透明</a></li>
+      <li><a href="#auto-hide">可見度（打字時與不打字時各一個）</a></li>
       <li><a href="#notify">通知方式</a></li>
       <li><a href="#menu">右鍵選單</a></li>
       <li><a href="#move-resize">搬移與調整寬度</a></li>
@@ -247,7 +247,7 @@
 <tr><td>加自己的字詞</td>
     <td>程式資料夾的 <code>box</code> 裡放 <code>.box</code> 檔。
         見<a href="#add-word">加字加詞</a></td></tr>
-<tr><td>換配色、字級、透明度</td>
+<tr><td>換配色、字級、可見度</td>
     <td>狀態列按<strong>右鍵</strong>。見<a href="#menu">右鍵選單</a></td></tr>
 <tr><td>暫時關掉</td>
     <td>點 <span class="k">停</span>，或左鍵點<a href="#tray">系統匣圖示</a></td></tr>
@@ -255,7 +255,8 @@
 </table>
 </div>
 
-<p>兩件事值得先知道：<a href="#auto-hide">沒打字時整條會變半透明</a>（滑鼠移上去就清楚），
+<p>兩件事值得先知道：<a href="#auto-hide">沒打字時整條會變半透明</a>（滑鼠移上去就清楚，
+打字時要不要也淡一點可以另外設），
 以及<a href="#update">它會自己檢查更新但不會自己重開</a>。</p>
 
 <h2 id="start">開始使用</h2>
@@ -454,26 +455,51 @@
 想一直看得到，在通知區域設定裡把 <code>EatShiamy</code> 打開。</p>
 </div>
 
-<h3 id="auto-hide">沒打字時會變透明</h3>
+<h3 id="auto-hide">可見度（打字時與不打字時各一個）</h3>
 
-<p>按下第一個字根立刻變清楚，送出後約半秒淡回半透明。淡掉之後它<strong>還在原地</strong>，
+<p><strong>數字越大越清楚</strong>：100% 是完全清楚，0% 是整條收起來。
+按下第一個字根立刻切成「打字時」那個可見度（預設 100%），
+送出後約半秒淡回「不打字時」那個（預設 30%）。淡掉之後它<strong>還在原地</strong>，
 也還點得到、拖得動，滑鼠移上去就變清楚。連續打字時不會一直閃。</p>
 
-<p>下面這幾種情況一定是清楚的：</p>
+<p>下面這幾種情況套的是「打字時」那個值：</p>
 <ul>
   <li>正在拆字。</li>
+  <li><strong>右鍵選單開著</strong> —— 這樣才看得出自己挑的那一檔長什麼樣。</li>
   <li>剛切過模式（中英、全半形、輸出方式、停用或恢復）—— 會跳出來約一秒。</li>
   <li><strong>有話要告訴你</strong> —— <a href="#key-conflict">N 鍵衝突</a>、有新版可以更新、
       <a href="#speed">速成提示</a>、<a href="#hotstring">快速指令</a>的回饋、
       <a href="#box-errors">加字加詞的問題</a>。訊息在的期間整條都不會淡，
       不會讓你讀到一半糊掉。</li>
-  <li>滑鼠停在它上面、右鍵選單開著，或你正在拖它。</li>
 </ul>
 
-<p><strong>要多透明由你決定</strong>：右鍵選單的
-<span class="k">不打字時的透明度</span> 有六檔 —— <strong>0%</strong>（等於關掉這個功能）、
-30% / 50% / <strong>65%（預設）</strong> / 80%，以及 <strong>100%</strong>：
-整條真的收起來，桌面上只剩系統匣圖示，螢幕底部那一條也不會再擋到滑鼠。</p>
+<p><strong>滑鼠停在它上面、或你正在拖它的時候一律完全清楚</strong>，
+兩個值都設得再淡也一樣 —— 手就在那條東西上，而滑鼠移上去也是把可見度
+調回來的地方。</p>
+
+<p><strong>要多清楚由你決定</strong>：右鍵選單有
+<span class="k">打字時的可見度</span> 與 <span class="k">不打字時的可見度</span>
+兩項，各是 <strong>100%</strong>（完全清楚）到 <strong>0%</strong>（完全隱藏）
+每 10% 一檔。預設是<strong>打字時 100%、不打字時 30%</strong>。</p>
+
+<p>兩個 <strong>0%</strong> 的意思不一樣：</p>
+<ul>
+  <li><strong>不打字時 0%</strong> —— 沒打字時整條真的收起來，桌面上只剩
+      <a href="#tray">系統匣圖示</a>，螢幕底部那一條也不會再擋到滑鼠。
+      一打字就回來。</li>
+  <li><strong>打字時 0%</strong> —— 連拆字的時候都收起來，也就是
+      <strong>看不到候選字</strong>，得完全靠記憶按 Space 或數字選字。
+      那時滑鼠也碰不到條子（點下去是點到底下的程式），要調回來請
+      <strong>右鍵點<a href="#tray">系統匣圖示</a></strong> ——
+      選單開著的期間條子會冒出來讓你看，收掉之後又不見。</li>
+</ul>
+
+<p>打字時設成 0% 的話，<strong>寫在條子上的訊息也一起看不到了</strong>
+（有新版、<a href="#key-conflict">N 鍵衝突</a>、<a href="#box-errors">加字加詞的問題</a>
+那類）。想繼續收到就把<a href="#notify">通知方式</a>設成桌面通知或浮動視窗 ——
+只有<span class="k">重啟更新</span>那一則永遠只出現在條子上。</p>
+
+<p><strong>不打字時 100%</strong> 就等於關掉「沒打字時會變透明」這件事。</p>
 
 <h3 id="notify">通知方式</h3>
 
@@ -555,10 +581,11 @@
         就只是一般的 Shift），以及自訂的中英切換鍵與停用／恢復鍵。
         見<a href="#custom-hotkey">自訂切換鍵與停用鍵</a></td></tr>
 <tr><td><span class="k">配色</span> / <span class="k">字體大小</span> /
-    <span class="k">不打字時的透明度</span></td>
-    <td>外觀三項。配色十一種，見<a href="themes.html">配色一覽</a>；
+    <span class="k">打字時的可見度</span> / <span class="k">不打字時的可見度</span></td>
+    <td>外觀四項。配色十一種，見<a href="themes.html">配色一覽</a>；
         字級從 8 到 32 直接挑一個，不必用 <span class="k">＋</span>
-        <span class="k">－</span> 慢慢按</td></tr>
+        <span class="k">－</span> 慢慢按；兩個可見度各是 100–0% 每 10% 一檔，
+        見<a href="#auto-hide">可見度</a></td></tr>
 <tr><td><span class="k">通知方式</span></td>
     <td>更新、加字加詞、鍵衝突與設定回饋的訊息要不要另外彈一則出來。
         見<a href="#notify">通知方式</a></td></tr>
@@ -819,7 +846,7 @@ yre  今天 天氣 不錯</pre>
 <h2 id="settings">設定</h2>
 
 <p>設定都存在 <code>plugin\window_config.json</code>。
-<strong>大部分用<a href="#menu">右鍵選單</a>調就好</strong>（配色、字級、透明度、
+<strong>大部分用<a href="#menu">右鍵選單</a>調就好</strong>（配色、字級、可見度、
 切換鍵、通知方式、輸出方式、加字加詞開關、自動檢查更新），選了立刻生效也會存檔。</p>
 
 <p>下面這張表是設定檔裡有什麼。<strong>只有 <code>font_family</code>
@@ -851,9 +878,14 @@ yre  今天 天氣 不錯</pre>
     <code>f1</code>～<code>f24</code>、<code>capslock</code>、<code>insert</code>、
     <code>home</code>、<code>pgup</code> 這類。大小寫與空白不計較。寫錯、或寫到輸入法
     自己在用的鍵，啟動時會清掉並記在記錄檔裡。見<a href="#custom-hotkey">自訂切換鍵與停用鍵</a></td></tr>
-<tr><td><code>idle_transparency</code></td><td><code>65</code></td>
-    <td>沒打字時的透明度（%）。<code>0</code> 不透明、<code>100</code> 完全隱藏。
-    選單只給六個檔位，這裡 0–100 都收</td></tr>
+<tr><td><code>idle_opacity</code></td><td><code>30</code></td>
+    <td>沒打字時的可見度（%）。<code>100</code> 完全清楚、<code>0</code> 整條收起來。
+    選單給的是 10% 一階的檔位，這裡 0–100 都收</td></tr>
+<tr><td><code>active_opacity</code></td><td><code>100</code></td>
+    <td>打字時的可見度（%）。<code>0</code> 是「連拆字都收起來」，
+    那時看不到候選字。同樣 0–100 都收。
+    <br>舊版這兩個叫 <code>idle_transparency</code> / <code>active_transparency</code>
+    （數字是反的，越大越透明），升級時會自動換算成 <code>100</code> 減掉舊值</td></tr>
 <tr><td><code>theme</code> / <code>font_size</code></td>
     <td><code>"dark"</code> / <code>18</code></td>
     <td>配色與字級。字級只接受 8、9、10、11、12、14、16、18、20、24、28、32</td></tr>
