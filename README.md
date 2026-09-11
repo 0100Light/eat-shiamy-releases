@@ -87,7 +87,13 @@
 |---|---|---|
 | [RIME 蝦米方案](https://github.com/RIME/rime-liu)（liur） | 字根表 `liur_Trad.dict.yaml` 等 | 第三方重製碼表，見下 |
 | [OpenCC](https://github.com/BYVoid/OpenCC) | 繁簡對照表 `ts_map.json`（衍生自 `TSCharacters.txt`） | Apache-2.0 |
+| [libchewing-data](https://github.com/chewing/libchewing-data) | 拼音與注音的反查表（衍生自 `word.csv`） | LGPL-2.1-or-later |
+| [McBopomofo](https://github.com/openvanilla/McBopomofo) | 注音→拼音的對照（只在產表時用，不隨程式散布） | MIT |
 | [vim-airline](https://github.com/vim-airline/vim-airline-themes) | 狀態列的配色 | MIT |
+
+`tables/pinyin.dict.yaml` 與 `tables/bopomofo.dict.yaml` 是 libchewing-data 的
+衍生著作，同樣以 **LGPL-2.1-or-later** 散布，授權全文隨附在
+`tables/COPYING.LGPL-2.1.txt`。
 
 **嘸蝦米輸入法本身是行易有限公司的商標與產品。** 這支程式與行易公司無關，
 也不是官方版本。隨附的字根表是網路上早已公開流通的第三方重製版本，
