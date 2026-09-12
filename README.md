@@ -16,6 +16,18 @@
 
 [配色一覽 →](https://0100light.github.io/eat-shiamy-releases/themes.html)
 
+## vim 模式
+
+vim 的 normal mode 用的是 `hjkl`、`:wq`、`dd` 這些字母鍵，而中文模式下它們正好被輸入法攔走。
+
+**vim 模式讓編輯器在你按 Esc 的那一刻把輸入法整個停用**，回到 insert mode
+再自動恢復，而且會記得你剛剛是中文還是英數。編輯器那邊加幾行設定就接得起來，
+Neovim、Vim 8/9、VS Code（VSCodeVim 與 vscode-neovim 兩種都可以）與 WSL 都支援。
+
+在程式裡打 `,,vim` 開啟，預設不啟動。
+
+[設定方式 →](https://0100light.github.io/eat-shiamy-releases/vim.html)
+
 ## 安裝
 
 1. 下載 `EatShiamy-x.y.z.zip`
