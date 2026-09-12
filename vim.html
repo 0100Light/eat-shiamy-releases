@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EatShiamy vim 模式 接線說明</title>
+<style>
+  /* 版型與配色是 manual.html 那一份的複本（少了狀態列示意圖那一組）。
+     兩份頁面都不准連任何外部資源，所以 CSS 只能各帶一份 ——
+     動了外觀記得兩邊一起改。 */
+  :root{
+    color-scheme:light dark;
+    --bg:#ffffff; --fg:#1a1a1a; --muted:#5a5a6a; --line:#d8d8e0;
+    --accent:#0000AA; --code-bg:#f2f2f7; --warn-bg:#fff6e0; --warn-line:#e0a83c;
+    --note-bg:#eef3fb; --note-line:#5b8ac4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#16161a; --fg:#e8e8ec; --muted:#a0a0b0; --line:#33333d;
+      --accent:#8fa8ff; --code-bg:#22222a; --warn-bg:#33280f; --warn-line:#a8801f;
+      --note-bg:#1a2230; --note-line:#4a6fa5;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:2.5rem 1.25rem 5rem;
+    background:var(--bg); color:var(--fg);
+    font-family:"Noto Sans TC","Microsoft JhengHei",-apple-system,"Segoe UI",sans-serif;
+    line-height:1.7; font-size:16px;
+  }
+  main{max-width:52rem; margin:0 auto}
+  h1{font-size:1.9rem; margin:0 0 .3rem; letter-spacing:.02em}
+  h2{font-size:1.35rem; margin:2.4rem 0 .7rem; padding-bottom:.3rem;
+     border-bottom:2px solid var(--line)}
+  h3{font-size:1.08rem; margin:1.6rem 0 .4rem}
+  p,ul,ol{margin:.6rem 0}
+  li{margin:.2rem 0}
+  .lede{color:var(--muted); margin:0 0 2rem; font-size:1.02rem}
+  code,kbd{font-family:"Cascadia Mono",Consolas,monospace; font-size:.92em}
+  code{background:var(--code-bg); padding:.12em .38em; border-radius:4px}
+  kbd{
+    background:var(--code-bg); border:1px solid var(--line);
+    border-bottom-width:2px; border-radius:5px;
+    padding:.1em .45em; white-space:nowrap;
+  }
+  table{border-collapse:collapse; width:100%; margin:.9rem 0; font-size:.95rem}
+  th,td{border:1px solid var(--line); padding:.45rem .7rem; text-align:left;
+        vertical-align:top}
+  th{background:var(--code-bg); font-weight:600}
+  .scroll{overflow-x:auto}
+  pre{background:var(--code-bg); border:1px solid var(--line);
+      border-radius:6px; padding:.7rem .9rem; margin:.9rem 0;
+      overflow-x:auto; line-height:1.5;
+      font-family:"Cascadia Mono",Consolas,monospace; font-size:.92em}
+  .box{border-left:4px solid var(--note-line); background:var(--note-bg);
+       padding:.75rem 1.1rem; margin:1rem 0; border-radius:0 6px 6px 0}
+  .box.warn{border-left-color:var(--warn-line); background:var(--warn-bg)}
+  .box p:first-child{margin-top:0} .box p:last-child{margin-bottom:0}
+  .k{color:var(--accent); font-weight:600}
+  /* 自己接的時候的檢查清單。方框是純文字的，印出來也還是方框。 */
+  ul.check{list-style:none; padding-left:.2rem}
+  ul.check li::before{content:"\25A1\A0\A0"; color:var(--muted)}
+  footer{margin-top:3.5rem; padding-top:1rem; border-top:1px solid var(--line);
+         color:var(--muted); font-size:.88rem}
+
+  a{color:var(--accent)}
+  a:hover{text-decoration-thickness:2px}
+  h2,h3{scroll-margin-top:1rem}
+
+  /* ── 書籤導覽 ────────────────────────────────────────────── */
+  #toc{font-size:.92rem; line-height:1.5}
+  #toc ul{list-style:none; margin:0; padding:0}
+  #toc a{display:block; padding:.26rem .5rem; border-radius:5px;
+         color:var(--muted); text-decoration:none}
+  #toc>.toc-list>li>a{color:var(--fg)}
+  #toc ul ul a{padding-left:1.5rem; font-size:.88rem}
+  #toc ul ul{margin-bottom:.4rem}
+  #toc a:hover{background:var(--code-bg); color:var(--fg)}
+  #toc a:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+  #toc a[aria-current]{background:var(--code-bg); color:var(--accent);
+                       font-weight:600}
+  #toc .toc-extra{margin:.9rem 0 0; padding-top:.7rem;
+                  border-top:1px solid var(--line)}
+  #toc .toc-extra a{color:var(--accent); padding-left:.5rem}
+
+  .toc-open{position:absolute; width:1px; height:1px; opacity:0}
+  .toc-btn{display:block; max-width:max-content; cursor:pointer;
+           margin:0 0 .8rem; padding:.4rem .8rem;
+           border:1px solid var(--line); border-radius:6px;
+           background:var(--code-bg); color:var(--fg); font-weight:600;
+           -webkit-user-select:none; user-select:none}
+  .toc-btn::before{content:"\25B8\A0"}
+  .toc-open:checked~.toc-btn::before{content:"\25BE\A0"}
+  .toc-open:focus-visible~.toc-btn{outline:2px solid var(--accent);
+                                   outline-offset:2px}
+  .toc-list,.toc-extra{display:none}
+  .toc-open:checked~.toc-list,
+  .toc-open:checked~.toc-extra{display:block}
+
+  @media (min-width:64rem){
+    body{display:grid; grid-template-columns:14rem minmax(0,1fr);
+         gap:0 2rem; padding:2.5rem 2rem 5rem}
+    #toc{position:sticky; top:2.5rem; align-self:start;
+         max-height:calc(100vh - 5rem); overflow:auto;
+         overscroll-behavior:contain;
+         padding-right:.5rem; border-right:1px solid var(--line)}
+    .toc-btn{display:none}
+    .toc-list,.toc-extra{display:block}
+  }
+
+  @media print{
+    :root{--bg:#fff; --fg:#000; --muted:#444; --line:#bbb; --accent:#000;
+          --code-bg:#f4f4f4}
+    #toc{display:none}
+    body{display:block; padding:0; font-size:11pt}
+    main{max-width:none}
+    a{color:inherit; text-decoration:none}
+    h2,h3{break-after:avoid}
+    table,.box{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<nav id="toc" aria-label="章節目錄">
+<input type="checkbox" id="toc-open" class="toc-open">
+<label for="toc-open" class="toc-btn">目錄</label>
+<ul class="toc-list">
+  <li><a href="#how">它是怎麼運作的</a>
+    <ul>
+      <li><a href="#codes">三個代碼</a></li>
+      <li><a href="#api">兩條網址</a></li>
+      <li><a href="#rules">四條規則</a></li>
+      <li><a href="#speed">要多快才夠</a></li>
+      <li><a href="#verify">先確認開關是通的</a></li>
+    </ul></li>
+  <li><a href="#diy">照這個原理接任何編輯器</a></li>
+  <li><a href="#neovim">Neovim</a></li>
+  <li><a href="#vscode-neovim">VS Code ＋ VSCode Neovim</a></li>
+  <li><a href="#vim8">傳統 Vim 8 / 9</a></li>
+  <li><a href="#vscodevim">VS Code ＋ VSCodeVim</a></li>
+  <li><a href="#wsl">WSL 裡的 vim</a></li>
+  <li><a href="#port">換一個連接埠</a></li>
+  <li><a href="#trouble">打不通的時候</a></li>
+  <li><a href="#security">安全性</a></li>
+</ul>
+<p class="toc-extra"><a href="manual.html">&larr; 回使用說明</a></p>
+</nav>
+
+<main>
+
+<h1>vim 模式　接線說明</h1>
+<p class="lede">讓編輯器在離開 insert mode 時把嘸蝦米整個停用，回去再恢復。</p>
+
+<div class="box">
+<p><strong>先打 <code>,,vim</code> 把 vim 模式開起來</strong>（右鍵選單的
+<span class="k">vim 模式</span> 也有）。沒開的時候程式不聽任何連接埠，
+底下所有設定都不會有反應。<strong>開起來的那一刻嘸蝦米就直接停用了</strong>
+（等於編輯器送了一個 <code>off</code> 進來），回到 insert mode 時由下面的
+接線把它叫回來。功能本身怎麼用寫在
+<a href="manual.html#vim">使用說明的「vim 模式」</a>那一節。</p>
+</div>
+
+<h2 id="how">它是怎麼運作的</h2>
+
+<p><strong>嘸蝦米不會去猜編輯器在做什麼，而是開一個開關等編輯器來按。</strong></p>
+
+<p>vim 模式開著的時候，程式在你自己這台電腦上（<code>127.0.0.1</code>，
+別台機器連不到）聽一個很小的網頁伺服器，預設在 <strong>5599</strong> 埠。
+任何發得出 HTTP GET 的東西都按得動它 —— <code>curl</code>、編輯器內建的
+TCP 函式、一行 shell script 都可以。</p>
+
+<p>所以「支援哪些編輯器」這個問題其實不成立：<strong>只要你的編輯器能在
+切換模式的時候執行一點東西，就接得上。</strong> 這一節講的就是那點東西
+要送什麼。看得懂這一節，底下那幾家的設定只是同一件事的不同寫法。</p>
+
+<h3 id="codes">三個代碼</h3>
+
+<table>
+<tr><th>代碼</th><th>意思</th><th>什麼時候送</th></tr>
+<tr><td><code>off</code></td><td>把嘸蝦米整個停用。鍵盤完全回到原生，
+一顆鍵都不攔</td><td>離開 insert mode</td></tr>
+<tr><td><code>zh</code></td><td>啟用，中文模式</td><td>進入 insert mode</td></tr>
+<tr><td><code>en</code></td><td>啟用，英數模式</td><td>進入 insert mode，
+而且你離開前是英數</td></tr>
+</table>
+
+<div class="box">
+<p><strong>normal mode 要送的是 <code>off</code>，不是 <code>en</code>。</strong>
+英數模式在半形的時候確實也不攔鍵，但切到全形就會攔掉整排 ASCII，
+<kbd>h</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd> 照樣壞掉。<code>off</code>
+是唯一無條件不攔鍵的狀態。</p>
+</div>
+
+<h3 id="api">兩條網址</h3>
+
+<table>
+<tr><th>網址</th><th>做什麼</th><th>回你什麼</th></tr>
+<tr><td><code>http://127.0.0.1:5599/im</code></td><td>問「現在是哪個狀態」</td>
+<td><code>off</code>、<code>zh</code> 或 <code>en</code></td></tr>
+<tr><td><code>http://127.0.0.1:5599/im/off</code></td><td>設成那個狀態</td>
+<td>設定之前的狀態</td></tr>
+</table>
+
+<p>讀那一條是選用的。有讀的話就能做到「離開 insert mode 前先記下你是中文
+還是英數，回來時還原」；不讀的話回來一律變成中文。</p>
+
+<p>其餘的回應碼：</p>
+
+<table>
+<tr><th>情況</th><th>回</th></tr>
+<tr><td>沒帶 <code>Host</code>，或它指的不是本機的這個埠</td><td>403</td></tr>
+<tr><td>看起來是瀏覽器發的（見下面第二條規則）</td><td>403</td></tr>
+<tr><td>網址形狀不對</td><td>404</td></tr>
+<tr><td>代碼不是那三個</td><td>400</td></tr>
+<tr><td>不是 GET</td><td>501</td></tr>
+</table>
+
+<h3 id="rules">四條規則</h3>
+
+<p>自己接的時候會踩到的就是這四條。<strong>它們全部的失敗方式都一樣：
+完全沒反應，而且不會有任何錯誤訊息</strong>（因為送請求的那一端通常
+根本不去讀回應）。</p>
+
+<ol>
+<li><p><strong>一定要帶 <code>Host</code> 標頭。</strong>
+<code>curl</code> 之類的工具會自己補，但你如果是自己開 TCP 寫一段
+請求文字，就得自己寫上去：</p>
+<pre>GET /im/off HTTP/1.0
+Host: 127.0.0.1:5599
+
+</pre>
+<p>少了它一律回 403。這是擋「把別的網域解析到 127.0.0.1」那種攻擊的，
+不能省。換過連接埠的話這一行的號碼也要跟著改。</p></li>
+
+<li><p><strong>瀏覽器發的請求一律拒。</strong> 有
+<code>Origin</code>、<code>Referer</code> 或任何 <code>Sec-Fetch-</code>
+開頭的標頭就回 403。所以<strong>不能在瀏覽器的網址列貼上那個網址來測試</strong>，
+它一定失敗。理由見<a href="#security">安全性</a>那一節。</p></li>
+
+<li><p><strong>回應的內容結尾沒有換行。</strong> 讀狀態那條回的就是
+<code>zh</code> 三個字元，乾乾淨淨。有些編輯器會拿這個字串去跟上次記下的
+比對，多一個換行就會被判成「換了輸入法」而每次都重切。</p></li>
+
+<li><p><strong>HTTP/1.0，一次請求就關。</strong> 不必處理 keep-alive，
+送完讀完就把連線關掉。</p></li>
+</ol>
+
+<h3 id="speed">要多快才夠</h3>
+
+<p>你按下 <kbd>Esc</kbd> 之後大約 100 到 300 毫秒就會按下一個鍵。
+切換要在那之前做完，不然那顆鍵會被吃掉。</p>
+
+<table>
+<tr><th>做法</th><th>大約要多久</th><th>結論</th></tr>
+<tr><td>編輯器內建的 TCP 函式直接連</td><td>1 毫秒以內</td><td>最好</td></tr>
+<tr><td>執行 <code>curl.exe</code></td><td>約 25 毫秒</td><td>夠用</td></tr>
+<tr><td>執行一個大程式（例如嘸蝦米自己的 exe）</td><td>約 200 毫秒</td>
+<td>來不及，會漏鍵</td></tr>
+</table>
+
+<p>所以優先順序是：編輯器能直接開 TCP 就直接開，不行才退回去跑
+<code>curl</code>。<strong>底下那幾節就是照這個順序排的</strong> ——
+排在前面的比較快，也比較推薦。</p>
+
+<p><code>curl</code> 那條在實際使用上摸得出一點延遲：每切一次模式就要啟動
+一次程式，而你按 <kbd>Esc</kbd> 之後往往馬上就按下一個鍵。功能是好的，
+只是手感沒有直接連的那麼跟手。</p>
+
+<h3 id="verify">先確認開關是通的</h3>
+
+<p>在 PowerShell 或命令提示字元裡跑（<strong>不要用瀏覽器</strong>）：</p>
+
+<pre>curl.exe -s http://127.0.0.1:5599/im</pre>
+
+<p>印出 <code>zh</code>、<code>en</code> 或 <code>off</code> 就是通的。
+什麼都沒印出來，多半是 vim 模式沒開，或者連接埠不是 5599。</p>
+
+<p>想看得更清楚就加 <code>-v</code>，它會把送出去的標頭跟回應碼一起印出來 ——
+查 403 的時候很有用。</p>
+
+<h2 id="diy">照這個原理接任何編輯器</h2>
+
+<p>底下列的幾家是實際測過的。你的編輯器不在裡面也沒關係，三個步驟：</p>
+
+<ol>
+<li><strong>找到掛鉤的地方。</strong> 你的編輯器在「離開 insert mode」與
+「進入 insert mode」的時候，有沒有辦法叫你指定的東西？可能叫 autocmd、
+event、hook，也可能是一個「切換輸入法用的指令」設定項。很多 vim 模擬器
+都有最後這個，因為它們本來就是為了接 <code>im-select</code> 之類的工具
+而做的 —— 那個位置直接填我們的網址就好。</li>
+<li><strong>決定怎麼送。</strong> 能直接開 TCP 就自己組那幾行請求文字
+（記得 <code>Host</code>）；只能跑外部指令就用
+<code>curl.exe -s 網址</code>。</li>
+<li><strong>接上去。</strong> 離開 insert mode 送 <code>/im/off</code>，
+進入時送 <code>/im/zh</code>。想要「回去時還原成原本的中英狀態」，
+就在離開前先讀一次 <code>/im</code> 把結果存起來，回來時送那個值。</li>
+</ol>
+
+<p>接完之後照這張清單檢查一遍，這幾項全是真的害人查過半天的：</p>
+
+<ul class="check">
+<li>vim 模式開了嗎（狀態列右邊那一格要是 <span class="k">Vi</span>）</li>
+<li>連接埠對嗎（預設 5599）</li>
+<li>自己組的請求有沒有帶 <code>Host</code></li>
+<li>要跑外部指令的話，<strong>有沒有寫完整的路徑</strong> ——
+有些編輯器不會去 PATH 裡找，只寫 <code>curl.exe</code> 會被它判定成
+「這個檔不存在」</li>
+<li>是不是用瀏覽器在測（一定被擋）</li>
+<li>離開 insert mode 送的是 <code>off</code> 而不是 <code>en</code></li>
+</ul>
+
+<h2 id="neovim">Neovim</h2>
+
+<p><strong>最推薦的接法。</strong> 用內建的 <code>vim.uv</code> 直接開 TCP，
+不必啟動任何外部程式，一毫秒以內就切完了，手上完全感覺不到。
+放進 <code>init.lua</code>：</p>
+
+<pre>local PORT = 5599
+
+local function shiamy(code)
+  local pipe = (vim.uv or vim.loop).new_tcp()
+  if not pipe then return end
+  pipe:connect('127.0.0.1', PORT, function(err)
+    -- 連不上就安靜放棄（多半是 vim 模式沒開）
+    if err then pipe:close() return end
+    local req = 'GET /im/' .. code .. ' HTTP/1.0\r\n'
+             .. 'Host: 127.0.0.1:' .. PORT .. '\r\n\r\n'
+    pipe:write(req, function()
+      pipe:shutdown(function() pipe:close() end)
+    end)
+  end)
+end
+
+local grp = vim.api.nvim_create_augroup('shiamy', { clear = true })
+vim.api.nvim_create_autocmd({ 'InsertLeave', 'CmdlineLeave' }, {
+  group = grp, callback = function() shiamy('off') end,
+})
+vim.api.nvim_create_autocmd('InsertEnter', {
+  group = grp, callback = function() shiamy('zh') end,
+})
+vim.api.nvim_create_autocmd('VimEnter', {
+  group = grp, callback = function() shiamy('off') end,
+})</pre>
+
+<p>三個掛鉤各有各的理由：<code>InsertLeave</code> 是主角；
+<code>CmdlineLeave</code> 是因為 <code>:</code> 後面打的是指令不是中文；
+<code>VimEnter</code> 是因為開檔的當下就是 normal mode，卻不會有任何
+<code>InsertLeave</code> 發生 —— 少了它，上一個程式留下的狀態會一直帶著走。</p>
+
+<p>這一段刻意不記憶「剛剛是中文還是英數」。要的話就在
+<code>InsertLeave</code> 裡先讀一次 <code>/im</code> 存起來，
+<code>InsertEnter</code> 時送回去。</p>
+
+<h2 id="vscode-neovim">VS Code ＋ VSCode Neovim</h2>
+
+<p>這個外掛（<code>asvetliakov.vscode-neovim</code>）底下跑的是真的 Neovim，
+所以<strong>走<a href="#neovim">上一節</a>的 <code>init.lua</code> 就好</strong>，
+寫法一模一樣，速度也一樣快。</p>
+
+<p>設定檔放在 Neovim 的標準位置，Windows 上是
+<code>%LOCALAPPDATA%\nvim\init.lua</code>（在 nvim 裡打
+<code>:echo stdpath('config')</code> 可以問出來）。除非你在
+<code>settings.json</code> 裡設過
+<code>vscode-neovim.neovimInitVimPaths.win32</code> 指到別的地方。</p>
+
+<div class="box warn">
+<p><strong><a href="#vscodevim">VSCodeVim 那四行</a>
+<code>vim.autoSwitchInputMethod.*</code> 對它沒有用。</strong>
+那是 VSCodeVim 自己定義的設定名稱，這個外掛從頭到尾不會去讀它。
+貼了不會有錯誤訊息，也不會有任何反應 —— 這是最容易被誤會成「連線壞了」
+的一種狀況。</p>
+</div>
+
+<p>同一份 <code>init.lua</code> 在獨立跑的 Neovim 底下也會生效，
+不必為了 VS Code 另外抄一份。只想在 VS Code 裡生效的話，
+把整段包進 <code>if vim.g.vscode then ... end</code>。</p>
+
+<h2 id="vim8">傳統 Vim 8 / 9</h2>
+
+<p><code>ch_open()</code> 只吃 TCP，正好：</p>
+
+<pre>let s:port = 5599
+function! s:Shiamy(code) abort
+  try
+    let ch = ch_open('127.0.0.1:' . s:port, {'mode': 'raw', 'waittime': 50})
+    call ch_sendraw(ch, "GET /im/" . a:code . " HTTP/1.0\r\n"
+          \ . "Host: 127.0.0.1:" . s:port . "\r\n\r\n")
+    call ch_close(ch)
+  catch
+  endtry
+endfunction
+augroup shiamy
+  autocmd!
+  autocmd InsertLeave,CmdlineLeave * call s:Shiamy('off')
+  autocmd InsertEnter * call s:Shiamy('zh')
+augroup END</pre>
+
+<h2 id="vscodevim">VS Code ＋ VSCodeVim</h2>
+
+<div class="box warn">
+<p><strong>VS Code 上有兩個名字很像、但完全不相干的 vim 外掛，設定方式不一樣。</strong>
+這一節是給 <strong>VSCodeVim</strong>（識別碼 <code>vscodevim.vim</code>）的。
+如果你裝的是 <strong>VSCode Neovim</strong>（<code>asvetliakov.vscode-neovim</code>），
+底下這四行對它<strong>完全無效</strong> —— 貼了不會有錯誤訊息也不會有任何反應，
+請改看<a href="#vscode-neovim">前面那一節</a>。</p>
+</div>
+
+<p>不必另外裝任何東西。VSCodeVim 本來就有「自動切換輸入法」的設定，
+把這四行貼進 <code>settings.json</code>：</p>
+
+<div class="box">
+<p><strong>這一條會有一點延遲。</strong> VSCodeVim 只能執行外部指令，所以每切
+一次模式就要啟動一次 <code>curl.exe</code>（約 25 毫秒）。功能是好的，
+只是手感沒有直接連的那麼跟手。很在意的話，
+<a href="#vscode-neovim">VSCode Neovim</a> 走的是直接連那條路。</p>
+</div>
+
+<pre>"vim.autoSwitchInputMethod.enable": true,
+"vim.autoSwitchInputMethod.defaultIM": "off",
+"vim.autoSwitchInputMethod.obtainIMCmd": "C:\\Windows\\System32\\curl.exe -s http://127.0.0.1:5599/im",
+"vim.autoSwitchInputMethod.switchIMCmd": "C:\\Windows\\System32\\curl.exe -s http://127.0.0.1:5599/im/{im}"</pre>
+
+<p><code>curl.exe</code> 是 Windows 內建的，不必下載。
+<code>{im}</code> 要原樣留著，那是 VSCodeVim 自己會填進去的欄位。
+貼完重新載入視窗（<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> →
+Reload Window）。</p>
+
+<div class="box warn">
+<p><strong>路徑要寫全，而且反斜線要打兩個。</strong> VSCodeVim 會拿指令開頭
+那個字去確認檔案在不在，<strong>但它不會去 PATH 裡找</strong>。只寫
+<code>curl.exe</code> 的話它會判定你設定錯了，然後<strong>把整個功能
+自己關掉</strong>，而且不會有任何提示 —— 症狀是切模式完全沒反應，
+看起來很像連不上。</p>
+</div>
+
+<div class="box">
+<p><strong>四行都要貼。</strong> 少了 <code>obtainIMCmd</code> 那一行，
+VSCodeVim 就記不住你剛剛是中文還是英數，每次回到 insert mode 都會停在英數。</p>
+</div>
+
+<h2 id="wsl">WSL 裡的 vim</h2>
+
+<p><strong>只有 Windows 11 的鏡像網路模式連得到。</strong> 在
+<code>%USERPROFILE%\.wslconfig</code> 裡寫：</p>
+
+<pre>[wsl2]
+networkingMode=mirrored</pre>
+
+<p>然後跑 <code>wsl --shutdown</code>。這樣 WSL 裡面的
+<code>127.0.0.1</code> 才會是 Windows 這邊的同一個，上面那幾段設定就能
+原封不動地用。</p>
+
+<p>預設的 NAT 模式下連不到。我們刻意<strong>不</strong>讓這個開關對整個
+區域網路開放 —— 那樣確實可以省掉這一行設定，但代價是同一個網路上的
+任何人都按得動你的輸入法，不划算。</p>
+
+<h2 id="port">換一個連接埠</h2>
+
+<p>預設是 <strong>5599</strong>。萬一那個號碼被別的程式佔走了，
+右鍵選單的 <span class="k">vim 模式</span> 第一行會直接告訴你開不起來。</p>
+
+<p>換一個號碼：關掉嘸蝦米，用記事本打開程式資料夾裡的
+<code>plugin\window_config.json</code>，把 <code>vim_port</code> 改成別的
+數字（例如 <code>5600</code>），存檔後重開。
+<strong>編輯器設定裡的號碼也要一起改</strong>，包括自己組請求時那一行
+<code>Host</code>。</p>
+
+<p>把它設成 <code>0</code> 就是把這個功能整個關掉，<code>,,vim</code>
+從此不會有反應。</p>
+
+<h2 id="trouble">打不通的時候</h2>
+
+<p><strong>這個功能所有的壞法都長得一樣：完全沒反應，而且沒有任何錯誤訊息。</strong>
+所以照順序查：</p>
+
+<table>
+<tr><th>先確認</th><th>怎麼看</th></tr>
+<tr><td>vim 模式開了沒</td><td>狀態列右邊那一格是不是
+<span class="k">Vi</span>。每次啟動都是關的，要自己打 <code>,,vim</code></td></tr>
+<tr><td>開關本身通不通</td><td>在終端機跑
+<code>curl.exe -s http://127.0.0.1:5599/im</code>，看有沒有印出狀態</td></tr>
+<tr><td>編輯器真的有送出東西嗎</td><td>把那條指令貼到終端機裡自己跑一次。
+跑得動就代表問題在編輯器那一端，不在網路</td></tr>
+<tr><td>回應是不是 403</td><td>加 <code>-v</code> 重跑一次。<code>bad host</code>
+就是<a href="#rules">第一條規則</a>那個 <code>Host</code> 沒帶</td></tr>
+<tr><td>VS Code：裝的是哪個 vim 外掛</td><td>兩個外掛的設定名稱不通用。
+<a href="#vscode-neovim">VSCode Neovim</a> 與
+<a href="#vscodevim">VSCodeVim</a> 各有一節</td></tr>
+<tr><td>VSCodeVim：指令寫的是完整路徑嗎</td><td>只寫
+<code>curl.exe</code> 會讓它把整個功能自己關掉</td></tr>
+<tr><td>連接埠對不對</td><td>右鍵選單的 <span class="k">vim 模式</span>
+會把目前生效的號碼寫出來</td></tr>
+</table>
+
+<div class="box">
+<p><strong>normal mode 的時候 <code>,,vim</code> 是打不出來的</strong> ——
+那時鍵盤完全還給編輯器了，而 vim 模式一開起來就是這個狀態。
+要關掉請直接點狀態列那一格 <span class="k">Vi</span>、用右鍵選單，
+或者先回到 insert mode 再打一次。點那一格關掉的時候會順便把鍵盤要回來。</p>
+</div>
+
+<h2 id="security">安全性</h2>
+
+<p><strong>這個開關沒有密碼。</strong> 該講清楚它換到了什麼、又留下什麼。</p>
+
+<p><strong>它只能做三件事：</strong>停用嘸蝦米、切成中文、切成英數。
+它讀不到你打的字、送不出任何文字、也執行不了任何東西。所以最壞的情況是
+被騷擾（有人在你打字時把輸入法關掉），不是資料外洩。</p>
+
+<p>擋住的兩條路：</p>
+
+<ol>
+<li><strong>只在這台電腦上聽。</strong> 同一個網路上的其他機器連不到，
+路由器也轉不進來。順帶一提，這樣綁不需要管理員權限，也不會跳出防火牆的
+詢問視窗。</li>
+<li><strong>網頁發的請求一律拒。</strong> 網頁其實有辦法對你自己這台電腦
+發出請求（例如塞一張圖片的網址），雖然它讀不到回應，卻仍然會觸發副作用。
+所以規則不是「允許哪些網站」而是「聞起來像瀏覽器就拒」 ——
+瀏覽器每一個請求都會帶上某些標頭，而正常的接線工具一個都不會帶。
+這也是為什麼你不能用瀏覽器測試它。</li>
+</ol>
+
+<p><strong>剩下的風險：同一台電腦上的其他程式可以切你的輸入法。</strong>
+這是刻意收下的。那種程式如果已經在你機器上跑，它要偷看你打的字有的是
+辦法，切輸入法是它能做的事裡最無害的一件；而換來的是接線設定短到可以
+直接印在說明頁上，換一台電腦也不必重抄一串密碼。</p>
+
+<p>不放心的話有兩個選擇：把 <a href="#port"><code>vim_port</code> 設成
+<code>0</code></a> 整個關掉，或者只在要用的時候打 <code>,,vim</code>，
+用完再打一次關掉 —— 那本來就是預設的用法。</p>
+
+<footer>
+EatShiamy 嘸蝦米輸入法　·　Windows 專用　·　免安裝、不需管理員權限<br>
+<a href="manual.html">回使用說明</a>
+</footer>
+
+</main>
+
+<script>
+/* 目前段落高亮。純 vanilla、無相依、不連任何外部資源。
+   跟 manual.html 那一份是同一段程式碼。 */
+(function(){
+  var nav = document.getElementById('toc');
+  if(!nav || !window.IntersectionObserver) return;
+
+  var LINE = 96;                        /* 啟動線：視窗頂端下方 96px */
+  var links = {}, heads = [], cur = null;
+  Array.prototype.forEach.call(nav.querySelectorAll('a[href^="#"]'),
+    function(a){
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if(el){ links[el.id] = a; heads.push(el); }
+    });
+  if(!heads.length) return;
+
+  function mark(){
+    var best = null;
+    for(var i = 0; i < heads.length; i++){
+      if(heads[i].getBoundingClientRect().top - LINE > 0) break;
+      best = heads[i];
+    }
+    if(best === cur) return;
+    if(cur) links[cur.id].removeAttribute('aria-current');
+    cur = best;
+    if(!cur) return;
+    links[cur.id].setAttribute('aria-current', 'location');
+    keepVisible(links[cur.id]);
+  }
+
+  function keepVisible(a){
+    if(nav.scrollHeight <= nav.clientHeight) return;
+    var t = a.offsetTop, b = t + a.offsetHeight;
+    if(t < nav.scrollTop) nav.scrollTop = t - 8;
+    else if(b > nav.scrollTop + nav.clientHeight)
+      nav.scrollTop = b - nav.clientHeight + 8;
+  }
+
+  var io = new IntersectionObserver(mark,
+            {rootMargin: '-' + LINE + 'px 0px 0px 0px'});
+  heads.forEach(function(h){ io.observe(h); });
+  mark();
+
+  var box = document.getElementById('toc-open');
+  nav.addEventListener('click', function(e){
+    if(box && box.checked && e.target.tagName === 'A') box.checked = false;
+  });
+})();
+</script>
+</body>
+</html>
