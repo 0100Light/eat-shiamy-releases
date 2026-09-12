@@ -151,7 +151,8 @@
              title="第一次啟動會很慢，這是正常的">第一次啟動很慢</a></li>
     </ul></li>
   <li><a href="#typing">打字</a>
-    <ul><li><a href="#punctuation">標點符號</a></li></ul></li>
+    <ul><li><a href="#punctuation">標點符號</a></li>
+        <li><a href="#kana">日文假名</a></li></ul></li>
   <li><a href="#mixed-input">中英混輸</a>
     <ul><li><a href="#switch-mode">切換中文／英數</a></li>
         <li><a href="#custom-hotkey">自訂切換鍵與停用鍵</a></li></ul></li>
@@ -179,6 +180,11 @@
       <li><a href="#scheme-limits">只有單字</a></li>
     </ul></li>
   <li><a href="#hotstring">快速指令</a></li>
+  <li><a href="#vim">vim 模式</a>
+    <ul>
+      <li><a href="#vim-wiring">怎麼接上編輯器</a></li>
+      <li><a href="#vim-port">換一個連接埠</a></li>
+    </ul></li>
   <li><a href="#add-word">加字加詞</a>
     <ul>
       <li><a href="#box-format">怎麼寫</a></li>
@@ -215,7 +221,8 @@
   <li><a href="#not-yet">目前還沒有的功能</a></li>
   <li><a href="#cli">命令列選項</a></li>
 </ul>
-<p class="toc-extra"><a href="themes.html">配色一覽 &rarr;</a></p>
+<p class="toc-extra"><a href="vim.html">vim 模式接線 &rarr;</a><br>
+<a href="themes.html">配色一覽 &rarr;</a></p>
 </nav>
 
 <main>
@@ -244,6 +251,9 @@
 <tr><td>夾一段英文</td>
     <td><kbd>Shift</kbd>+字母起頭，打完按 <kbd>Enter</kbd> 原樣送出。
         見<a href="#mixed-input">中英混輸</a></td></tr>
+<tr><td>打日文假名</td>
+    <td>羅馬拼音收尾按 <kbd>,</kbd> 出平假名、按 <kbd>.</kbd> 出片假名
+        （<code>ka,</code> ＝ か、<code>ka.</code> ＝ カ）。見<a href="#kana">日文假名</a></td></tr>
 <tr><td>切中文／英數</td>
     <td>輕按一下 <kbd>Shift</kbd>，或點狀態列最左那格。也可以
         <a href="#custom-hotkey">自己設一顆</a>，例如 <kbd>Ctrl</kbd>+<kbd>Space</kbd></td></tr>
@@ -365,6 +375,57 @@
 <p>標點也是用字根碼打的：<code>,</code> 出「，」、<code>,,</code> 出「「」、
 <code>'</code> 出「、」，打完按 <kbd>Space</kbd> 或數字選字。
 想要<strong>半形</strong>標點就打完直接按 <kbd>Enter</kbd>。</p>
+
+<h3 id="kana">日文假名</h3>
+
+<p>假名本來就在字根表裡，<strong>不用切換到什麼日文模式</strong>：
+打那個假名的羅馬拼音，收尾按 <kbd>,</kbd> 出<strong>平假名</strong>、
+按 <kbd>.</kbd> 出<strong>片假名</strong>，再按 <kbd>Space</kbd> 送出。
+多數假名只有一個候選，打完就是「已打到底」的狀態。</p>
+
+<div class="scroll">
+<table>
+<tr><th>要打的</th><th>平假名</th><th>片假名</th><th>其他打法</th></tr>
+<tr><td>か / カ</td><td><code>ka,</code></td><td><code>ka.</code></td><td></td></tr>
+<tr><td>し / シ</td><td><code>ci,</code></td><td><code>ci.</code></td>
+    <td><code>si,</code> <code>shi,</code></td></tr>
+<tr><td>つ / ツ</td><td><code>tu,</code></td><td><code>tu.</code></td>
+    <td><code>tsu,</code></td></tr>
+<tr><td>ふ / フ</td><td><code>fu,</code></td><td><code>fu.</code></td>
+    <td><code>hu,</code></td></tr>
+<tr><td>が / ガ（濁音）</td><td><code>ga,</code></td><td><code>ga.</code></td>
+    <td>濁音、半濁音都直接打，沒有另外的濁點鍵</td></tr>
+<tr><td>ん / ン</td><td><code>n,</code></td><td><code>n.</code></td>
+    <td><code>nn,</code> <code>mn,</code> <code>ng,</code> <code>m,</code></td></tr>
+<tr><td>っ / ッ（促音）</td><td><code>ltu,</code></td><td><code>ltu.</code></td>
+    <td><code>xtu,</code> <code>kk,</code> <code>tt,</code> <code>ss,</code></td></tr>
+<tr><td>ゃ / ャ（小字）</td><td><code>lya,</code></td><td><code>lya.</code></td>
+    <td><code>xya,</code> <code>yav,</code>；ぁぃぅぇぉ 同理是
+        <code>la,</code> <code>xa,</code> <code>av,</code> 這幾套</td></tr>
+<tr><td>ゔ / ヴ</td><td><code>vu,</code></td><td><code>vu.</code></td><td></td></tr>
+<tr><td>ヵ / ヶ</td><td>—</td>
+    <td><code>kav.</code> <code>kev.</code></td>
+    <td><code>lka.</code> <code>lke.</code> <code>xka.</code> <code>xke.</code>；
+        只有片假名</td></tr>
+</table>
+</div>
+
+<div class="box">
+<p><strong>一次只打一個假名，拗音要分兩下。</strong>
+表裡沒有 <code>kya,</code> 這種合併碼 —— きゃ 是 <code>ki,</code> 加 <code>lya,</code>，
+しゅう 是 <code>ci,</code> 加 <code>lyu,</code> 加 <code>u,</code>，
+きって 是 <code>ki,</code> 加 <code>ltu,</code> 加 <code>te,</code>。</p>
+</div>
+
+<p><strong>片假名的長音符號 ー 不走這條路</strong>，它跟其他符號一樣是一般的字根碼：
+打 <code>,e</code>，在候選字裡挑那一個。</p>
+
+<p>同一個假名常常有好幾組碼（し 可以打 <code>ci,</code> <code>si,</code>
+<code>shi,</code>），所以開著<a href="#speed">速成提示</a>的時候，
+打了長的那組會被提醒有更短的。</p>
+
+<p>假名本身就是全形字元，所以<a href="#fullwidth">全形</a>那格與
+<a href="#simplified">繁簡</a>那格對它們都沒有作用，打出來永遠是原樣。</p>
 
 <h2 id="mixed-input">中英混輸</h2>
 
@@ -852,9 +913,17 @@
 <tr><td><code>,,liu</code></td><td>回嘸蝦米，見<a href="#scheme">拼音與注音</a></td></tr>
 <tr><td><code>,,pin</code></td><td>切到拼音</td></tr>
 <tr><td><code>,,zhu</code></td><td>切到注音</td></tr>
+<tr><td><code>,,vim</code></td><td>開關 <a href="#vim">vim 模式</a></td></tr>
+<tr><td><code>,,off</code></td><td>暫停輸入法（完全不攔鍵盤）</td></tr>
 <tr><td><code>,,q</code></td><td>結束程式（跟右鍵選單的「結束」同一件事，不會再問一次）</td></tr>
 </table>
 </div>
+
+<p><strong><code>,,off</code> 只有去程。</strong>暫停之後鍵盤完全回到原生，
+所以 <code>,,off</code> 自己也打不出來了 —— 要回來請點狀態列右邊那格
+<span class="k">停</span>、左邊的 <span class="k">停用中</span>、
+系統匣圖示（左鍵一下），或自己設一顆<a href="#custom-hotkey">停用／恢復鍵</a>。
+<code>,,vim</code> 開起來的時候也是同一個狀況。</p>
 
 <p>記不住沒關係，右鍵選單裡對應的項目右側都印著，而且點得下去。
 打到一半，狀態列會先告訴你按下去會發生什麼：</p>
@@ -876,6 +945,66 @@
 
 <p>這幾組拆碼是<strong>保留字</strong>，不能拿來加字加詞，
 見<a href="#box-reserved">保留字</a>。</p>
+
+<h2 id="vim">vim 模式</h2>
+
+<p>在 vim 裡打字有一個天生的衝突：normal mode 的 <kbd>h</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd>、
+<code>:wq</code>、<code>dd</code> 全都是字母鍵，而中文模式下這些鍵正好被嘸蝦米攔走。</p>
+
+<p><strong>vim 模式讓編輯器在你按 <kbd>Esc</kbd> 的那一刻把嘸蝦米整個停用</strong>，
+回到 insert mode 再自動恢復 —— 而且會記得你剛剛是中文還是英數。</p>
+
+<p>打 <code>,,vim</code> 開啟（右鍵選單的 <span class="k">vim 模式</span> 也有）。
+<strong>開起來的那一刻就直接停用</strong> —— 你是在編輯器裡打這個指令的，
+而 vim 一開始就在 normal mode，等第一次 <kbd>Esc</kbd> 才讓開沒有意義。
+開著的時候狀態列右邊那一格會變成 <span class="k">Vi</span>：</p>
+
+<div class="bar">
+  <span class="sa">嘸蝦米</span><span class="sb">半形</span>
+  <span class="grow sc"></span>
+  <span class="sb">Vi</span>
+  <span class="sa">＋</span><span class="sa">－</span><span class="sa">停</span>
+</div>
+
+<p>點那一格就關掉 vim 模式，<strong>關掉的同時也把鍵盤要回來</strong>，
+不必再按一次「恢復」。<strong>normal mode 的時候鍵盤完全還給 vim</strong>，
+所以那時 <code>,,vim</code> 是打不出來的 —— 要關掉請點狀態列那一格
+<span class="k">Vi</span>、用右鍵選單，或者先回到 insert mode 再打一次。</p>
+
+<div class="box">
+<p><strong>它只在你開著的時候存在。</strong> 沒開的時候程式完全不做這件事，
+也不會佔用任何連接埠。每次啟動都是關的。</p>
+</div>
+
+<p>接線方式是：嘸蝦米在你自己的電腦上（<code>127.0.0.1</code>，別台機器連不到）
+開一個很小的開關，編輯器切換模式時去按一下。<strong>不需要管理員權限，
+也不會跳出防火牆的詢問視窗</strong>，免安裝的性質完全不受影響。</p>
+
+<h3 id="vim-wiring">怎麼接上編輯器</h3>
+
+<p>接線設定另外放在一頁：<a href="vim.html">vim 模式接線說明</a>。
+裡面有 Neovim、VS Code（兩種 vim 外掛各一節）、傳統 Vim 與 WSL 的完整設定，
+可以直接複製貼上，<strong>照速度排序，快的在前面</strong>。</p>
+
+<p><strong>第一節先講清楚它是怎麼運作的</strong> —— 開關長什麼樣、要送什麼給它。
+看得懂那一節的話，就算你的編輯器不在清單裡，也接得起來。</p>
+
+<div class="box">
+<p><strong>切模式完全沒反應？</strong> 這個功能所有的壞法都長這樣，
+而且都不會有錯誤訊息。那一頁的
+<a href="vim.html#trouble">打不通的時候</a>把該查的東西照順序列好了。</p>
+</div>
+
+<h3 id="vim-port">換一個連接埠</h3>
+
+<p>預設用 <strong>5599</strong>。萬一那個號碼被別的程式佔走了，右鍵選單的
+<span class="k">vim 模式</span> 第一行會直接告訴你開不起來。</p>
+
+<p>換一個號碼：關掉嘸蝦米，用記事本打開
+<code>plugin\window_config.json</code>，把 <code>vim_port</code> 改成別的數字
+（例如 <code>5600</code>），存檔後重開。<strong>編輯器設定裡的號碼也要一起改。</strong></p>
+
+<p>把它設成 <code>0</code> 就是把這個功能整個關掉，<code>,,vim</code> 從此不會有反應。</p>
 
 <h2 id="add-word">加字加詞</h2>
 
@@ -947,7 +1076,7 @@ yre  今天 天氣 不錯</pre>
 
 <p>下面這幾組拆碼是<a href="#hotstring">快速指令</a>，<strong>不能拿來加字加詞</strong>：</p>
 
-<pre>,,t   ,,c   ,,sp   ,,x   ,,log   ,,liu   ,,pin   ,,zhu   ,,q</pre>
+<pre>,,t   ,,c   ,,sp   ,,x   ,,log   ,,liu   ,,pin   ,,zhu   ,,vim   ,,off   ,,q</pre>
 
 <p>寫了的話那一行會被當成有問題，同一個檔裡其他行照常載入，加上
 <code>*</code> 或 <code>!</code> 也繞不過去。<strong>只有這幾組確切的拆碼是保留字</strong> ——
