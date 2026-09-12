@@ -183,7 +183,6 @@
   <li><a href="#vim">vim 模式</a>
     <ul>
       <li><a href="#vim-wiring">怎麼接上編輯器</a></li>
-      <li><a href="#vim-port">換一個連接埠</a></li>
     </ul></li>
   <li><a href="#add-word">加字加詞</a>
     <ul>
@@ -985,26 +984,6 @@
 <p>接線設定另外放在一頁：<a href="vim.html">vim 模式接線說明</a>。
 裡面有 Neovim、VS Code（兩種 vim 外掛各一節）、傳統 Vim 與 WSL 的完整設定，
 可以直接複製貼上，<strong>照速度排序，快的在前面</strong>。</p>
-
-<p><strong>第一節先講清楚它是怎麼運作的</strong> —— 開關長什麼樣、要送什麼給它。
-看得懂那一節的話，就算你的編輯器不在清單裡，也接得起來。</p>
-
-<div class="box">
-<p><strong>切模式完全沒反應？</strong> 這個功能所有的壞法都長這樣，
-而且都不會有錯誤訊息。那一頁的
-<a href="vim.html#trouble">打不通的時候</a>把該查的東西照順序列好了。</p>
-</div>
-
-<h3 id="vim-port">換一個連接埠</h3>
-
-<p>預設用 <strong>5599</strong>。萬一那個號碼被別的程式佔走了，右鍵選單的
-<span class="k">vim 模式</span> 第一行會直接告訴你開不起來。</p>
-
-<p>換一個號碼：關掉嘸蝦米，用記事本打開
-<code>plugin\window_config.json</code>，把 <code>vim_port</code> 改成別的數字
-（例如 <code>5600</code>），存檔後重開。<strong>編輯器設定裡的號碼也要一起改。</strong></p>
-
-<p>把它設成 <code>0</code> 就是把這個功能整個關掉，<code>,,vim</code> 從此不會有反應。</p>
 
 <h2 id="add-word">加字加詞</h2>
 
