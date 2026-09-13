@@ -99,7 +99,7 @@ Neovim、Vim 8/9、VS Code（VSCodeVim 與 vscode-neovim 兩種都可以）與 W
 |---|---|---|
 | [RIME 蝦米方案](https://github.com/RIME/rime-liu)（liur） | 字根表 `liur_Trad.dict.yaml` 等 | 第三方重製碼表，見下 |
 | [OpenCC](https://github.com/BYVoid/OpenCC) | 繁簡對照表 `ts_map.json`（衍生自 `TSCharacters.txt`） | Apache-2.0 |
-| [libchewing-data](https://github.com/chewing/libchewing-data) | 拼音與注音的反查表（衍生自 `word.csv`） | LGPL-2.1-or-later |
+| [libchewing-data](https://github.com/chewing/libchewing-data) | 拼音與注音的反查表、同音字查詢的讀音資料（衍生自 `word.csv`） | LGPL-2.1-or-later |
 | [McBopomofo](https://github.com/openvanilla/McBopomofo) | 注音→拼音的對照（只在產表時用，不隨程式散布） | MIT |
 | [vim-airline](https://github.com/vim-airline/vim-airline-themes) | 狀態列的配色 | MIT |
 
