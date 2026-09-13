@@ -179,6 +179,17 @@
       <li><a href="#scheme-typing">怎麼打</a></li>
       <li><a href="#scheme-limits">只有單字</a></li>
     </ul></li>
+  <li><a href="#symbols">特殊符號表</a>
+    <ul>
+      <li><a href="#symbols-keys">怎麼移動與送出</a></li>
+      <li><a href="#symbols-custom">加自己的符號</a></li>
+    </ul></li>
+  <li><a href="#homophone">同音字</a>
+    <ul>
+      <li><a href="#homophone-tone"
+             title="同調的排前面，不同調的排後面">同調的排前面</a></li>
+      <li><a href="#homophone-limits">幾件要知道的事</a></li>
+    </ul></li>
   <li><a href="#hotstring">快速指令</a></li>
   <li><a href="#vim">vim 模式</a>
     <ul>
@@ -186,6 +197,7 @@
     </ul></li>
   <li><a href="#add-word">加字加詞</a>
     <ul>
+      <li><a href="#quick-add">直接從鍵盤加</a></li>
       <li><a href="#box-format">怎麼寫</a></li>
       <li><a href="#box-marks">置前與清空</a></li>
       <li><a href="#box-reserved">保留字</a></li>
@@ -374,6 +386,9 @@
 <p>標點也是用字根碼打的：<code>,</code> 出「，」、<code>,,</code> 出「「」、
 <code>'</code> 出「、」，打完按 <kbd>Space</kbd> 或數字選字。
 想要<strong>半形</strong>標點就打完直接按 <kbd>Enter</kbd>。</p>
+
+<p><kbd>'</kbd> 後面再接一段查不到字的碼時，它會變成<a href="#homophone">查同音字</a>
+—— 單獨打的「、」與 <code>''</code> 的「“」不受影響。</p>
 
 <h3 id="kana">日文假名</h3>
 
@@ -896,32 +911,190 @@
       「有新版」之類的訊息 —— 那些一出現它就讓位。</li>
 </ul>
 
-<h2 id="hotstring">快速指令</h2>
+<h2 id="symbols">特殊符號表</h2>
 
-<p><strong>在中文模式下打一串特定的碼，再按 <kbd>Space</kbd></strong>，
-執行的就是那件事而不是送字。</p>
+<p><strong>打 <code>,,fh</code> 再按 <kbd>Space</kbd></strong>，
+中間會跳出一個面板：左邊是分類，右邊是那一類的符號。
+滑鼠點一下就送出去，也可以完全用鍵盤。</p>
+
+<p>裡面有標點、括號、數學、單位貨幣、箭頭、幾何圖形、框線、常用記號、
+數字序號、希臘字母、注音符號，以及平假名與片假名，一共六百多個。</p>
+
+<p><strong>選中的符號下面會告訴你它的嘸蝦米拆碼。</strong>
+這才是重點 —— 這些符號本來就打得出來（△ 是 <code>,sn</code>、
+☆ 是 <code>,dse</code>、← 是 <code>,ze</code>），只是沒有人記得住。
+用久了你會發現自己越來越少開這個面板，那就是它的目的。</p>
+
+<p>少數符號（大部分的框線，還有 ™ ♪ ☑ ⚠ 之類）在嘸蝦米的碼表裡查不到拆碼，
+那一行會直接講「查無拆碼」—— <strong>那些符號只有從這裡才打得出來</strong>。</p>
+
+<h3 id="symbols-keys">怎麼移動與送出</h3>
 
 <div class="scroll">
 <table>
-<tr><th>打什麼</th><th>做什麼</th></tr>
-<tr><td><code>,,t</code></td><td>輸出繁體，見<a href="#simplified">繁簡</a></td></tr>
-<tr><td><code>,,c</code></td><td>輸出簡體</td></tr>
-<tr><td><code>,,sp</code></td><td>切到<a href="#speed">速成提示</a></td></tr>
-<tr><td><code>,,x</code></td><td>打開<a href="#add-word">加字加詞</a>資料夾</td></tr>
-<tr><td><code>,,log</code></td><td>打開記錄資料夾</td></tr>
-<tr><td><code>,,liu</code></td><td>回嘸蝦米，見<a href="#scheme">拼音與注音</a></td></tr>
-<tr><td><code>,,pin</code></td><td>切到拼音</td></tr>
-<tr><td><code>,,zhu</code></td><td>切到注音</td></tr>
-<tr><td><code>,,vim</code></td><td>開關 <a href="#vim">vim 模式</a></td></tr>
-<tr><td><code>,,off</code></td><td>暫停輸入法（完全不攔鍵盤）</td></tr>
-<tr><td><code>,,q</code></td><td>結束程式（跟右鍵選單的「結束」同一件事，不會再問一次）</td></tr>
+<tr><th>按什麼</th><th>做什麼</th></tr>
+<tr><td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+    <td>在格子裡移動</td></tr>
+<tr><td><kbd>←</kbd>（已經在最左邊）</td><td>跳到左邊的分類欄</td></tr>
+<tr><td><kbd>↑</kbd> <kbd>↓</kbd>（在分類欄裡）</td><td>換一類</td></tr>
+<tr><td><kbd>→</kbd>（在分類欄裡）</td><td>回到格子</td></tr>
+<tr><td><kbd>Enter</kbd></td><td>送出，面板關掉</td></tr>
+<tr><td><kbd>Shift</kbd>＋<kbd>Enter</kbd></td>
+    <td>送出，<strong>面板留著</strong>（畫框線、排清單時一個一個送）</td></tr>
+<tr><td><kbd>Esc</kbd></td><td>關掉</td></tr>
+<tr><td>滑鼠點符號</td><td>送出（按著 <kbd>Shift</kbd> 點就留著）</td></tr>
+<tr><td>右下角的 <code>✕</code></td><td>關掉</td></tr>
 </table>
 </div>
 
-<p><strong><code>,,off</code> 只有去程。</strong>暫停之後鍵盤完全回到原生，
-所以 <code>,,off</code> 自己也打不出來了 —— 要回來請點狀態列右邊那格
-<span class="k">停</span>、左邊的 <span class="k">停用中</span>、
-系統匣圖示（左鍵一下），或自己設一顆<a href="#custom-hotkey">停用／恢復鍵</a>。
+<p><strong>打任何一個字根鍵，面板會自動關掉，那一鍵照常進緩衝區</strong> ——
+所以想繼續打字不必先按 <kbd>Esc</kbd>。</p>
+
+<p>面板不會搶走游標：它跳出來的時候，你原本在打字的地方仍然是作用中的視窗，
+送出的符號一定落在那裡。</p>
+
+<h3 id="symbols-custom">加自己的符號</h3>
+
+<p>在 <code>box</code> 資料夾（跟<a href="#add-word">加字加詞</a>同一個，
+打 <code>,,box</code> 開得到）放一個 <strong><code>.sym</code></strong> 檔就行，
+一行一類：</p>
+
+<pre>我的常用=★☆※→←
+數學符號=∀∃∄</pre>
+
+<p>右邊逐字拆，一個字一格。半形空白與 Tab 會被忽略，所以
+<code>我的常用=★ ☆ ※</code> 這樣排版看起來舒服，結果一樣。
+行首 <code>#</code> 是註解。存成 UTF-8。</p>
+
+<ul>
+  <li><strong>你的分類排在內建的前面</strong>，跟加字加詞一樣。</li>
+  <li>用了跟內建一樣的類別名稱就會合併，<strong>你的符號排前面</strong>。</li>
+  <li>類別名稱後面加 <code>!</code> 就是「這一類只留我的」，例如
+      <code>標點符號!=，。？！</code>。</li>
+  <li>只寫 <code>標點符號!=</code>（後面什麼都不放）就是把那一類整個拿掉。</li>
+</ul>
+
+<p><strong>改完之後要重新啟動程式</strong>，符號表只在啟動時讀一次。
+寫錯的行不會安靜消失 —— 狀態列會講有幾行有問題，完整清單寫在
+<code>plugin</code> 資料夾裡的 <code>symbols.log</code>
+（右鍵 →「開啟資料夾」→「設定資料夾（plugin）」）。</p>
+
+<p><strong>內建的那份在 <code>tables</code> 資料夾，不要改它</strong> ——
+更新的時候會整個換成新版。</p>
+
+<h2 id="homophone">同音字</h2>
+
+<p><strong>知道某個同音字怎麼拆，就是不知道你要的那個字怎麼拆</strong> ——
+打一個單引號 <kbd>'</kbd>，接著打那個<strong>你會拆的同音字</strong>的碼，
+按 <kbd>Space</kbd>，候選就換成一整排同音字。</p>
+
+<p>例如你想打「藹」，只知道它跟「愛」同音，而「愛」你會拆（<code>enhp</code>）：</p>
+
+<div class="scroll">
+<table>
+<tr><th>打什麼</th><th>看到什麼</th></tr>
+<tr><td><code>'enhp</code></td><td>中間那格出現 <code>▶ 同音字 愛ㄞˋ</code></td></tr>
+<tr><td><kbd>Space</kbd></td><td>候選變成 <code>1礙 2艾 3曖 …</code>（這一鍵不送字）</td></tr>
+<tr><td>數字或 <kbd>Space</kbd></td><td>送出，狀態列順便告訴你那個字怎麼拆</td></tr>
+</table>
+</div>
+
+<div class="bar">
+  <span class="sa">嘸蝦米</span><span class="sb">半形</span>
+  <span class="grow sc">'enhp　▶ 同音字 愛ㄞˋ</span>
+  <span class="sb">繁</span>
+  <span class="sa">＋</span><span class="sa">－</span><span class="sa">停</span>
+</div>
+
+<p><code>▶</code> 那一行是預告：它告訴你這個碼對到哪個字、那個字怎麼唸，
+確認沒打錯再按 <kbd>Space</kbd>。打錯了就 <kbd>BackSpace</kbd> 退回去，
+不想查了按 <kbd>Esc</kbd>。</p>
+
+<p>跟<a href="#scheme">拼音與注音</a>一樣，這是<strong>學嘸蝦米用的輔助</strong>：
+送出的同時狀態列會講出那個字的嘸蝦米拆碼，下次就自己打得出來了。</p>
+
+<h3 id="homophone-tone">同調的排前面，不同調的排後面</h3>
+
+<p>候選是<strong>先同聲調、再其他聲調</strong>。以「愛」（ㄞˋ）為例，
+前面幾十個都是 ㄞˋ，接著才是 ㄞ ㄞˊ ㄞˇ 的字 ——「藹」就在那裡。</p>
+
+<p>這是刻意的：嚴格說「愛」（ㄞˋ）跟「藹」（ㄞˇ）不同音，
+但口語上想查的多半就是這種。所以兩種都收，只是排前後。
+一個音常常有好幾十個字，用 <kbd>←</kbd> <kbd>→</kbd> 翻頁。</p>
+
+<p>基準字本身不會列進去 —— 你已經打得出它了。
+基準字是<a href="#scheme-typing">多音字</a>（例如「好」有 ㄏㄠˇ 與 ㄏㄠˋ）時，
+兩個音都會查，<strong>一個音一個音排</strong>（ㄏㄠˇ 的字全部排完才輪到 ㄏㄠˋ），
+預告那一行也會把兩個音都寫出來。</p>
+
+<p><strong>只查第一個候選字。</strong>你打的碼如果對到不只一個字
+（例如 <code>hx</code> 是「愛」也是「夋」），只會查<strong>排第一個</strong>的那個
+—— 也就是預告那一行寫著的字。兩個字的同音字混在一起排的話，
+第一頁會變得幾乎沒有一個是你要的。想查第二個字的同音字，
+請用那個字自己的碼。</p>
+
+<h3 id="homophone-limits">幾件要知道的事</h3>
+
+<ul>
+  <li><strong><kbd>'</kbd> 單獨打還是頓號。</strong><code>'</code> 本來就是字根，
+      <code>'</code>＋<kbd>Space</kbd> 照樣出「、」，<code>''</code> 是「“」、
+      <code>'''</code> 是「”」，一個都沒有被拿走。只有
+      <strong><kbd>'</kbd> 後面接的碼在字典裡查不到字</strong>的時候才會變成查同音字。</li>
+  <li><strong>只在嘸蝦米模式下有效。</strong>切到拼音或注音時 <kbd>'</kbd> 沒有這個作用
+      —— 那兩個模式本來就是用讀音在打字了。</li>
+  <li><strong>第一次用可能會頓一下</strong>，那是在準備讀音表。
+      同一次開機之後就不會再有，從來不用這個功能的人也完全不會碰到。</li>
+  <li><strong>展開之後按 <kbd>Enter</kbd> 送出的是 <code>'enhp</code> 這串字母</strong>
+      —— <kbd>Enter</kbd> 的意思一直是「把緩衝區原樣當英文送出」。
+      要取消請用 <kbd>Esc</kbd>。</li>
+  <li>很冷僻的字可能沒有讀音資料，那時 <code>▶</code> 那一行不會出現，
+      <kbd>Space</kbd> 就只是把打錯的碼清掉。</li>
+</ul>
+
+<h2 id="hotstring">快速指令</h2>
+
+<p><strong>在中文模式下打一串特定的碼，再按 <kbd>Space</kbd></strong>，
+執行的就是那件事而不是送字。<strong>名字取的是那件事的英文縮寫</strong>
+（<code>,,a</code> 是 add、<code>,,q</code> 是 quit），
+所以不太需要背 —— 最後一欄寫著每一個是從哪裡來的。</p>
+
+<div class="scroll">
+<table>
+<tr><th>打什麼</th><th>做什麼</th><th>怎麼記</th></tr>
+<tr><td><code>,,t</code></td><td>輸出繁體，見<a href="#simplified">繁簡</a></td>
+    <td><strong>t</strong>raditional</td></tr>
+<tr><td><code>,,c</code></td><td>輸出簡體</td>
+    <td><strong>C</strong>hinese（簡體中文）</td></tr>
+<tr><td><code>,,sp</code></td><td>切到<a href="#speed">速成提示</a></td>
+    <td><strong>sp</strong>eed</td></tr>
+<tr><td><code>,,a</code></td><td><a href="#quick-add">快速加字加詞</a>：把選取的文字加進字根表</td>
+    <td><strong>a</strong>dd</td></tr>
+<tr><td><code>,,rl</code></td><td>重新載入<a href="#add-word">加字加詞</a>：手動改完 <code>.box</code> 檔按這個</td>
+    <td><strong>r</strong>e<strong>l</strong>oad</td></tr>
+<tr><td><code>,,box</code></td><td>打開<a href="#add-word">加字加詞</a>資料夾</td>
+    <td>那個資料夾就叫 <code>box</code></td></tr>
+<tr><td><code>,,log</code></td><td>打開記錄資料夾</td>
+    <td><strong>log</strong>，記錄檔</td></tr>
+<tr><td><code>,,liu</code></td><td>回嘸蝦米，見<a href="#scheme">拼音與注音</a></td>
+    <td><strong>liu</strong></td></tr>
+<tr><td><code>,,pin</code></td><td>切到拼音</td>
+    <td><strong>pin</strong>yin</td></tr>
+<tr><td><code>,,zhu</code></td><td>切到注音</td>
+    <td><strong>zhu</strong>yin</td></tr>
+<tr><td><code>,,fh</code></td><td>打開<a href="#symbols">特殊符號表</a></td>
+    <td><strong>f</strong>ú <strong>h</strong>ào（符號）的頭兩個字母</td></tr>
+<tr><td><code>,,vim</code></td><td>開關 <a href="#vim">vim 模式</a></td>
+    <td><strong>vim</strong></td></tr>
+<tr><td><code>,,q</code></td><td>結束程式（跟右鍵選單的「結束」同一件事，不會再問一次）</td>
+    <td><strong>q</strong>uit</td></tr>
+</table>
+</div>
+
+<p><strong>暫停輸入法沒有快速指令。</strong>暫停之後鍵盤完全回到原生，
+那一串碼自己就再也打不出來，所以那個開關放在別的地方：狀態列右邊那格
+<span class="k">停</span>、右鍵選單的「暫停輸入法」，或自己設一顆
+<a href="#custom-hotkey">停用／恢復鍵</a>（那是唯一能用鍵盤叫回來的方式）。
+要回來還可以點左邊的 <span class="k">停用中</span> 或系統匣圖示（左鍵一下）。
 <code>,,vim</code> 開起來的時候也是同一個狀況。</p>
 
 <p>記不住沒關係，右鍵選單裡對應的項目右側都印著，而且點得下去。
@@ -990,7 +1163,7 @@
 <p>內建字根表一次只打得出一個字。想加自己的詞、或把某個字的順序調到前面，
 就在程式資料夾底下的 <code>box</code> 資料夾裡放 <code>.box</code> 檔
 （右鍵選單 <span class="k">加字加詞</span> → <span class="k">開啟加字加詞資料夾</span>，
-或打 <code>,,x</code>）。第一次啟動時程式會建好那個資料夾並放一份
+或打 <code>,,box</code>）。第一次啟動時程式會建好那個資料夾並放一份
 <code>example.box</code>，裡面是註解寫的說明，可以直接改來用。</p>
 
 <div class="box warn">
@@ -999,10 +1172,58 @@
 <code>box</code> 資料夾則完全不在更新的動線上。</p>
 </div>
 
+<h3 id="quick-add">直接從鍵盤加</h3>
+
+<p><strong>不必開檔案。</strong>看到想加的字詞就：</p>
+
+<ol>
+  <li>用滑鼠或鍵盤<strong>選取</strong>那段文字（或先把它複製起來）。</li>
+  <li>在中文模式下打 <code>,,a</code> 再按 <kbd>Space</kbd>。
+      （也可以從右鍵選單 <span class="k">加字加詞</span> →
+      <span class="k">快速加字加詞…</span>）</li>
+  <li>跳出來的小視窗裡，<strong>字詞已經填好了</strong>（可以改），
+      游標停在拆碼欄。打好拆碼按 <kbd>Enter</kbd>。</li>
+</ol>
+
+<p>就這樣 —— 馬上生效，不必重新載入。新加的詞會寫進
+<code>box</code> 資料夾裡的 <code>00-quick.box</code>，而且插在最前面，
+所以<strong>剛加的那個一定是第一個候選</strong>。
+按 <kbd>Esc</kbd> 取消；放著不管 30 秒會自己收起來。</p>
+
+<p>那個檔你可以自己用文字編輯器改（格式跟 <code>example.box</code> 一樣），
+也可以把裡面的行搬到自己的 <code>.box</code> 去。</p>
+
+<div class="box">
+<p><strong>視窗開著的時候輸入法會暫停</strong>，狀態列會顯示
+<span class="k">停用中</span> —— 那是正常的。中文模式下字根鍵都被輸入法
+接走了，不讓開的話你在拆碼欄裡一個字也打不出來。關掉視窗就自動恢復。</p>
+</div>
+
+<div class="box warn">
+<p><strong>這個功能會蓋掉你的剪貼簿。</strong>「你有沒有選取文字」這件事
+Windows 沒有別的問法，程式只能幫你按一次
+<kbd>Ctrl</kbd>＋<kbd>C</kbd>，再看剪貼簿有沒有變 —— 變了就用選取的那段，
+沒變就用剪貼簿裡原本的內容。</p>
+<p><strong>想救回原本的剪貼簿</strong>，把 Windows 的剪貼簿記錄打開：
+<span class="k">設定</span> → <span class="k">系統</span> →
+<span class="k">剪貼簿</span> → 把<span class="k">剪貼簿記錄</span>開起來。
+之後按 <kbd>Win</kbd>＋<kbd>V</kbd> 就找得回前幾次複製的東西。
+（那一次複製也會留在這份記錄裡，程式沒有辦法把它清掉。）</p>
+<p><strong>在終端機裡要先選好文字再按。</strong>命令提示字元、Windows
+Terminal 這類程式，沒有選取文字的時候 <kbd>Ctrl</kbd>＋<kbd>C</kbd> 是
+「中斷正在跑的指令」。那種情況請改用右鍵選單那個入口，或是先把字詞複製起來。</p>
+</div>
+
 <h3 id="box-format">怎麼寫</h3>
 
-<p>一行一個，寫「拆碼、一段空白、要出的字詞」。存檔後右鍵選單
-<span class="k">加字加詞</span> → <span class="k">重新載入</span> 就生效，不必重開程式。</p>
+<p>下面是手寫 <code>.box</code> 檔的格式。一次要加很多筆、或是要用
+<a href="#box-marks">置前與清空</a>那兩個記號時才需要，平常用上面那個
+<a href="#quick-add">從鍵盤加</a>就夠了。</p>
+
+<p>一行一個，寫「拆碼、一段空白、要出的字詞」。存檔後打
+<code>,,rl</code> 再按 <kbd>Space</kbd> 就生效（右鍵選單
+<span class="k">加字加詞</span> → <span class="k">重新載入</span> 是同一件事），
+不必重開程式。</p>
 
 <pre>cox  測試
 cox  策略
@@ -1055,7 +1276,8 @@ yre  今天 天氣 不錯</pre>
 
 <p>下面這幾組拆碼是<a href="#hotstring">快速指令</a>，<strong>不能拿來加字加詞</strong>：</p>
 
-<pre>,,t   ,,c   ,,sp   ,,x   ,,log   ,,liu   ,,pin   ,,zhu   ,,vim   ,,off   ,,q</pre>
+<pre>,,t   ,,c   ,,sp   ,,a   ,,rl   ,,box   ,,log
+,,liu   ,,pin   ,,zhu   ,,fh   ,,vim   ,,q</pre>
 
 <p>寫了的話那一行會被當成有問題，同一個檔裡其他行照常載入，加上
 <code>*</code> 或 <code>!</code> 也繞不過去。<strong>只有這幾組確切的拆碼是保留字</strong> ——
@@ -1139,8 +1361,8 @@ yre  今天 天氣 不錯</pre>
     <td>上面那個預設值在這台電腦上驗過了沒。本程式第一次啟動時會驗一次
     （看你有沒有裝英文（美國）），驗完就寫 <code>true</code>，
     之後那個值就完全由你決定。<strong>不必手動改它</strong></td></tr>
-<tr><td><code>use_box</code> / <code>update_check</code></td><td><code>true</code></td>
-    <td>要不要載入<a href="#add-word">加字加詞</a>、要不要背景檢查更新</td></tr>
+<tr><td><code>update_check</code></td><td><code>true</code></td>
+    <td>要不要背景檢查更新</td></tr>
 <tr><td><code>notify_channel</code></td><td><code>"desktop"</code></td>
     <td>訊息怎麼彈出來：<code>"desktop"</code> Windows 通知 /
     <code>"popup"</code> 浮動視窗 / <code>"bar"</code> 只在狀態列。
@@ -1168,7 +1390,9 @@ yre  今天 天氣 不錯</pre>
 <tr><td><code>tables\</code></td><td>字根表與繁簡對照表</td>
     <td>不行（刪了就打不出字）</td></tr>
 <tr><td><code>box\</code></td>
-    <td>你自己加的字詞，見<a href="#add-word">加字加詞</a></td>
+    <td>你自己加的字詞，見<a href="#add-word">加字加詞</a>。
+        <code>00-quick.box</code> 是<a href="#quick-add">從鍵盤加</a>的那些，
+        其餘是你自己寫的</td>
     <td><strong>可以</strong>，但你加的字就沒了</td></tr>
 <tr><td><code>plugin\</code></td><td>快取、設定、記錄、更新暫存與備份</td>
     <td><strong>可以</strong>，會自動重建，設定回預設</td></tr>
