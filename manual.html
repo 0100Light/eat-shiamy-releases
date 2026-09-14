@@ -177,6 +177,8 @@
     <ul>
       <li><a href="#scheme-switch">怎麼進出</a></li>
       <li><a href="#scheme-typing">怎麼打</a></li>
+      <li><a href="#scheme-tone1">一聲用 Space</a></li>
+      <li><a href="#scheme-hsu">許氏鍵盤</a></li>
       <li><a href="#scheme-limits">只有單字</a></li>
     </ul></li>
   <li><a href="#symbols">特殊符號表</a>
@@ -688,6 +690,11 @@
 <tr><td><span class="k">輸出繁體</span> / <span class="k">輸出簡體</span> /
     <span class="k">速成提示</span></td>
     <td>三選一，右側印著對應的<a href="#hotstring">快速指令</a></td></tr>
+<tr><td><span class="k">標準模式</span> / <span class="k">拼音</span> /
+    <span class="k">注音</span></td>
+    <td>輸入方案。<span class="k">注音</span> 是一個子選單，底下是
+        <a href="#scheme-hsu">兩種鍵盤</a>（傳統／許氏）。
+        見<a href="#scheme">拼音與注音</a></td></tr>
 <tr><td><span class="k">暫停輸入法</span></td><td>完全不攔鍵盤，等於暫時關掉</td></tr>
 <tr><td><span class="k">快速鍵設定</span></td>
     <td><span class="k">單按 Shift 切換中英</span> 的開關（關掉之後 <kbd>Shift</kbd>
@@ -712,7 +719,6 @@
 <tr><td><span class="k">自動切換系統輸入法</span></td>
     <td>開始拆字時自動把系統輸入法切成你指定的那個。<strong>預設是開的</strong>
         （切成英文美式），見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
-<tr><td><span class="k">送字方式</span></td><td>目前只有 SendInput 一種</td></tr>
 <tr><td><span class="k">更新</span></td>
     <td>立即檢查、重啟並更新、開啟下載頁、回復上一版，以及要不要自動檢查。
         見<a href="#update">自動更新</a></td></tr>
@@ -856,12 +862,17 @@
 <table>
 <tr><th>打什麼</th><th>切到</th></tr>
 <tr><td><code>,,pin</code></td><td>拼音</td></tr>
-<tr><td><code>,,zhu</code></td><td>注音</td></tr>
+<tr><td><code>,,zhu</code></td><td>注音（<strong>上次用的那一種鍵盤</strong>）</td></tr>
 <tr><td><code>,,liu</code></td><td>回嘸蝦米</td></tr>
+<tr><td><kbd>Alt</kbd>＋<kbd>=</kbd></td>
+    <td>注音的<a href="#scheme-hsu">兩種鍵盤</a>之間互換
+        （只在注音模式下有作用）</td></tr>
 </table>
 </div>
 
-<p>右鍵選單裡也有這三項（在輸出方式底下）。切過去的那一刻條子會亮一下，
+<p>右鍵選單裡也有（在輸出方式底下）：「標準模式」、「拼音」，
+以及一個「注音」子選單 —— 注音有<a href="#scheme-hsu">兩種鍵盤</a>，
+要哪一種是進去之後選的。切過去的那一刻條子會亮一下，
 那就是切成功了 —— <strong>顏色不會變</strong>，因為拼音與注音一樣是中文輸入。</p>
 
 <p>切換會<strong>丟掉正在打的那半截碼</strong>。系統匣的圖示也不會變，
@@ -869,8 +880,10 @@
 
 <h3 id="scheme-typing">怎麼打</h3>
 
-<p><strong>注音</strong>用大千鍵盤（就是鍵帽上印的那個）。
-一聲不用打，二三四聲與輕聲是 <kbd>6</kbd> <kbd>3</kbd> <kbd>4</kbd> <kbd>7</kbd>。
+<p><strong>注音</strong>預設用<strong>大千鍵盤</strong>（就是鍵帽上印的那個，
+選單裡叫「傳統鍵盤」）。一聲不用打，二三四聲與輕聲是
+<kbd>6</kbd> <kbd>3</kbd> <kbd>4</kbd> <kbd>7</kbd>。
+習慣<a href="#scheme-hsu">許氏鍵盤</a>的話可以換過去。
 緩衝區會顯示成注音符號：</p>
 
 <div class="bar">
@@ -888,13 +901,119 @@
 <ul>
   <li><strong>選字要按 <kbd>Shift</kbd>＋數字</strong>，所以候選前面標著
       <code>⇧</code>。大千鍵盤把十個數字都給了注音符號與聲調，數字鍵不能拿來選字。
-      <kbd>Space</kbd> 送出第一個、方向鍵翻頁，跟嘸蝦米一樣。</li>
+      方向鍵翻頁，跟嘸蝦米一樣。</li>
   <li><strong>聲調可以不打。</strong>打 <code>ㄋㄧ</code>（不加聲調）也查得到「你」，
       只是候選會多很多。不確定音調的時候很好用。</li>
+  <li><strong><kbd>Space</kbd> 是一聲鍵，再按一次才送出。</strong>見下面那一段。</li>
 </ul>
 
-<p>注音模式下打不出半形數字（那些鍵被注音符號佔走了），拼音模式下可以。
-要打數字就切回嘸蝦米或英數。</p>
+<h3 id="scheme-tone1">一聲用 <kbd>Space</kbd></h3>
+
+<p>一聲不打調，所以「ㄏㄠ 一聲」跟「ㄏㄠ 不分調」是同一串鍵。而不分調的候選是
+<strong>各聲調輪流排</strong>的（一聲、二聲、三聲、四聲，再一輪），這樣不確定聲調
+的時候每個聲調的常用字都在前面 —— 但一聲字每一輪只輪到一格，第 2、第 3 個就排到
+第 5、第 9 名去了。二三四輕聲都可以多打一個聲調鍵把範圍縮小，一聲沒有那顆鍵。</p>
+
+<p>所以<strong>還沒打聲調時按 <kbd>Space</kbd>，就是「這個字是一聲」</strong>，
+候選當場只剩一聲的字；再按一次 <kbd>Space</kbd> 才送出。已經打了聲調的話
+<kbd>Space</kbd> 照舊是送出，一鍵一個字。</p>
+
+<div class="scroll">
+<table>
+<tr><th>打的</th><th>條子上</th><th>候選</th></tr>
+<tr><td><code>ㄏㄠ</code></td><td>ㄏㄠ</td><td>蒿 號 好 嚆 毫 郝 耗 薅 豪 …</td></tr>
+<tr><td><code>ㄏㄠ</code> ＋ <kbd>Space</kbd></td><td>ㄏㄠ<strong>ˉ</strong></td>
+    <td>蒿 嚆 薅</td></tr>
+<tr><td><code>ㄏㄠˇ</code></td><td>ㄏㄠˇ</td><td>好 郝 㚼 㝀</td></tr>
+<tr><td><code>ㄏㄠˇ</code> ＋ <kbd>Space</kbd></td><td>—</td><td>送出「好」</td></tr>
+</table>
+</div>
+
+<p>條子上多出來的 <code>ˉ</code> 就是一聲的記號 —— 看到它就表示候選已經縮過了。
+<strong>那個音沒有一聲字的時候 <kbd>Space</kbd> 不會縮</strong>，直接送出第一個
+候選（例如 ㄋㄧ 就沒有一聲字），所以不會按了兩下反而什麼都沒有。</p>
+
+<p>拼音同理，一聲是 <code>1</code>：打 <code>hao</code> 再按 <kbd>Space</kbd>
+就變成 <code>hao1</code>。注音的一聲記在 <code>=</code> 上，
+所以直接打 <code>ㄏㄠ=</code> 跟按 <kbd>Space</kbd> 是一樣的。</p>
+
+<p>大千鍵盤下打不出半形數字（那十顆鍵被注音符號與聲調佔走了），
+拼音與<a href="#scheme-hsu">許氏鍵盤</a>都可以。
+要打數字就換一種鍵盤，或切回嘸蝦米與英數。</p>
+
+<h3 id="scheme-hsu">許氏鍵盤</h3>
+
+<p>許氏鍵盤（Hsu）是另一種注音排列：注音符號照<strong>聲音</strong>擺在
+25 個英文字母上（ㄅ 在 <kbd>b</kbd>、ㄆ 在 <kbd>p</kbd>、ㄇ 在 <kbd>m</kbd>），
+所以會英打的人不必重新背鍵位。用 <kbd>Alt</kbd>＋<kbd>=</kbd> 換，
+或在右鍵選單的「注音」子選單裡選。</p>
+
+<p><strong>選好之後會記住。</strong>下次開起來還是那一個；中途切去
+嘸蝦米或拼音再用 <code>,,zhu</code> 切回來，回到的也是你上次用的那一種，
+不會被丟回傳統鍵盤。要明確指定哪一種就用右鍵選單那兩項。</p>
+
+<div class="scroll">
+<table>
+<tr><th><kbd>q</kbd></th><th><kbd>w</kbd></th><th><kbd>e</kbd></th><th><kbd>r</kbd></th>
+    <th><kbd>t</kbd></th><th><kbd>y</kbd></th><th><kbd>u</kbd></th><th><kbd>i</kbd></th>
+    <th><kbd>o</kbd></th><th><kbd>p</kbd></th></tr>
+<tr><td>—</td><td>ㄠ</td><td>ㄧ ㄝ</td><td>ㄖ</td><td>ㄊ</td>
+    <td>ㄚ</td><td>ㄩ</td><td>ㄞ</td><td>ㄡ</td><td>ㄆ</td></tr>
+</table>
+</div>
+
+<div class="scroll">
+<table>
+<tr><th><kbd>a</kbd></th><th><kbd>s</kbd></th><th><kbd>d</kbd></th><th><kbd>f</kbd></th>
+    <th><kbd>g</kbd></th><th><kbd>h</kbd></th><th><kbd>j</kbd></th><th><kbd>k</kbd></th>
+    <th><kbd>l</kbd></th></tr>
+<tr><td>ㄘ ㄟ</td><td>ㄙ ˙</td><td>ㄉ ˊ</td><td>ㄈ ˇ</td><td>ㄍ ㄜ</td>
+    <td>ㄏ ㄛ</td><td>ㄐ ㄓ ˋ</td><td>ㄎ ㄤ</td><td>ㄌ ㄥ ㄦ</td></tr>
+</table>
+</div>
+
+<div class="scroll">
+<table>
+<tr><th><kbd>z</kbd></th><th><kbd>x</kbd></th><th><kbd>c</kbd></th><th><kbd>v</kbd></th>
+    <th><kbd>b</kbd></th><th><kbd>n</kbd></th><th><kbd>m</kbd></th></tr>
+<tr><td>ㄗ</td><td>ㄨ</td><td>ㄒ ㄕ</td><td>ㄑ ㄔ</td><td>ㄅ</td>
+    <td>ㄋ ㄣ</td><td>ㄇ ㄢ</td></tr>
+</table>
+</div>
+
+<p>一顆鍵身兼兩三個符號，<strong>靠位置分</strong>：第一顆鍵是聲母，
+後面的一律是介音、韻母或聲調。所以 <code>nef</code> 是 ㄋ＋ㄧ＋ˇ（你）、
+<code>ll</code> 是 ㄌ＋ㄥ（冷），同一顆 <kbd>l</kbd> 兩個意思不會打架。</p>
+
+<ul>
+  <li><strong>聲調</strong>一聲不打，二聲 <kbd>d</kbd>、三聲 <kbd>f</kbd>、
+      四聲 <kbd>j</kbd>、輕聲 <kbd>s</kbd>。跟大千一樣可以不打聲調，
+      <kbd>Space</kbd> 也一樣是<a href="#scheme-tone1">一聲鍵</a>。</li>
+  <li><strong>ㄐㄑㄒ 與 ㄓㄔㄕ</strong> 共用 <kbd>j</kbd> <kbd>v</kbd> <kbd>c</kbd>：
+      後面接 ㄧ（<kbd>e</kbd>）或 ㄩ（<kbd>u</kbd>）時是前者，其餘是後者 ——
+      <code>je</code> 是 ㄐㄧ，<code>jx</code> 是 ㄓㄨ。</li>
+  <li><strong>單獨成音節的韻母</strong>直接按那一顆：ㄢ <kbd>m</kbd>、
+      ㄣ <kbd>n</kbd>、ㄤ <kbd>k</kbd>、ㄜ <kbd>g</kbd>、ㄛ <kbd>h</kbd>、
+      ㄦ <kbd>l</kbd>（安、恩、昂、額、喔、兒）。</li>
+  <li><strong>選字一樣是 <kbd>Shift</kbd>＋數字。</strong>許氏其實用不到數字鍵
+      （半形數字照樣打得出來），但兩種鍵盤的選字方式刻意一致。</li>
+  <li><kbd>q</kbd> 沒有分到符號 —— 原版把它留給自動選字的同音字切換，
+      這裡沒有那個功能。不過它仍然被攔著（<code>,,q</code> 要用到），
+      不小心按到會起一個查不到字的碼，按 <kbd>Esc</kbd> 或 <kbd>Space</kbd> 清掉。</li>
+</ul>
+
+<div class="box">
+<p><strong>有六個音在許氏鍵盤下打起來一模一樣</strong>：單獨的 ㄝ 與 ㄧ 都是
+<kbd>e</kbd>、ㄥ 與 ㄦ 都是 <kbd>l</kbd>、ㄑ 與 ㄔ 都是 <kbd>v</kbd>、
+ㄟ 與 ㄘ 都是 <kbd>a</kbd>。這時候選會把<strong>兩邊的字放在一起</strong>，
+狀態列上的注音則只顯示其中一個。這不是壞掉 —— 那兩個音的按鍵完全相同，
+沒有任何辦法分得出你要哪一個。</p>
+
+<p><strong>常用的那個音排前面</strong>，也就是狀態列上顯示的那一個：打
+<kbd>e</kbd> 先給你 ㄧ 的「一、以、意」，ㄝ 的「誒」排在最後面；打
+<kbd>v</kbd> 先給你 ㄔ 的「吃、持、尺」。另一個音的字沒有被丟掉，
+往後翻就找得到 —— 在許氏鍵盤下那些字沒有別的打法。</p>
+</div>
 
 <h3 id="scheme-limits">只有單字</h3>
 
@@ -1079,7 +1198,7 @@
     <td><strong>liu</strong></td></tr>
 <tr><td><code>,,pin</code></td><td>切到拼音</td>
     <td><strong>pin</strong>yin</td></tr>
-<tr><td><code>,,zhu</code></td><td>切到注音</td>
+<tr><td><code>,,zhu</code></td><td>切到注音，用你<strong>上次用的那一種</strong><a href="#scheme-hsu">鍵盤</a></td>
     <td><strong>zhu</strong>yin</td></tr>
 <tr><td><code>,,fh</code></td><td>打開<a href="#symbols">特殊符號表</a></td>
     <td><strong>f</strong>ú <strong>h</strong>ào（符號）的頭兩個字母</td></tr>
