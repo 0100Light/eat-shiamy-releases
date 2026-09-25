@@ -219,6 +219,9 @@
       <li><a href="#elevated-windows"
              title="在工作管理員、登錄檔編輯器裡打不出中文"
              >工作管理員裡打不出中文</a></li>
+      <li><a href="#clipboard-send"
+             title="有些舊程式裡打中文會變成問號"
+             >舊程式裡中文變問號</a></li>
       <li><a href="#wont-start">雙擊沒反應</a></li>
       <li><a href="#fullscreen-games">全螢幕遊戲裡打不出字</a></li>
       <li><a href="#shift-toggle">單按 Shift 常常誤切模式</a></li>
@@ -626,6 +629,13 @@
 不打字時 20%</strong>，停用時<strong>跟隨不打字時</strong>，
 右鍵選單的 <span class="k">回到預設外觀</span> 會把三個都放回這些值。</p>
 
+<p><strong>多久之後才變淡</strong>也可以調：右鍵選單的
+<span class="k">淡出延遲</span>，從 0 秒到 5 秒，預設 0.25 秒。
+這一個設定同時管兩件事 —— 停止打字之後多久才淡回「不打字時」，
+以及切過模式之後條子維持清楚多久。所以切模式之後要等大約<strong>兩倍</strong>
+的時間才開始淡（設 5 秒就是大約 10 秒）。設成 <strong>0 秒</strong>的話，
+連續打字時條子可能會一直閃，切模式也不會再跳出來一下。</p>
+
 <p><strong>停用時的可見度</strong>多一個選項
 <span class="k">跟隨不打字時的設定</span>（預設），選它就跟以前一樣 ——
 停用中的條子跟平常沒打字時一樣淡。想讓它<strong>停用中就整個不見</strong>
@@ -752,18 +762,19 @@
         見<a href="#custom-hotkey">自訂切換鍵、停用鍵與全半形鍵</a></td></tr>
 <tr><td><span class="k">配色</span> / <span class="k">字體大小</span> /
     <span class="k">打字時的可見度</span> / <span class="k">不打字時的可見度</span> /
-    <span class="k">停用時的可見度</span></td>
-    <td>外觀五項。配色十一種，見<a href="themes.html">配色一覽</a>；
+    <span class="k">停用時的可見度</span> / <span class="k">淡出延遲</span></td>
+    <td>外觀六項。配色十一種，見<a href="themes.html">配色一覽</a>；
         字級從 8 到 32 直接挑一個，不必用 <span class="k">＋</span>
         <span class="k">－</span> 慢慢按；三個可見度各是 100–0% 每 10% 一檔
-        （停用時那個還多一項<span class="k">跟隨不打字時的設定</span>），
+        （停用時那個還多一項<span class="k">跟隨不打字時的設定</span>）；
+        淡出延遲是停手之後多久才變淡，0–5 秒。
         見<a href="#auto-hide">可見度</a></td></tr>
 <tr><td><span class="k">通知方式</span></td>
     <td>更新、加字加詞、鍵衝突與設定回饋的訊息要不要另外彈一則出來。
         見<a href="#notify">通知方式</a></td></tr>
 <tr><td><span class="k">回到預設外觀</span></td>
-    <td>把位置、寬度與三個可見度一起放回預設值（打字時 80%、不打字時 20%、
-        停用時跟隨不打字時）。條子被拖到看不見的地方、或調得太淡找不到時就按這個。
+    <td>把位置、寬度、三個可見度與淡出延遲一起放回預設值（打字時 80%、不打字時 20%、
+        停用時跟隨不打字時、延遲 0.25 秒）。條子被拖到看不見的地方、或調得太淡找不到時就按這個。
         <strong>位置只重設當下所在的那一台螢幕</strong>，可見度則是三軸一起回</td></tr>
 <tr><td><span class="k">加字加詞</span></td>
     <td>開關、重新載入、打開資料夾，以及「已載入幾筆、幾行有問題」。
@@ -771,6 +782,9 @@
 <tr><td><span class="k">自動切換系統輸入法</span></td>
     <td>開始拆字時自動把系統輸入法切成你指定的那個。<strong>預設是開的</strong>
         （切成英文美式），見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
+<tr><td><span class="k">剪貼簿送字</span></td>
+    <td>讓打中文會變成問號的舊程式改用貼上的方式送字，也可以所有程式一起改。
+        見<a href="#clipboard-send">舊程式裡中文變問號</a></td></tr>
 <tr><td><span class="k">更新</span></td>
     <td>立即檢查、重啟並更新、開啟下載頁、回復上一版，以及要不要自動檢查。
         見<a href="#update">自動更新</a></td></tr>
@@ -1267,6 +1281,9 @@
     <td><strong>zhu</strong>yin</td></tr>
 <tr><td><code>,,fh</code></td><td>打開<a href="#symbols">特殊符號表</a></td>
     <td><strong>f</strong>ú <strong>h</strong>ào（符號）的頭兩個字母</td></tr>
+<tr><td><code>,,clip</code></td><td>切換<strong>這支程式</strong>要不要改用<a href="#clipboard-send">剪貼簿送字</a>。
+    打的途中會先閃一下「輸出簡體」（<code>,,c</code>），按 Space 之前不會發生</td>
+    <td><strong>clip</strong>board</td></tr>
 <tr><td><code>,,vim</code></td><td>開關 <a href="#vim">vim 模式</a></td>
     <td><strong>vim</strong></td></tr>
 <tr><td><code>,,q</code></td><td>結束程式（跟右鍵選單的「結束」同一件事，不會再問一次）</td>
@@ -1465,7 +1482,7 @@ yre  今天 天氣 不錯</pre>
 <p>下面這幾組拆碼是<a href="#hotstring">快速指令</a>，<strong>不能拿來加字加詞</strong>：</p>
 
 <pre>,,t   ,,c   ,,sp   ,,a   ,,rl   ,,box   ,,log
-,,liu   ,,pin   ,,zhu   ,,fh   ,,vim   ,,q</pre>
+,,liu   ,,pin   ,,zhu   ,,fh   ,,clip   ,,vim   ,,q</pre>
 
 <p>寫了的話那一行會被當成有問題，同一個檔裡其他行照常載入，加上
 <code>*</code> 或 <code>!</code> 也繞不過去。<strong>只有這幾組確切的拆碼是保留字</strong> ——
@@ -1540,6 +1557,10 @@ yre  今天 天氣 不錯</pre>
 <tr><td><code>suspended_opacity</code></td><td><code>-1</code></td>
     <td>停用中的可見度（%）。<code>-1</code> 是<strong>跟隨 <code>idle_opacity</code></strong>
     （預設），其餘 0–100 都收。寫成別的負數或超過 100 會退回 <code>-1</code></td></tr>
+<tr><td><code>fade_delay_ms</code></td><td><code>250</code></td>
+    <td>淡出延遲，單位是<strong>毫秒</strong>（1000 = 1 秒）。停手之後多久才變淡，
+    也是切過模式之後維持清楚多久。選單給的是 0–5 秒幾個檔位，這裡 0–60000 都收；
+    寫成小數或超出範圍會退回 <code>250</code></td></tr>
 <tr><td><code>theme</code> / <code>font_size</code></td>
     <td><code>"dark"</code> / <code>18</code></td>
     <td>配色與字級。字級只接受 8、9、10、11、12、14、16、18、20、24、28、32</td></tr>
@@ -1560,6 +1581,16 @@ yre  今天 天氣 不錯</pre>
     <td>訊息怎麼彈出來：<code>"desktop"</code> Windows 通知 /
     <code>"popup"</code> 浮動視窗 / <code>"bar"</code> 只在狀態列。
     見<a href="#notify">通知方式</a></td></tr>
+<tr><td><code>clipboard_apps</code></td><td><code>[]</code></td>
+    <td>自己加的剪貼簿送字程式（執行檔名，例如 <code>"notepad.exe"</code>）。
+    內建的那份在 <code>tables\clipboard_apps.txt</code>，隨更新換新。
+    見<a href="#clipboard-send">舊程式裡中文變問號</a></td></tr>
+<tr><td><code>clipboard_off</code></td><td><code>[]</code></td>
+    <td>自己關掉的內建項目，更新之後仍然是關的</td></tr>
+<tr><td><code>clipboard_all</code></td><td><code>false</code></td>
+    <td>所有程式都用剪貼簿送字</td></tr>
+<tr><td><code>clipboard_reported</code></td><td><code>[]</code></td>
+    <td>已經問過要不要回報的程式，同一支程式不會再問第二次</td></tr>
 <tr><td><code>monitors</code></td><td><code>{}</code></td>
     <td>每台螢幕各自的狀態列寬度與位置，鍵是 Windows 的顯示器名稱
     （<code>\\.\DISPLAY1</code> 這種）。裡面的 <code>x</code> / <code>y</code> 是
@@ -1689,6 +1720,46 @@ yre  今天 天氣 不錯</pre>
 <p>那些視窗是<strong>以系統管理員權限執行</strong>的，Windows 不允許一般權限的程式
 送字進去。這是作業系統的安全機制，任何免安裝輸入法都一樣。在那些視窗裡鍵盤會是
 原生的英文鍵盤，不會發生「打了字卻不見」。</p>
+
+<h3 id="clipboard-send">有些舊程式裡打中文會變成問號</h3>
+<p>英文正常、中文每個字都變成 <code>?</code>，通常是那支程式年代比較久，
+只認得 Big5 而不認得 Unicode。本程式平常送出去的是 Unicode，那種程式收不下；
+<strong>但它多半貼得上</strong> —— 從別處複製一段中文，在那裡按 <kbd>Ctrl</kbd>+<kbd>V</kbd>
+試試看。貼得上的話，可以讓本程式在那支程式裡改用「貼上」的方式送字：</p>
+<p>本程式有一份<strong>內建清單</strong>，清單上的程式什麼都不用設就會改用貼上。
+這份清單會隨更新增加（確認過貼上沒問題的程式才會放進去）。不在清單上的程式，自己加一次就好：</p>
+<ol>
+  <li>在那支程式裡打 <code>,,clip</code> 再按 <kbd>Space</kbd>。
+      或是先在那支程式裡隨便打幾個字，再到狀態列按右鍵 →「剪貼簿送字」→
+      勾「<i>程式名稱</i>.exe 改用剪貼簿送字」。</li>
+  <li>一支程式<strong>第一次</strong>加進來時，會跳一個視窗問你要不要回報給開發者。
+      回報之後，這支程式會加進下一版的內建清單，其他人更新之後就不必自己設。
+      按「是」會開一張預先填好的 GitHub 回報，<strong>按下送出之前什麼都沒送出去</strong>。
+      不管按哪一個，同一支程式都不會再問第二次。</li>
+</ol>
+<p>之後在那支程式裡，中文、全形字與標點會用貼上的方式送進去；英文與數字照舊直接打，
+其他程式完全不受影響。要改回來，在那支程式裡再打一次 <code>,,clip</code>，
+或到同一個地方把勾拿掉 —— <strong>內建的程式也關得掉</strong>，而且更新之後仍然是關的。</p>
+<p>子選單裡列的是你最後打字的那支程式，加上你自己加過的每一支。
+內建清單上的程式不會一一列出來，只有剛好是你最後打字的那支時才會出現。</p>
+<p>同一個子選單最上面還有「<strong>所有程式都用剪貼簿送字</strong>」：勾起來之後，
+每一支程式裡的中文都改用貼上的方式送。只有在很多支程式都有這個問題時才需要它 ——
+它會讓每打一個中文字都借用一次剪貼簿，而且在把 <kbd>Ctrl</kbd>+<kbd>V</kbd>
+另作他用的程式裡（例如 vim 的區塊選取）會出錯。
+這個模式底下，Big5 裡沒有的字照常直接送出，不會被擋下來。</p>
+<p>幾件要知道的事：</p>
+<ul>
+  <li><strong>貼上時會暫時借用剪貼簿。</strong>停手半秒後會把你原本複製的文字放回去；
+      這段時間裡你自己又複製了別的東西，就保留你新複製的。
+      原本剪貼簿裡如果是圖片或檔案，就放不回去了 —— 建議把 Windows 的剪貼簿記錄打開
+      （<kbd>Win</kbd>+<kbd>V</kbd>），那裡找得回來。本程式貼上用的字不會留在剪貼簿記錄裡。</li>
+  <li><strong>在勾選的程式裡，Big5 裡沒有的字不會送出</strong>（罕用字、輸出簡體時的簡體字），
+      狀態列會講是哪一個字。送出去一定是一個問號，在那種程式裡留一個問號比沒打更麻煩。</li>
+  <li>如果你把 <kbd>Ctrl</kbd>+<kbd>V</kbd> 設成了本程式的<a href="#custom-hotkey">自訂快速鍵</a>，
+      剪貼簿送字會沒辦法貼上，狀態列會提醒你。</li>
+  <li>連微軟注音都打不進去的程式，就是這一類。以系統管理員權限執行的程式則是另一回事，
+      見<a href="#elevated-windows">上一節</a>。</li>
+</ul>
 
 <h3 id="wont-start">雙擊沒反應</h3>
 <p>兩種可能：</p>
