@@ -1589,8 +1589,6 @@ yre  今天 天氣 不錯</pre>
     <td>自己關掉的內建項目，更新之後仍然是關的</td></tr>
 <tr><td><code>clipboard_all</code></td><td><code>false</code></td>
     <td>所有程式都用剪貼簿送字</td></tr>
-<tr><td><code>clipboard_reported</code></td><td><code>[]</code></td>
-    <td>已經問過要不要回報的程式，同一支程式不會再問第二次</td></tr>
 <tr><td><code>monitors</code></td><td><code>{}</code></td>
     <td>每台螢幕各自的狀態列寬度與位置，鍵是 Windows 的顯示器名稱
     （<code>\\.\DISPLAY1</code> 這種）。裡面的 <code>x</code> / <code>y</code> 是
@@ -1732,11 +1730,9 @@ yre  今天 天氣 不錯</pre>
   <li>在那支程式裡打 <code>,,clip</code> 再按 <kbd>Space</kbd>。
       或是先在那支程式裡隨便打幾個字，再到狀態列按右鍵 →「剪貼簿送字」→
       勾「<i>程式名稱</i>.exe 改用剪貼簿送字」。</li>
-  <li>一支程式<strong>第一次</strong>加進來時，會跳一個視窗問你要不要回報給開發者。
-      回報之後，這支程式會加進下一版的內建清單，其他人更新之後就不必自己設。
-      按「是」會開一張預先填好的 GitHub 回報，<strong>按下送出之前什麼都沒送出去</strong>。
-      不管按哪一個，同一支程式都不會再問第二次。</li>
 </ol>
+<p>試過貼上可行的程式，歡迎從<a href="#feedback">回報問題</a>告訴我們，
+確認之後會加進下一版的內建清單，其他人更新之後就不必自己設。</p>
 <p>之後在那支程式裡，中文、全形字與標點會用貼上的方式送進去；英文與數字照舊直接打，
 其他程式完全不受影響。要改回來，在那支程式裡再打一次 <code>,,clip</code>，
 或到同一個地方把勾拿掉 —— <strong>內建的程式也關得掉</strong>，而且更新之後仍然是關的。</p>
