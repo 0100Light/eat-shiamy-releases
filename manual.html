@@ -155,13 +155,10 @@
         <li><a href="#kana">日文假名</a></li></ul></li>
   <li><a href="#mixed-input">中英混輸</a>
     <ul><li><a href="#switch-mode">切換中文／英數</a></li>
-        <li><a href="#custom-hotkey">自訂切換鍵、停用鍵與全半形鍵</a></li></ul></li>
+        <li><a href="#custom-hotkey">自訂切換鍵、停用鍵與全半形鍵</a></li>
+        <li><a href="#auto-suspend">只在某些程式裡停用（自動啟停）</a></li></ul></li>
   <li><a href="#status-bar">狀態列</a>
     <ul>
-      <li><a href="#alert-strip">有事要你處理時，上面會多一條</a></li>
-      <li><a href="#tray">系統匣圖示</a></li>
-      <li><a href="#auto-hide">可見度（打字時、不打字時、停用時各一個）</a></li>
-      <li><a href="#notify">通知方式</a></li>
       <li><a href="#menu">右鍵選單</a></li>
       <li><a href="#move-resize">搬移與調整寬度</a></li>
       <li><a href="#multi-monitor">兩台以上的螢幕</a></li>
@@ -230,11 +227,7 @@
              >遠端機器上單按 Shift 沒反應</a></li>
     </ul></li>
   <li><a href="#update">自動更新</a>
-    <ul>
-      <li><a href="#rollback">回到上一版</a></li>
-      <li><a href="#disable-update">不想自動更新</a></li>
-    </ul></li>
-  <li><a href="#not-yet">目前還沒有的功能</a></li>
+    <ul><li><a href="#rollback">回到上一版</a></li></ul></li>
   <li><a href="#cli">命令列選項</a></li>
 </ul>
 <p class="toc-extra"><a href="vim.html">vim 模式接線 &rarr;</a><br>
@@ -284,20 +277,19 @@
 <tr><td>換配色、字級、可見度</td>
     <td>狀態列按<strong>右鍵</strong>。見<a href="#menu">右鍵選單</a></td></tr>
 <tr><td>暫時關掉</td>
-    <td>點 <span class="k">停</span>，或左鍵點<a href="#tray">系統匣圖示</a></td></tr>
+    <td>點 <span class="k">停</span>，或左鍵點<a href="#status-bar">系統匣圖示</a></td></tr>
 <tr><td>結束程式</td><td>右鍵 → <span class="k">結束</span>，或打 <code>,,q</code></td></tr>
 </table>
 </div>
 
-<p>兩件事值得先知道：<a href="#auto-hide">沒打字時整條會變半透明</a>（滑鼠移上去就清楚，
-打字時要不要也淡一點可以另外設），
-以及<a href="#update">它會自己檢查更新但不會自己重開</a>。</p>
+<p>沒打字時整條會變淡，滑鼠移上去就清楚，見<a href="#status-bar">狀態列</a>；
+它會自己下載更新但不會自己重開，見<a href="#update">自動更新</a>。</p>
 
 <h2 id="start">開始使用</h2>
 <ol>
   <li>把整個 <code>EatShiamy</code> 資料夾解壓到任何地方（隨身碟也可以），
       雙擊裡面的 <code>EatShiamy.exe</code>。</li>
-  <li>右下角通知區域出現<a href="#tray">黃底的「嘸」圖示</a>，就是跑起來了。</li>
+  <li>右下角通知區域出現<a href="#status-bar">黃底的「嘸」圖示</a>，就是跑起來了。</li>
   <li>螢幕底部、工作列正上方會出現狀態列（約螢幕寬的 35%、置中）。
       預設配色是深色底加一格黃色的「嘸蝦米」徽章。</li>
 </ol>
@@ -315,11 +307,12 @@
 
 <h3 id="smartscreen">第一次執行會被 Windows 攔下來</h3>
 
-<p>因為沒有數位簽章 —— 那需要付費憑證。Windows 只是不認得它。</p>
+<p>0.2.8 起程式有數位簽章，但新憑證的信譽要靠下載量慢慢累積，
+所以 Windows 仍可能不認得它。</p>
 <ul>
   <li><strong>SmartScreen</strong>：點「其他資訊」→「仍要執行」。</li>
   <li><strong>Smart App Control</strong>（Windows 11 全新安裝預設開啟）：
-      會直接擋掉且<strong>沒有放行選項</strong>，只能先關掉它。</li>
+      如果它直接擋掉且沒有放行選項，只能先把它關掉。</li>
 </ul>
 
 <h3 id="first-run-slow">第一次啟動會很慢，這是正常的</h3>
@@ -454,87 +447,55 @@
 <p>不用切模式就能夾雜英文：<kbd>Shift</kbd>+字母起頭（大寫字母會存進緩衝區），
 繼續把單字打完，按 <kbd>Enter</kbd> 原樣送出。例如
 <kbd>Shift</kbd>+<kbd>H</kbd> → <code>ello</code> → <kbd>Enter</kbd>
-送出 <code>Hello</code>。</p>
-
-<p>打到一半按的 <kbd>-</kbd> <kbd>=</kbd>、（選不到候選字時的）數字，以及
-<kbd>/</kbd> <kbd>\</kbd> <kbd>`</kbd> 與 <kbd>Shift</kbd> 上檔符號也都會進緩衝區，
-所以 <code>e-mail</code>、<code>x=y</code>、<code>a1</code>、<code>mr400</code>、
-<code>foo_bar@x.com</code>、<code>C:\</code> 都是照打再按 <kbd>Enter</kbd>。
-<strong>數字鍵盤走同一條路</strong>，而且它不選字，打什麼進什麼。</p>
+送出 <code>Hello</code>。<code>e-mail</code>、<code>a1</code>、<code>foo_bar@x.com</code>
+這類也都是照打再按 <kbd>Enter</kbd>（見<a href="#typing">打字</a>那張表）。</p>
 
 <p><strong>整串要大寫就按 <kbd>Shift</kbd>＋<kbd>Enter</kbd></strong>：
-打 <code>api</code> 再按它送出 <code>API</code>，不必一路按住 <kbd>Shift</kbd>，
-也不必切到英數去開 <kbd>CapsLock</kbd> 再切回來。
-規則跟普通 <kbd>Enter</kbd> 完全一樣，只是多轉一次大寫 ——
-繁簡不生效、<a href="#fullwidth">全形</a>生效（全形開著會送 <code>ＡＰＩ</code>）。</p>
-
-<p><strong>沒在打字的時候 <kbd>Shift</kbd>＋<kbd>Enter</kbd> 還是原生的換行</strong>，
-跟其他打字鍵一樣，輸入法只在正在組字那一瞬間接管它。</p>
+打 <code>api</code> 再按它送出 <code>API</code>。繁簡不生效、
+<a href="#fullwidth">全形</a>生效。</p>
 
 <p>打到一半才發現接下來是一長串英文，就<strong>輕按一下 <kbd>Shift</kbd></strong> ——
-已經打進去的字母原樣送出（<strong>不轉大寫</strong>），同時切到英數模式。</p>
+已經打進去的字母原樣送出（不轉大寫），同時切到英數模式。</p>
 
 <h3 id="switch-mode">切換中文／英數</h3>
-<p><strong>輕按一下 <kbd>Shift</kbd> 再放開</strong>（半秒內、期間沒碰別的鍵）
-就在「嘸蝦米」與「英數」之間切換；也可以點<strong>狀態列最左邊那格</strong>。</p>
+<p><strong>輕按一下 <kbd>Shift</kbd> 再放開</strong>（半秒內、期間沒碰別的鍵），
+或點狀態列最左邊那格。半形英數模式下<strong>輸入法完全不攔鍵盤</strong>，
+手感跟沒開輸入法一樣。</p>
 
-<p>英數模式下打一鍵出一個字母，不組字也不用按 <kbd>Enter</kbd>。
-半形英數模式下<strong>輸入法完全不攔鍵盤</strong>，手感跟沒開輸入法一樣。</p>
-
-<p>切換當下<strong>還有字碼沒送出</strong>時，兩種切法的處置不同：</p>
-<ul>
-  <li>按 <kbd>Shift</kbd> —— 那些字母<strong>原樣送出</strong>，等於替你按了一次 <kbd>Enter</kbd>。</li>
-  <li>點狀態列或用選單 —— 那些字碼<strong>直接丟掉</strong>。滑鼠一點下去焦點就離開了
-      你正在打字的地方，這時送字只會送到不見。</li>
-</ul>
-
-<p>覺得單按 <kbd>Shift</kbd> 容易誤觸的話，右鍵選單
-<span class="k">快速鍵設定</span> 裡的 <span class="k">單按 Shift 切換中英</span>
-可以直接關掉。</p>
+<p>切換當下還有字碼沒送出時：按 <kbd>Shift</kbd> 會把它們原樣送出；
+用滑鼠點則直接丟掉（滑鼠一點，焦點就離開你打字的地方了）。
+覺得單按 <kbd>Shift</kbd> 容易誤觸，到右鍵選單 <span class="k">快速鍵設定</span>
+把 <span class="k">單按 Shift 切換中英</span> 關掉。</p>
 
 <h3 id="custom-hotkey">自訂切換鍵、停用鍵與全半形鍵</h3>
-<p>除了單按 <kbd>Shift</kbd>，還可以<strong>自己設一顆</strong>切換中英的鍵，
-例如 <kbd>Ctrl</kbd>+<kbd>Space</kbd>、<kbd>Shift</kbd>+<kbd>Space</kbd> 或 <kbd>F4</kbd>。
-兩者<strong>並存</strong>：設了自訂鍵，單按 <kbd>Shift</kbd> 照樣有效，不想要再去關。</p>
-
-<p>可以設的一共<strong>三顆</strong>，都在右鍵選單的
-<span class="k">快速鍵設定</span> 裡：</p>
-<table>
-  <tr><th>哪一顆</th><th>做什麼</th></tr>
-  <tr><td><span class="k">中英切換</span></td>
-      <td>中文 ⇄ 英數，跟單按 <kbd>Shift</kbd> 同一件事</td></tr>
-  <tr><td><span class="k">停用／恢復</span></td>
-      <td>跟狀態列的 <span class="k">停</span> 那格同一件事，差別是
-          <strong>停用之後可以用鍵盤叫回來</strong></td></tr>
-  <tr><td><span class="k">全形／半形</span></td>
-      <td>跟狀態列 <span class="k">半形</span> 那格同一件事。
-          把<a href="#auto-hide">可見度</a>調低或設成 0% 之後，那一格
-          <strong>看不到也點不到</strong>，這顆鍵就是那時唯一的入口</td></tr>
-</table>
-
-<p>設法都一樣：點 <span class="k">中英切換：自訂…</span>（或另外兩個的「自訂…」），
-狀態列上方會跳出一個小視窗問你要哪一顆 —— <strong>把想要的組合直接按下去</strong>就好，
-組合鍵一起按住。按 <kbd>Esc</kbd> 或點那個視窗取消。設好之後那一項會顯示現在是哪一顆，
-點 <span class="k">中英切換：無</span> 拿掉。<strong>三顆不能設成同一個鍵</strong>，
-撞到會講一句並維持原設定。</p>
-
-<p>用自訂鍵切換中英時，打到一半的字碼跟單按 <kbd>Shift</kbd> 一樣<strong>原樣送出</strong>；
-切全半形則<strong>不動緩衝區</strong>，打到一半也可以切。</p>
-
-<p>中英切換鍵與全半形鍵在<strong>英數半形模式下也照樣攔得到</strong> ——
-那是它們跟其他鍵唯一的例外，其他時候半形英數仍然一顆鍵都不攔。
-<strong>停用中只剩停用／恢復鍵有效</strong>：另外兩顆那時翻了你也看不到，
-而且那時鍵盤本來就整個還給底下的程式了。</p>
-
-<p>幾種設不進去的情況，狀態列都會講一句：</p>
+<p>右鍵選單 <span class="k">快速鍵設定</span> 裡可以自己設三顆鍵：
+<strong>中英切換</strong>、<strong>停用／恢復</strong>、<strong>全形／半形</strong>
+（例如 <kbd>Ctrl</kbd>+<kbd>Space</kbd>、<kbd>F4</kbd>）。點「自訂…」之後把想要的組合
+直接按下去就好。它們跟單按 <kbd>Shift</kbd> 並存。</p>
 <ul>
-  <li><strong>輸入法自己在用的鍵</strong>：字根、<kbd>Space</kbd>、<kbd>Enter</kbd>、
-      <kbd>Shift</kbd>＋<kbd>Enter</kbd>、數字、
-      <kbd>Shift</kbd>+字母這些打字要用的，一律拒絕。</li>
-  <li><strong>被別的程式佔走的鍵</strong>：跟<a href="#key-conflict">鍵衝突</a>同一回事，
-      程式會真的去註冊一次，搶不到就維持原設定。</li>
-  <li><strong>Windows 自己保留的鍵</strong>：<kbd>Win</kbd>+<kbd>Space</kbd> 之類的按下去
-      系統先吃掉，那個小視窗根本收不到，看起來像「按了沒反應」。換一組。</li>
+  <li>中英切換鍵與全半形鍵在英數半形模式下也有效。<strong>停用中只剩停用／恢復鍵有效</strong>，
+      想用鍵盤把停用叫回來就靠它。</li>
+  <li>把可見度調低、看不到 <span class="k">半形</span> 那格的時候，全半形鍵就是唯一的入口。</li>
+  <li>輸入法自己在用的鍵（字根、<kbd>Space</kbd>、<kbd>Enter</kbd>、數字……）
+      與被別的程式佔走的鍵設不進去，狀態列會講一句。<kbd>Win</kbd>+<kbd>Space</kbd>
+      這類 Windows 保留的鍵會被系統先吃掉，看起來像按了沒反應，換一組。</li>
+</ul>
+
+<h3 id="auto-suspend">只在某些程式裡停用（自動啟停）</h3>
+<p>遊戲、用字母當快速鍵的繪圖軟體這類永遠不打中文的程式，可以讓輸入法
+<strong>一切過去就自己停用、切走就自己恢復</strong>。打開：右鍵選單
+<span class="k">停用設定</span> → <span class="k">自動啟停（只在勾選的程式裡停用）</span>。</p>
+
+<p>打開之後，在某支程式裡<strong>停用</strong>（停用鍵、<span class="k">停</span>、
+系統匣左鍵都算）就會把那支程式記下來；在記下來的程式裡<strong>恢復</strong>就拿掉。
+清單也列在 <span class="k">停用設定</span> 裡，可以直接勾選。</p>
+<ul>
+  <li><strong>以執行檔為單位，不分視窗。</strong>Windows Terminal 裡的 vim 跟旁邊的
+      PowerShell 是同一支程式，那種情況請改用 <a href="#vim">vim 模式</a>。</li>
+  <li>市集（UWP）程式在 Windows 眼中都是 <code>ApplicationFrameHost.exe</code>，
+      記下一支就等於記下全部。</li>
+  <li>vim 模式開著、或<a href="#quick-add">快速加字加詞</a>的視窗開著時，自動啟停暫停運作。</li>
+  <li>自動停用與恢復時條子不會閃一下，看系統匣圖示的顏色就知道現在是不是停用中。</li>
 </ul>
 
 <h2 id="status-bar">狀態列</h2>
@@ -542,343 +503,81 @@
 <div class="scroll">
 <table>
 <tr><th>位置</th><th>顯示</th><th>點下去</th></tr>
-<tr><td>左 1</td><td>嘸蝦米 / 英數 / 停用中</td>
-    <td>切換中文／英數。顯示「停用中」時點它是恢復</td></tr>
-<tr><td>左 2</td><td>半形 / 全形（<strong>停用時這格會整個消失</strong>）</td>
-    <td>切換全形／半形</td></tr>
-<tr><td>中間</td>
-    <td>打的碼與候選字。<strong>沒在打字的時候</strong>改顯示訊息：
-        速成提示、快速指令回饋、加字加詞有幾行寫壞、更新進度。
-        要你動手的那幾則改走<a href="#alert-strip">上面那條橫條</a></td>
-    <td>更新的訊息點得下去，見<a href="#update">自動更新</a></td></tr>
+<tr><td>左 1</td><td>嘸蝦米 / 英數 / 停用中</td><td>切換中文／英數；停用中時是恢復</td></tr>
+<tr><td>左 2</td><td>半形 / 全形</td><td>切換全形／半形</td></tr>
+<tr><td>中間</td><td>打的碼與候選字；沒在打字時顯示訊息</td><td></td></tr>
 <tr><td>右 1</td><td><span class="k">繁</span> / <span class="k">簡</span> /
-    <span class="k">速</span></td>
-    <td>輸出方式，點一下往下一個走。字面就是<strong>目前</strong>那一種，
-        見<a href="#simplified">繁簡</a></td></tr>
-<tr><td>右 2</td><td><span class="k">＋</span> <span class="k">－</span></td>
-    <td>放大／縮小字體</td></tr>
-<tr><td>右 3</td><td><span class="k">停</span></td>
-    <td>停用／恢復。停用時完全不攔鍵盤</td></tr>
+    <span class="k">速</span></td><td>換輸出方式，見<a href="#simplified">繁簡</a></td></tr>
+<tr><td>右 2</td><td><span class="k">＋</span> <span class="k">－</span></td><td>放大／縮小字體</td></tr>
+<tr><td>右 3</td><td><span class="k">停</span></td><td>停用／恢復，停用時完全不攔鍵盤</td></tr>
 </table>
 </div>
 
-<p><strong>中間那格的訊息只在你沒打字的時候出現</strong>，一開始打字根碼它就讓開，
-緩衝區空了再自己回來。<strong>整條的顏色代表狀態</strong>：中文一種、英數另一種，
-停用時變灰。十一種配色實際長什麼樣，攤成一頁在<a href="themes.html">配色一覽</a>。</p>
+<p>整條的顏色代表狀態：中文一種、英數一種、停用時變灰。
+各種配色長什麼樣見<a href="themes.html">配色一覽</a>。</p>
 
-<h3 id="alert-strip">有事要你處理時，上面會多一條</h3>
+<p><strong>需要你動手的事</strong>（<a href="#key-conflict">N 鍵衝突</a>、
+<span class="k">重啟更新</span>、更新失敗、<a href="#box-errors">加字加詞整份沒載進來</a>），
+狀態列正上方會多出一條顏色不同的橫條，點它處理。這條橫條打字時、停用中、
+可見度調到 0% 時都照樣會出現。</p>
 
-<p>有需要你動手的事情時，<strong>狀態列正上方會多出一條顏色不一樣的橫條</strong>，
-事情過去了它自己消失，不佔位置。目前有四種：</p>
-<ul>
-  <li><a href="#key-conflict">N 鍵衝突</a>。</li>
-  <li><span class="k">重啟更新</span> —— 新版下載好了，<strong>點這條橫條</strong>就換版重開，
-      見<a href="#update">自動更新</a>。</li>
-  <li><strong>更新失敗</strong>，點一下重試。</li>
-  <li><a href="#box-errors">加字加詞整份沒載進來</a>。</li>
-</ul>
+<p><strong>系統匣圖示</strong>一直都在，顏色跟狀態列最左那格一致。左鍵點一下是停用／恢復，
+右鍵跳出完整選單。Windows 預設會把它藏進「顯示隱藏的圖示」的小箭頭裡，
+想一直看得到請到通知區域設定把 <code>EatShiamy</code> 打開。</p>
 
-<p>跟中間那格的訊息有兩點不一樣：<strong>打字打到一半照樣看得到</strong>，
-不會被你正在打的碼擠掉；<strong>停用中也還在</strong>。而且橫條在的期間
-整條一律完全清楚，就算你把<a href="#auto-hide">可見度</a>調到 0% 它也會冒出來 ——
-不然這幾則就沒有任何地方講得出來了。</p>
+<p><strong>可見度</strong>：沒打字時條子會變淡（預設 20%），打字時變清楚（預設 80%），
+滑鼠移上去一律完全清楚。打字時、不打字時、停用時三個值與<strong>淡出延遲</strong>都在右鍵選單裡調。
+設成 <strong>0%</strong> 就整條收起來，要叫回來請<strong>右鍵點系統匣圖示</strong>。
+注意「打字時 0%」連候選字都看不到；淡出延遲同時決定切換模式後條子亮多久，
+所以切模式後大約要等兩倍的時間才開始淡。</p>
 
-<p>「有新版可以下載」「下載中」「加字加詞有幾行寫壞」這種知道就好的訊息不開橫條，
-照舊寫在中間那格。</p>
-
-<h3 id="tray">系統匣圖示</h3>
-
-<p>右下角通知區域的圖示<strong>從開啟到關閉一直都在</strong>，顏色跟狀態列最左那格一致：
-<strong>黃底的「嘸」</strong>是嘸蝦米模式、<strong>青底的「A」</strong>是英數模式、
-<strong>深底灰字的「嘸」</strong>是已停用。</p>
-
-<p><strong>左鍵點一下</strong>是停用／恢復（跟 <span class="k">停</span> 同一件事），
-<strong>右鍵</strong>跳出跟狀態列一模一樣的完整選單。</p>
-
-<div class="box">
-<p>Windows 預設會把新的系統匣圖示藏進「顯示隱藏的圖示」那個小箭頭裡。
-想一直看得到，在通知區域設定裡把 <code>EatShiamy</code> 打開。</p>
-</div>
-
-<h3 id="auto-hide">可見度（打字時、不打字時、停用時各一個）</h3>
-
-<p><strong>數字越大越清楚</strong>：100% 是完全清楚，0% 是整條收起來。
-按下第一個字根立刻切成「打字時」那個可見度（預設 80%），
-送出後很快就淡回「不打字時」那個（預設 20%）。淡掉之後它<strong>還在原地</strong>，
-也還點得到、拖得動，滑鼠移上去就變清楚。連續打字時不會一直閃。</p>
-
-<p>下面這幾種情況套的是「打字時」那個值：</p>
-<ul>
-  <li>正在拆字。</li>
-  <li><strong>右鍵選單開著</strong> —— 這樣才看得出自己挑的那一檔長什麼樣。</li>
-  <li>剛切過模式（中英、全半形、輸出方式、停用或恢復）—— 會跳出來一下下。</li>
-  <li><strong>有話要告訴你</strong> —— 有新版可以更新、<a href="#speed">速成提示</a>、
-      <a href="#hotstring">快速指令</a>的回饋、<a href="#box-errors">加字加詞的問題</a>。
-      訊息在的期間整條都不會淡，不會讓你讀到一半糊掉。</li>
-</ul>
-
-<p><strong>滑鼠停在它上面、或你正在拖它的時候一律完全清楚</strong>，
-幾個值都設得再淡也一樣 —— 手就在那條東西上，而滑鼠移上去也是把可見度
-調回來的地方。<a href="#alert-strip">警示橫條</a>在的時候同理，
-調到 0% 也會冒出來。</p>
-
-<p><strong>要多清楚由你決定</strong>：右鍵選單有
-<span class="k">打字時的可見度</span>、<span class="k">不打字時的可見度</span>
-與 <span class="k">停用時的可見度</span> 三項，各是 <strong>100%</strong>（完全清楚）
-到 <strong>0%</strong>（完全隱藏）每 10% 一檔。預設是<strong>打字時 80%、
-不打字時 20%</strong>，停用時<strong>跟隨不打字時</strong>，
-右鍵選單的 <span class="k">回到預設外觀</span> 會把三個都放回這些值。</p>
-
-<p><strong>多久之後才變淡</strong>也可以調：右鍵選單的
-<span class="k">淡出延遲</span>，從 0 秒到 5 秒，預設 0.25 秒。
-這一個設定同時管兩件事 —— 停止打字之後多久才淡回「不打字時」，
-以及切過模式之後條子維持清楚多久。所以切模式之後要等大約<strong>兩倍</strong>
-的時間才開始淡（設 5 秒就是大約 10 秒）。設成 <strong>0 秒</strong>的話，
-連續打字時條子可能會一直閃，切模式也不會再跳出來一下。</p>
-
-<p><strong>停用時的可見度</strong>多一個選項
-<span class="k">跟隨不打字時的設定</span>（預設），選它就跟以前一樣 ——
-停用中的條子跟平常沒打字時一樣淡。想讓它<strong>停用中就整個不見</strong>
-就選 0%：<strong>暫停輸入法</strong>正是「我現在不要用它」的時候，
-而那時它還停在原地擋畫面。</p>
-
-<p>選了 0% 之後，按下停用鍵條子會<strong>先閃一下再收起來</strong> ——
-那是「真的停了」唯一的畫面回饋。要叫回來就<strong>右鍵點<a href="#tray">系統匣圖示</a></strong>
-（左鍵是直接恢復），或用<a href="#custom-hotkey">自己設的停用／恢復鍵</a>。
-用 <a href="#vim">vim 模式</a> 的話它會跟著 insert／normal 進出，
-那時右邊那格 <span class="k">Vi</span> 也點不到，關掉 vim 模式請走系統匣。</p>
-
-<p>三個 <strong>0%</strong> 的意思不一樣：</p>
-<ul>
-  <li><strong>不打字時 0%</strong> —— 沒打字時整條真的收起來，桌面上只剩
-      <a href="#tray">系統匣圖示</a>，螢幕底部那一條也不會再擋到滑鼠。
-      一打字就回來。</li>
-  <li><strong>停用時 0%</strong> —— 只有停用中才收起來，平常打字照舊。</li>
-  <li><strong>打字時 0%</strong> —— 連拆字的時候都收起來，也就是
-      <strong>看不到候選字</strong>，得完全靠記憶按 Space 或數字選字。
-      那時滑鼠也碰不到條子（點下去是點到底下的程式），要調回來請
-      <strong>右鍵點<a href="#tray">系統匣圖示</a></strong> ——
-      選單開著的期間條子會冒出來讓你看，收掉之後又不見。</li>
-</ul>
-
-<p>打字時設成 0% 的話，<strong>寫在中間那格的訊息也一起看不到了</strong>
-（有新版、<a href="#speed">速成提示</a>、<a href="#box-errors">加字加詞有幾行寫壞</a>
-那類）。想繼續收到就把<a href="#notify">通知方式</a>設成桌面通知或浮動視窗。
-要你動手的那幾則不受影響 —— 它們走<a href="#alert-strip">警示橫條</a>，
-那條東西自己會冒出來，<span class="k">重啟更新</span>照樣點得到。</p>
-
-<p><strong>不打字時 100%</strong> 就等於關掉「沒打字時會變透明」這件事。</p>
-
-<div class="box">
-<p>收起來的條子照樣會為了<a href="#alert-strip">警示橫條</a>冒出來 ——
-<span class="k">N 鍵衝突</span>、<span class="k">重啟更新</span> 那幾則要你動手的
-訊息不會因為你把可見度調到 0% 就消失，停用中也一樣。</p>
-</div>
-
-<h3 id="notify">通知方式</h3>
-
-<p>這幾種訊息會主動找你：</p>
-<ul>
-  <li><strong><a href="#update">更新</a></strong>：有新版、更新失敗，
-      以及你按<span class="k">立即檢查更新</span>之後的結果
-      （「已是最新版本」或「查不到更新資訊」）。</li>
-  <li><strong><a href="#add-word">加字加詞</a></strong>：載入的結果或錯誤。</li>
-  <li><strong><a href="#key-conflict">熱鍵被別的程式佔走</a></strong>。</li>
-  <li><strong>你剛改的設定</strong>：切換鍵設成了哪一顆、輸出方式切成什麼、
-      自動切換輸入法記下了哪個，這類按完就要有回應的事。
-      <a href="#speed">速成提示</a>不算 —— 那個每打一個字就可能一則，只寫在狀態列。</li>
-</ul>
-<p>它們一律寫在狀態列上（要你動手的那幾則走<a href="#alert-strip">警示橫條</a>，
-其餘寫在中間那塊空白），但那條會淡掉，也可能被你調成完全隱藏 ——
-所以<strong>預設會另外跳一則 Windows 通知</strong>。</p>
-
-<p>右鍵選單的 <span class="k">通知方式</span> 三選一：</p>
-
-<div class="scroll">
-<table>
-<tr><th>選項</th><th>長什麼樣</th><th>什麼時候選它</th></tr>
-<tr><td><span class="k">桌面通知</span>（預設）</td>
-    <td>右下角跳一則 Windows 通知，之後在通知中心裡找得回來。
-        連著來兩則時後到的會壓過前面的；停留幾秒由 Windows 的
-        「協助工具 → 視覺效果」那個設定決定</td>
-    <td>平常就用這個</td></tr>
-<tr><td><span class="k">浮動視窗</span></td>
-    <td>程式自己畫的一則小提示，配色跟狀態列一樣，幾秒後自己消失，
-        點一下馬上收掉</td>
-    <td>你關掉了 Windows 通知，或開著<strong>專注輔助</strong>又不想漏掉訊息</td></tr>
-<tr><td><span class="k">只在狀態列</span></td>
-    <td>什麼都不彈，訊息只寫在狀態列上（＝ 0.1.10 以前的樣子）</td>
-    <td>不想被打擾</td></tr>
-</table>
-</div>
-
-<p><strong>不管選哪一種，狀態列照樣會顯示。</strong>
-這三個決定的是「要不要另外彈一則出來」。</p>
-
-<div class="box">
-<p><strong>「重啟更新」只出現在狀態列上，不會跳通知。</strong>
-那一則是要你<strong>按下去</strong>的，而 Windows 通知按不到 ——
-跳一則長得像按鈕、按下去卻沒反應的東西比不跳還糟。所以下載完成之後，
-請點狀態列上方那條<a href="#alert-strip">寫著<span class="k">重啟更新</span>的橫條</a>，
-或用右鍵選單的<span class="k">更新</span>。</p>
-</div>
-
-<div class="box">
-<p><strong>「不跳通知」不等於「看不到」。</strong>
-上面沒列到的那些 —— 下載百分比、解壓中、檢查更新中、
-<a href="#speed">速成提示</a>、<a href="#hotstring">快速指令</a>的回饋
-（「輸出繁體」那種）—— 都照樣寫在狀態列上，而且下載期間狀態列會
-<strong>一直維持清楚不淡掉</strong>。它們只是不另外彈一則出來：
-進度每秒都在變，回饋每打幾個字就來一次，做成通知會洗版。</p>
-</div>
-
-<p>桌面通知會受 Windows 自己的通知設定影響：關掉了、或正在
-<strong>專注輔助</strong>底下，它就不會出現，而程式沒有辦法知道這件事。
-覺得該有通知卻沒看到的話，改用<span class="k">浮動視窗</span>，
-那一種一定畫得出來。</p>
+<p><strong>通知方式</strong>：更新、加字加詞、鍵衝突與設定的回饋，預設會另外跳一則
+Windows 通知。開著專注輔助、或關掉了 Windows 通知而收不到的話，改成
+<span class="k">浮動視窗</span>。<span class="k">重啟更新</span>只出現在狀態列上，
+因為 Windows 通知按不下去。</p>
 
 <h3 id="menu">右鍵選單</h3>
-<p>在狀態列或系統匣圖示上按右鍵都是同一個選單，選了立刻生效，也會被記住。
-最上面那一行是<strong>版本號</strong>。</p>
-
-<div class="scroll">
-<table>
-<tr><th>項目</th><th>做什麼</th></tr>
-<tr><td><span class="k">嘸蝦米</span> / <span class="k">英數</span> /
-    <span class="k">全形</span></td>
-    <td>模式與全半形，跟狀態列左邊兩格相同</td></tr>
-<tr><td><span class="k">輸出繁體</span> / <span class="k">輸出簡體</span> /
-    <span class="k">速成提示</span></td>
-    <td>三選一，右側印著對應的<a href="#hotstring">快速指令</a></td></tr>
-<tr><td><span class="k">標準模式</span> / <span class="k">拼音</span> /
-    <span class="k">注音</span></td>
-    <td>輸入方案。<span class="k">注音</span> 是一個子選單，底下是
-        <a href="#scheme-hsu">兩種鍵盤</a>（傳統／許氏）。
-        見<a href="#scheme">拼音與注音</a></td></tr>
-<tr><td><span class="k">暫停輸入法</span></td><td>完全不攔鍵盤，等於暫時關掉</td></tr>
-<tr><td><span class="k">快速鍵設定</span></td>
-    <td><span class="k">單按 Shift 切換中英</span> 的開關（關掉之後 <kbd>Shift</kbd>
-        就只是一般的 Shift），以及自訂的中英切換鍵、停用／恢復鍵與全形／半形鍵。
-        見<a href="#custom-hotkey">自訂切換鍵、停用鍵與全半形鍵</a></td></tr>
-<tr><td><span class="k">配色</span> / <span class="k">字體大小</span> /
-    <span class="k">打字時的可見度</span> / <span class="k">不打字時的可見度</span> /
-    <span class="k">停用時的可見度</span> / <span class="k">淡出延遲</span></td>
-    <td>外觀六項。配色十一種，見<a href="themes.html">配色一覽</a>；
-        字級從 8 到 32 直接挑一個，不必用 <span class="k">＋</span>
-        <span class="k">－</span> 慢慢按；三個可見度各是 100–0% 每 10% 一檔
-        （停用時那個還多一項<span class="k">跟隨不打字時的設定</span>）；
-        淡出延遲是停手之後多久才變淡，0–5 秒。
-        見<a href="#auto-hide">可見度</a></td></tr>
-<tr><td><span class="k">通知方式</span></td>
-    <td>更新、加字加詞、鍵衝突與設定回饋的訊息要不要另外彈一則出來。
-        見<a href="#notify">通知方式</a></td></tr>
-<tr><td><span class="k">回到預設外觀</span></td>
-    <td>把位置、寬度、三個可見度與淡出延遲一起放回預設值（打字時 80%、不打字時 20%、
-        停用時跟隨不打字時、延遲 0.25 秒）。條子被拖到看不見的地方、或調得太淡找不到時就按這個。
-        <strong>位置只重設當下所在的那一台螢幕</strong>，可見度則是三軸一起回</td></tr>
-<tr><td><span class="k">加字加詞</span></td>
-    <td>開關、重新載入、打開資料夾，以及「已載入幾筆、幾行有問題」。
-        見<a href="#add-word">加字加詞</a></td></tr>
-<tr><td><span class="k">自動切換系統輸入法</span></td>
-    <td>開始拆字時自動把系統輸入法切成你指定的那個。<strong>預設是開的</strong>
-        （切成英文美式），見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
-<tr><td><span class="k">剪貼簿送字</span></td>
-    <td>讓打中文會變成問號的舊程式改用貼上的方式送字，也可以所有程式一起改。
-        見<a href="#clipboard-send">舊程式裡中文變問號</a></td></tr>
-<tr><td><span class="k">更新</span></td>
-    <td>立即檢查、重啟並更新、開啟下載頁、回復上一版，以及要不要自動檢查。
-        見<a href="#update">自動更新</a></td></tr>
-<tr><td><span class="k">開啟資料夾</span></td>
-    <td>設定（plugin）、字根表（tables）、加字加詞（box）、記錄（log），
-        以及更新記錄</td></tr>
-<tr><td><span class="k">使用說明</span> / <span class="k">意見回饋</span> /
-    <span class="k">結束</span></td>
-    <td>用瀏覽器開這份說明（線上版）／
-        <a href="#feedback">回報問題或提建議</a>／結束程式</td></tr>
-</table>
-</div>
+<p>在狀態列或系統匣圖示上按右鍵都是同一個選單，所有設定都在這裡，
+選了立刻生效也會被記住。項目右邊印著對應的<a href="#hotstring">快速指令</a>；
+最上面那一行是版本號。條子被拖到看不見、或調得太淡找不到時，按
+<span class="k">回到預設外觀</span>。</p>
 
 <h3 id="move-resize">搬移與調整寬度</h3>
 <ul>
-  <li><strong>搬移</strong>：在狀態列上任何地方按住拖曳。</li>
-  <li><strong>可以拖到工作列上面</strong>：往下拖到底，狀態列會蓋在 Windows 工作列上，
-      不佔編輯區的空間（工作列沒釘滿的人用得到）。預設位置仍然是工作列的正上方，
-      只有你自己拖過去才會蓋住它。要放回去就往上拖，或右鍵選「回到預設外觀」。
-      按 Win 鍵或點開始功能表之後，工作列會先蓋住狀態列最多半秒再讓回來，
-      這是刻意的取捨。</li>
-  <li><strong>改寬度</strong>：游標移到<strong>最左或最右邊緣</strong>，變成左右箭頭時拖曳。</li>
-  <li>放開滑鼠就自動記住位置、寬度與字級。位置與寬度是
-      <a href="#multi-monitor">每台螢幕各記各的</a>。</li>
+  <li>按住條子任何地方拖曳就是搬移；拖<strong>最左或最右邊緣</strong>是改寬度。
+      放開就記住。</li>
+  <li>可以往下拖到蓋住 Windows 工作列。這樣放的話，按 Win 鍵或開始功能表時
+      工作列會先蓋住狀態列最多半秒。</li>
 </ul>
 
 <h3 id="multi-monitor">兩台以上的螢幕</h3>
 
-<p><strong>狀態列會跟著你正在用的那台螢幕跑</strong>，而且<strong>位置每台各記各的</strong> ——
-在筆電上拖到左上角、在外接螢幕上維持置中貼底，來回切換時各自回到自己的樣子。
-還沒調過的螢幕用預設位置。只接一台螢幕時這件事完全不發生。</p>
+<p>狀態列會跟著你正在用的那台螢幕跑，位置與寬度每台各記各的。
+外接螢幕拔掉時它會自己回到還在的那台。</p>
 
-<p><strong>外接螢幕拔掉時，條子會自己回到還在的那台螢幕上</strong>，用那台記住的位置
-（沒調過就是預設位置），不用你做任何事。插回去之後焦點一到外接螢幕，
-條子就回到它在外接螢幕上原本的位置。</p>
-
-<div class="box">
-<p><strong>兩台縮放比例不一樣時，條子看起來會一大一小</strong>（例如筆電 150%、
-外接 100%）。位置與寬度比例都是對的。</p>
-<p><strong>縮放不是 100% 的螢幕上，小字級會偏糊。</strong>狀態列是用實際像素畫的，
-再由 Windows 整個放大到你設定的比例，所以 8、9、10、11 這幾檔的筆畫會被拉成
-一點多個像素。想要銳利就把字級調大一點，或把條子拖到 100% 的那台螢幕上。</p>
-</div>
+<p>縮放不是 100% 的螢幕上，條子是由 Windows 整個放大的，所以會顯得大一點，
+8–11 這幾檔小字級也會偏糊。想要銳利就把字級調大一點。</p>
 
 <h3 id="feedback">回報問題與建議</h3>
-<p>右鍵選單的<span class="k">意見回饋</span>底下有<span class="k">回報問題</span>與
-<span class="k">功能建議</span>，點下去用瀏覽器打開 GitHub 上填好標題與內文的頁面，
-補上發生了什麼事再送出。需要一個免費的 GitHub 帳號。</p>
-
-<div class="box">
-<p><strong>內文最底下那段診斷資訊是自動帶入的</strong>：版本、Windows 版本、
-目前的模式與配色、有幾顆鍵被別的程式佔走、字根表載了幾筆。
-裡面<strong>不包含你打過的字</strong>，也不包含任何檔案路徑，
-而且<strong>按下網頁上的送出鈕之前什麼都還沒送出去</strong>。</p>
-</div>
+<p>右鍵選單 <span class="k">意見回饋</span> 會用瀏覽器開一個填好的 GitHub 頁面
+（需要免費帳號）。自動帶入的診斷資訊不含你打過的字與任何檔案路徑，
+按下網頁上的送出鈕之前什麼都不會送出去。</p>
 
 <h2 id="width-script">全形與輸出方式</h2>
 
 <h3 id="fullwidth">全形</h3>
-<p>點「半形」切成「全形」之後：</p>
-<ul>
-  <li><strong>英數模式</strong>下每個字元都變全形，包含空白（　）、數字（１２３）
-      與符號（！＠＃）。<strong>數字鍵盤打出來的也是全形</strong>。</li>
-  <li><strong>嘸蝦米模式</strong>下只作用在<strong>送出的文字</strong>，
-      也就是按 <kbd>Enter</kbd> 送出的那串英文。中文字本來就是全形寬度。
-      這時直接打的數字仍是半形 —— 沒在組字的時候輸入法不攔那些鍵。</li>
-</ul>
-
-<p>除了點那一格，也可以在右鍵選單的 <span class="k">全形</span> 打勾，
-或<a href="#custom-hotkey">設一顆自己的全形／半形鍵</a> ——
-把<a href="#auto-hide">可見度</a>調低的話那一格會看不到，那時就得靠這顆鍵。</p>
+<p><strong>英數模式</strong>下每個字元都變全形，包含空白、數字與數字鍵盤。
+<strong>嘸蝦米模式</strong>下只作用在按 <kbd>Enter</kbd> 送出的那串英文；
+沒在組字時直接按的數字仍是半形。</p>
 
 <h3 id="simplified">繁簡</h3>
 
-<p>狀態列右邊那一格是<strong>輸出方式</strong>，三選一：</p>
-
-<div class="scroll">
-<table>
-<tr><th>顯示</th><th>送出去的中文</th><th>快速指令</th></tr>
-<tr><td><span class="k">繁</span></td><td>繁體，不做任何轉換</td>
-    <td><code>,,t</code></td></tr>
-<tr><td><span class="k">簡</span></td><td>轉成簡體（例如「蝦」→「虾」）</td>
-    <td><code>,,c</code></td></tr>
-<tr><td><span class="k">速</span></td><td>繁體，外加<a href="#speed">速成提示</a></td>
-    <td><code>,,sp</code></td></tr>
-</table>
-</div>
-
-<p>點那一格往下一個走（繁 → 簡 → 速 → 繁），右鍵選單裡是三個可以直接挑的項目。
-<strong>三者互斥</strong> ——「速」取代的是繁／簡的選擇，所以它送出的是繁體。
+<p>狀態列右邊那格是輸出方式：<span class="k">繁</span>（不轉換）、
+<span class="k">簡</span>（轉成簡體）、<span class="k">速</span>（繁體＋<a href="#speed">速成提示</a>）。
+點它循環切換，也可以打 <code>,,t</code> / <code>,,c</code> / <code>,,sp</code>。
 <strong>按 <kbd>Enter</kbd> 送出的英文不會被轉</strong>，繁簡只作用在中文候選字。</p>
 
-<p>全形與輸出方式都會被記住，下次開啟維持原樣；中英模式與停用狀態不記，
-每次開啟都是嘸蝦米、啟用中。</p>
+<p>全形與輸出方式會被記住；中英模式與停用狀態不記，每次開啟都是嘸蝦米、啟用中。</p>
 
 <h3 id="speed">速成提示</h3>
 
@@ -898,12 +597,8 @@
 提示會直接告訴你按哪個數字（例如「<code>[</code> 按 <code>4</code>」）。
 <strong>只有真的比較省的時候才會講</strong>，一樣多鍵的不會出現。</p>
 
-<p><strong>提示停留幾秒，按下一鍵就消失</strong> —— 它講的是你剛送出的那個字。
-每一則同時記進 <code>plugin\log\shiamy.log</code>，打 <code>,,log</code> 開得到；
-想知道自己哪些字習慣打太長，翻那個檔比盯著狀態列有效。</p>
-
-<p>剛切進速模式的頭一兩秒可能還不會提示 —— 它要先把整張字根表反查一遍
-（七萬多個字），在背景做，不卡打字。</p>
+<p>提示按下一鍵就消失，每一則同時記進 <code>plugin\log\shiamy.log</code>
+（打 <code>,,log</code> 開得到），想知道自己哪些字習慣打太長，翻那個檔最有效。</p>
 
 <h2 id="scheme">拼音與注音</h2>
 
@@ -930,9 +625,6 @@
 
 <h3 id="scheme-switch">怎麼進出</h3>
 
-<p>狀態列<strong>最左邊那一格</strong>會寫著目前是哪一個。
-三種方式都可以切：</p>
-
 <div class="scroll">
 <table>
 <tr><th>打什麼</th><th>切到</th></tr>
@@ -940,18 +632,11 @@
 <tr><td><code>,,zhu</code></td><td>注音（<strong>上次用的那一種鍵盤</strong>）</td></tr>
 <tr><td><code>,,liu</code></td><td>回嘸蝦米</td></tr>
 <tr><td><kbd>Alt</kbd>＋<kbd>=</kbd></td>
-    <td>注音的<a href="#scheme-hsu">兩種鍵盤</a>之間互換
-        （只在注音模式下有作用）</td></tr>
+    <td>注音的<a href="#scheme-hsu">兩種鍵盤</a>之間互換（只在注音模式下有作用）</td></tr>
 </table>
 </div>
 
-<p>右鍵選單裡也有（在輸出方式底下）：「標準模式」、「拼音」，
-以及一個「注音」子選單 —— 注音有<a href="#scheme-hsu">兩種鍵盤</a>，
-要哪一種是進去之後選的。切過去的那一刻條子會亮一下，
-那就是切成功了 —— <strong>顏色不會變</strong>，因為拼音與注音一樣是中文輸入。</p>
-
-<p>切換會<strong>丟掉正在打的那半截碼</strong>。系統匣的圖示也不會變，
-它只回答「中文、英數，還是停用」。</p>
+<p>右鍵選單裡也有。切換會丟掉正在打的那半截碼。</p>
 
 <h3 id="scheme-typing">怎麼打</h3>
 
@@ -1105,8 +790,6 @@
       拆碼提示已經在講同一件事了。</li>
   <li><a href="#simplified">繁簡</a>與<a href="#fullwidth">全形</a>照常作用，
       用注音打字、輸出簡體是可以的。</li>
-  <li>拆碼提示會一直留在狀態列上，直到你送出下一個字。它不會擋住
-      「有新版」之類的訊息 —— 那些一出現它就讓位。</li>
 </ul>
 
 <h2 id="symbols">特殊符號表</h2>
@@ -1131,25 +814,16 @@
 <div class="scroll">
 <table>
 <tr><th>按什麼</th><th>做什麼</th></tr>
-<tr><td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
-    <td>在格子裡移動</td></tr>
-<tr><td><kbd>←</kbd>（已經在最左邊）</td><td>跳到左邊的分類欄</td></tr>
-<tr><td><kbd>↑</kbd> <kbd>↓</kbd>（在分類欄裡）</td><td>換一類</td></tr>
-<tr><td><kbd>→</kbd>（在分類欄裡）</td><td>回到格子</td></tr>
-<tr><td><kbd>Enter</kbd></td><td>送出，面板關掉</td></tr>
-<tr><td><kbd>Shift</kbd>＋<kbd>Enter</kbd></td>
-    <td>送出，<strong>面板留著</strong>（畫框線、排清單時一個一個送）</td></tr>
+<tr><td>方向鍵</td><td>移動；在最左邊再按 <kbd>←</kbd> 進分類欄，<kbd>↑</kbd> <kbd>↓</kbd> 換一類</td></tr>
+<tr><td><kbd>Enter</kbd> / 滑鼠點</td><td>送出，面板關掉</td></tr>
+<tr><td><kbd>Shift</kbd>＋<kbd>Enter</kbd> / 按著 <kbd>Shift</kbd> 點</td>
+    <td>送出，<strong>面板留著</strong>，可以一個一個送</td></tr>
 <tr><td><kbd>Esc</kbd></td><td>關掉</td></tr>
-<tr><td>滑鼠點符號</td><td>送出（按著 <kbd>Shift</kbd> 點就留著）</td></tr>
-<tr><td>右下角的 <code>✕</code></td><td>關掉</td></tr>
 </table>
 </div>
 
-<p><strong>打任何一個字根鍵，面板會自動關掉，那一鍵照常進緩衝區</strong> ——
-所以想繼續打字不必先按 <kbd>Esc</kbd>。</p>
-
-<p>面板不會搶走游標：它跳出來的時候，你原本在打字的地方仍然是作用中的視窗，
-送出的符號一定落在那裡。</p>
+<p><strong>打任何一個字根鍵，面板會自動關掉，那一鍵照常進緩衝區</strong>，
+想繼續打字不必先按 <kbd>Esc</kbd>。</p>
 
 <h3 id="symbols-custom">加自己的符號</h3>
 
@@ -1291,14 +965,10 @@
 </table>
 </div>
 
-<p><strong>暫停輸入法沒有快速指令。</strong>暫停之後鍵盤完全回到原生，
-那一串碼自己就再也打不出來，所以那個開關放在別的地方：狀態列右邊那格
-<span class="k">停</span>、右鍵選單的「暫停輸入法」，或自己設一顆
-<a href="#custom-hotkey">停用／恢復鍵</a>（那是唯一能用鍵盤叫回來的方式）。
-要回來還可以點左邊的 <span class="k">停用中</span> 或系統匣圖示（左鍵一下）。
-<code>,,vim</code> 開起來的時候也是同一個狀況。</p>
+<p>暫停輸入法沒有快速指令（暫停之後那串碼就打不出來了），要用鍵盤停用／恢復請
+<a href="#custom-hotkey">自己設一顆</a>。</p>
 
-<p>記不住沒關係，右鍵選單裡對應的項目右側都印著，而且點得下去。
+<p>記不住沒關係，右鍵選單裡對應的項目右側都印著。
 打到一半，狀態列會先告訴你按下去會發生什麼：</p>
 
 <div class="bar">
@@ -1313,11 +983,8 @@
 
 <div class="box">
 <p><strong>打 <code>,,</code> 時會先閃一下候選字</strong>，那是正常的 ——
-<code>,,</code> 本身就是「「」的拆碼。繼續打完後面的字母就會變成快速指令。</p>
-<p>在拼音或注音方案下快速指令照樣能用，而且狀態列<strong>照英文顯示</strong>那串碼
-（<code>,,liu　▶ 標準模式</code>），不會被轉成一串注音符號 ——
-這是「不成音節的碼照英文顯示」那條通則（見<a href="#scheme-typing">怎麼打</a>），
-快速指令只是其中一種。</p>
+<code>,,</code> 本身就是「「」的拆碼。繼續打完後面的字母就會變成快速指令。
+拼音與注音方案下也照樣能用。</p>
 </div>
 
 <p>這幾組拆碼是<strong>保留字</strong>，不能拿來加字加詞，
@@ -1490,118 +1157,20 @@ yre  今天 天氣 不錯</pre>
 
 <h3 id="box-errors">寫錯了怎麼辦</h3>
 
-<p>不會安靜地被跳過，五個地方都看得到：</p>
-<ul>
-  <li><strong>狀態列</strong>講有幾行有問題（滑鼠移上去看得到前幾行）。
-      整個資料夾讀不到的時候整條會變色。</li>
-  <li><strong>一則<a href="#notify">桌面通知</a></strong>（預設）。狀態列會淡掉，
-      通知留得住。</li>
-  <li><strong>右鍵選單</strong>的 <span class="k">加字加詞</span> 子選單裡一直看得到
-      「已載入幾筆、幾行有問題」。</li>
-  <li><strong>錯誤記錄 <code>plugin\box.log</code></strong> 是完整的那一份，逐行列出
-      哪個檔的第幾行、出了什麼問題。有問題的時候上面那行選單狀態會變成可以點的
-      （後面接著「開啟記錄」），點下去就打得開。</li>
-  <li><code>plugin\log\shiamy.log</code> 也留一份。</li>
-</ul>
-
-<div class="box">
-<p>錯誤記錄是自動產生的，全部修好之後重新載入它就自己消失。所以
-<strong>「有沒有那個檔」就等於「現在有沒有問題」</strong>，不用自己去刪。</p>
-</div>
+<p>寫錯的行不會安靜跳過：狀態列會講有幾行有問題（滑鼠移上去看得到前幾行），
+預設也會跳一則通知。右鍵選單 <span class="k">加字加詞</span> 裡一直看得到
+「已載入幾筆、幾行有問題」，有問題時點它就打開完整的錯誤記錄
+<code>plugin\box.log</code>（哪個檔第幾行、出了什麼問題）。
+全部修好再重新載入，那個檔就自己消失。</p>
 
 <h2 id="settings">設定</h2>
 
-<p>設定都存在 <code>plugin\window_config.json</code>。
-<strong>大部分用<a href="#menu">右鍵選單</a>調就好</strong>（配色、字級、可見度、
-切換鍵、通知方式、輸出方式、加字加詞開關、自動檢查更新），選了立刻生效也會存檔。</p>
+<p>設定都在<a href="#menu">右鍵選單</a>裡，存在 <code>plugin\window_config.json</code>。
+只有狀態列字型 <code>font_family</code>（預設 <code>微軟正黑體</code>）沒有選單入口，
+要改請<strong>先結束程式</strong>再手改那個檔 —— 程式執行中會整份重寫它。
+vim 模式的連接埠也只能改這個檔，見<a href="vim.html#port">vim 接線說明</a>。</p>
 
-<p>下面這張表是設定檔裡有什麼。<strong>只有 <code>font_family</code>
-沒有選單入口</strong>，非改不可時才動手：</p>
-
-<div class="box warn">
-<p><strong>手改之前請先結束程式。</strong>程式執行中會在拖曳狀態列等時機整份重寫這個檔，
-你改的東西會被蓋掉。</p>
-</div>
-
-<div class="scroll">
-<table>
-<tr><th>項目</th><th>預設</th><th>說明</th></tr>
-<tr><td><code>font_family</code></td><td><code>微軟正黑體</code></td>
-    <td>狀態列字型。<strong>沒有選單入口</strong></td></tr>
-<tr><td><code>output_mode</code></td><td><code>"trad"</code></td>
-    <td>輸出方式：<code>"trad"</code> 繁體 / <code>"simp"</code> 簡體 /
-    <code>"speed"</code> 速成提示，見<a href="#simplified">繁簡</a></td></tr>
-<tr><td><code>fullwidth</code></td><td><code>false</code></td>
-    <td>開機時的全形狀態</td></tr>
-<tr><td><code>shift_toggles_mode</code></td><td><code>true</code></td>
-    <td>單按 <kbd>Shift</kbd> 切換中英</td></tr>
-<tr><td><code>toggle_key</code> / <code>suspend_key</code> /
-    <code>fullwidth_key</code></td>
-    <td><code>""</code></td>
-    <td>自訂的中英切換鍵、停用／恢復鍵與全形／半形鍵，空字串 = 沒有。寫法是修飾詞加鍵名、
-    用 <code>+</code> 相接：<code>"ctrl+space"</code>、<code>"shift+space"</code>、
-    <code>"f4"</code>、<code>"ctrl+alt+k"</code>。修飾詞有 <code>ctrl</code>、<code>alt</code>、
-    <code>shift</code>、<code>win</code>；鍵名是單一字元，或 <code>space</code>、
-    <code>f1</code>～<code>f24</code>、<code>capslock</code>、<code>insert</code>、
-    <code>home</code>、<code>pgup</code> 這類。大小寫與空白不計較。寫錯、或寫到輸入法
-    自己在用的鍵，啟動時會清掉並記在記錄檔裡；三顆撞在同一個鍵時，
-    照上面這個順序留第一顆。見<a href="#custom-hotkey">自訂切換鍵、停用鍵與全半形鍵</a></td></tr>
-<tr><td><code>idle_opacity</code></td><td><code>20</code></td>
-    <td>沒打字時的可見度（%）。<code>100</code> 完全清楚、<code>0</code> 整條收起來。
-    選單給的是 10% 一階的檔位，這裡 0–100 都收</td></tr>
-<tr><td><code>active_opacity</code></td><td><code>80</code></td>
-    <td>打字時的可見度（%）。<code>0</code> 是「連拆字都收起來」，
-    那時看不到候選字。同樣 0–100 都收。
-    <br>舊版這兩個叫 <code>idle_transparency</code> / <code>active_transparency</code>
-    （數字是反的，越大越透明），升級時會自動換算成 <code>100</code> 減掉舊值</td></tr>
-<tr><td><code>suspended_opacity</code></td><td><code>-1</code></td>
-    <td>停用中的可見度（%）。<code>-1</code> 是<strong>跟隨 <code>idle_opacity</code></strong>
-    （預設），其餘 0–100 都收。寫成別的負數或超過 100 會退回 <code>-1</code></td></tr>
-<tr><td><code>fade_delay_ms</code></td><td><code>250</code></td>
-    <td>淡出延遲，單位是<strong>毫秒</strong>（1000 = 1 秒）。停手之後多久才變淡，
-    也是切過模式之後維持清楚多久。選單給的是 0–5 秒幾個檔位，這裡 0–60000 都收；
-    寫成小數或超出範圍會退回 <code>250</code></td></tr>
-<tr><td><code>theme</code> / <code>font_size</code></td>
-    <td><code>"dark"</code> / <code>18</code></td>
-    <td>配色與字級。字級只接受 8、9、10、11、12、14、16、18、20、24、28、32</td></tr>
-<tr><td><code>imselect_code</code></td><td><code>1033</code></td>
-    <td>開始拆字時要切成哪一個輸入法（<code>0</code> = 關閉）。預設的
-    <code>1033</code> 是英文（美國）；你的電腦上沒有它的話，本程式第一次啟動
-    就會把這裡改成 <code>0</code>。見<a href="#auto-ime">自動切換系統輸入法</a></td></tr>
-<tr><td><code>imselect_gap_s</code></td><td><code>5</code></td>
-    <td>距離上次拆字幾秒以上才切一次。<code>0</code> = 每次都切。
-    選單只給三個檔位，這裡 0–3600 都收</td></tr>
-<tr><td><code>imselect_checked</code></td><td><code>false</code></td>
-    <td>上面那個預設值在這台電腦上驗過了沒。本程式第一次啟動時會驗一次
-    （看你有沒有裝英文（美國）），驗完就寫 <code>true</code>，
-    之後那個值就完全由你決定。<strong>不必手動改它</strong></td></tr>
-<tr><td><code>update_check</code></td><td><code>true</code></td>
-    <td>要不要背景檢查更新</td></tr>
-<tr><td><code>notify_channel</code></td><td><code>"desktop"</code></td>
-    <td>訊息怎麼彈出來：<code>"desktop"</code> Windows 通知 /
-    <code>"popup"</code> 浮動視窗 / <code>"bar"</code> 只在狀態列。
-    見<a href="#notify">通知方式</a></td></tr>
-<tr><td><code>clipboard_apps</code></td><td><code>[]</code></td>
-    <td>自己加的剪貼簿送字程式（執行檔名，例如 <code>"notepad.exe"</code>）。
-    內建的那份在 <code>tables\clipboard_apps.txt</code>，隨更新換新。
-    見<a href="#clipboard-send">舊程式裡中文變問號</a></td></tr>
-<tr><td><code>clipboard_off</code></td><td><code>[]</code></td>
-    <td>自己關掉的內建項目，更新之後仍然是關的</td></tr>
-<tr><td><code>clipboard_all</code></td><td><code>false</code></td>
-    <td>所有程式都用剪貼簿送字</td></tr>
-<tr><td><code>monitors</code></td><td><code>{}</code></td>
-    <td>每台螢幕各自的狀態列寬度與位置，鍵是 Windows 的顯示器名稱
-    （<code>\\.\DISPLAY1</code> 這種）。裡面的 <code>x</code> / <code>y</code> 是
-    <strong>相對於那台螢幕左上角</strong>的偏移，所以改主副螢幕排列也不會跑掉</td></tr>
-<tr><td><code>width</code> / <code>x</code> / <code>y</code></td>
-    <td><code>0</code> / <code>-1</code> / <code>-1</code></td>
-    <td>多螢幕記憶之前的舊欄位，只在 <code>monitors</code> 還空的時候讀。
-    手動改請改 <code>monitors</code></td></tr>
-</table>
-</div>
-
-<p><strong>設定檔刪掉就全部回到預設值</strong>，不會有其他影響。改壞了也不會讓程式打不開 ——
-讀不懂的時候會直接用預設值啟動。</p>
+<p>設定檔刪掉就全部回到預設值；改壞了也不會讓程式打不開，讀不懂時直接用預設值啟動。</p>
 
 <h3 id="files">資料夾裡有什麼</h3>
 <div class="scroll">
@@ -1628,10 +1197,6 @@ yre  今天 天氣 不錯</pre>
 </table>
 </div>
 
-<p>沒有說明書的檔案 —— 這份說明與<a href="themes.html">配色一覽</a>都放在網路上，
-右鍵選單的<span class="k">使用說明</span>開的就是它們，所以不管你手上是哪一版，
-看到的都是最新的。</p>
-
 <h2 id="troubleshooting">疑難排解</h2>
 
 <h3 id="dotted-underline">標點符號底下有一條虛線，要再按 Enter 才會真的出現</h3>
@@ -1653,58 +1218,21 @@ yre  今天 天氣 不錯</pre>
 
 <h3 id="auto-ime">開始打字時自動切換系統輸入法</h3>
 
-<p>本程式會在<strong>每次開始拆字的時候</strong>自動把系統輸入法切成
-<strong>英文（美國）</strong> —— 系統輸入法變成純鍵盤配置之後，就不會再來搶
-我們送出去的標點（也就是上一節那個虛線問題）。</p>
+<p>本程式每次開始拆字時，會把系統輸入法切成<strong>英文（美國）</strong>，
+這樣微軟注音就不會來搶標點（上一節的虛線問題）。<strong>預設就是開的</strong>；
+電腦上沒有英文（美國）的話，第一次啟動會自動把這個功能關掉 ——
+可以到設定 &rarr; 時間與語言 &rarr; 語言與地區 把它加進去，再照下面設一次。</p>
 
-<p><strong>預設就是開的</strong>，不必設定。那個子選單的第一行會寫著
-<span class="k">開始組字時切成 1033</span>（<code>1033</code> 就是英文（美國））。</p>
+<p><strong>要換成別的輸入法</strong>：先自己把系統輸入法切成你要的那個，
+再到右鍵選單 <span class="k">自動切換系統輸入法</span> &rarr;
+<span class="k">設為目前的系統輸入法</span>。狀態列會講出代碼（英文（美國）是
+<code>1033</code>、中文（繁體）是 <code>1028</code>），對一下數字對不對。
+不對的話，多半是開了「讓我為每個應用程式視窗設定不同的輸入法」，關掉再設一次。</p>
 
-<div class="box">
-<p><strong>如果你的電腦上沒有「英文（美國）」鍵盤</strong>，本程式第一次啟動時
-會發現這件事，並且<strong>自動把這個功能關掉</strong> —— 因為切不過去的話，
-每次拆字都會白送一則訊息出去。那時子選單的第一行會寫
-<span class="k">目前關閉（先把系統輸入法切成你要的）</span>。</p>
-<p>你可以照下面三步自己指定一個，或者到
-設定 &rarr; 時間與語言 &rarr; 語言與地區 裡把「英文（美國）」加進去、
-重開本程式，再照下面三步設一次。</p>
-</div>
-
-<p><strong>要換成別的輸入法</strong>（或是被自動關掉之後要自己開），三步：</p>
-
-<ol>
-<li>先自己把系統輸入法切成你要的那個（<kbd>Ctrl</kbd>+<kbd>Shift</kbd>、
-    <kbd>Win</kbd>+<kbd>Space</kbd>，或點工作列右下角的語言指示器）。</li>
-<li>在狀態列上按右鍵 &rarr; <span class="k">自動切換系統輸入法</span> &rarr;
-    <span class="k">設為目前的系統輸入法</span>。</li>
-<li>狀態列會出現一句<span class="k">已設定 im-select：1033</span>。
-    <strong>核對一下那個數字</strong> —— 英文（美國）是 <code>1033</code>、
-    中文（繁體）是 <code>1028</code>。設好之後，那個子選單的第一行會一直寫著
-    <span class="k">開始組字時切成 1033</span>。</li>
-</ol>
-
-<div class="box">
-<p><strong>數字不對怎麼辦。</strong>本程式讀的是「目前最前面那個視窗」用的輸入法，
-而你按選單的當下最前面的是狀態列自己。Windows 預設所有程式共用同一個輸入法，
-所以通常會對；如果你開過<strong>「讓我為每個應用程式視窗設定不同的輸入法」</strong>
-（設定 &rarr; 時間與語言 &rarr; 輸入 &rarr; 進階鍵盤設定），就可能讀到別的。
-那時先把那個選項關掉，再設一次。</p>
-</div>
-
-<p><strong>多久切一次。</strong>同一個子選單下半部可以選
-<span class="k">每次組字都切換</span>、<span class="k">5 秒內不重複切換</span>、
-<span class="k">30 秒內不重複切換</span>（預設是 5 秒）。連續打字的時候不會一直切；
-停手超過那個時間之後，下一次開始拆字才會再切一次 —— 因為這段期間你可能自己換過。</p>
-
-<p><strong>打完不會幫你切回去。</strong>這是刻意的：切回去等於每個字都要付兩次切換，
-而且你在別的視窗手動換輸入法時容易被搶走。本程式留下的狀態，跟你自己按
-<kbd>Win</kbd>+<kbd>Space</kbd> 留下的完全一樣。</p>
-
-<p><strong>要關掉</strong>就按同一個子選單裡的
-<span class="k">取消自動切換</span>。關掉之後就一直是關的，
-不會被下次啟動重新打開。萬一你覺得
-<kbd>Ctrl</kbd>+<kbd>Shift</kbd> 切換輸入法變得怪怪的，<strong>先把這個功能關掉</strong>
-再看看，並且<a href="#feedback">回報給我們</a>。</p>
+<p>打完<strong>不會切回去</strong>，留下的狀態跟你自己按 <kbd>Win</kbd>+<kbd>Space</kbd>
+一樣。要關掉就按同一個子選單的 <span class="k">取消自動切換</span>。
+覺得 <kbd>Ctrl</kbd>+<kbd>Shift</kbd> 切換輸入法變得怪怪的，先關掉它再看看，
+並<a href="#feedback">回報給我們</a>。</p>
 
 <h3 id="key-conflict">狀態列顯示「N 鍵衝突」</h3>
 <p>有 N 顆鍵被<strong>其他常駐程式註冊成全域快速鍵</strong>了，本程式搶不到，
@@ -1721,40 +1249,21 @@ yre  今天 天氣 不錯</pre>
 
 <h3 id="clipboard-send">有些舊程式裡打中文會變成問號</h3>
 <p>英文正常、中文每個字都變成 <code>?</code>，通常是那支程式年代比較久，
-只認得 Big5 而不認得 Unicode。本程式平常送出去的是 Unicode，那種程式收不下；
-<strong>但它多半貼得上</strong> —— 從別處複製一段中文，在那裡按 <kbd>Ctrl</kbd>+<kbd>V</kbd>
-試試看。貼得上的話，可以讓本程式在那支程式裡改用「貼上」的方式送字：</p>
-<p>本程式有一份<strong>內建清單</strong>，清單上的程式什麼都不用設就會改用貼上。
-這份清單會隨更新增加（確認過貼上沒問題的程式才會放進去）。不在清單上的程式，自己加一次就好：</p>
-<ol>
-  <li>在那支程式裡打 <code>,,clip</code> 再按 <kbd>Space</kbd>。
-      或是先在那支程式裡隨便打幾個字，再到狀態列按右鍵 →「剪貼簿送字」→
-      勾「<i>程式名稱</i>.exe 改用剪貼簿送字」。</li>
-</ol>
-<p>試過貼上可行的程式，歡迎從<a href="#feedback">回報問題</a>告訴我們，
-確認之後會加進下一版的內建清單，其他人更新之後就不必自己設。</p>
-<p>之後在那支程式裡，中文、全形字與標點會用貼上的方式送進去；英文與數字照舊直接打，
-其他程式完全不受影響。要改回來，在那支程式裡再打一次 <code>,,clip</code>，
-或到同一個地方把勾拿掉 —— <strong>內建的程式也關得掉</strong>，而且更新之後仍然是關的。</p>
-<p>子選單裡列的是你最後打字的那支程式，加上你自己加過的每一支。
-內建清單上的程式不會一一列出來，只有剛好是你最後打字的那支時才會出現。</p>
-<p>同一個子選單最上面還有「<strong>所有程式都用剪貼簿送字</strong>」：勾起來之後，
-每一支程式裡的中文都改用貼上的方式送。只有在很多支程式都有這個問題時才需要它 ——
-它會讓每打一個中文字都借用一次剪貼簿，而且在把 <kbd>Ctrl</kbd>+<kbd>V</kbd>
-另作他用的程式裡（例如 vim 的區塊選取）會出錯。
-這個模式底下，Big5 裡沒有的字照常直接送出，不會被擋下來。</p>
-<p>幾件要知道的事：</p>
+只認得 Big5 而不認得 Unicode。<strong>但它多半貼得上</strong> —— 從別處複製一段中文，
+在那裡按 <kbd>Ctrl</kbd>+<kbd>V</kbd> 試試看。貼得上的話，就讓本程式在那支程式裡
+改用「貼上」的方式送字：<strong>在那支程式裡打 <code>,,clip</code> 再按 <kbd>Space</kbd></strong>，
+或到右鍵選單 <span class="k">剪貼簿送字</span> 勾那支程式。再打一次 <code>,,clip</code> 就改回來。</p>
+<p>本程式也有一份隨更新增加的<strong>內建清單</strong>，清單上的程式不用設就會改用貼上
+（也關得掉，更新之後仍然是關的）。試過貼上可行的程式，歡迎從<a href="#feedback">回報問題</a>
+告訴我們。子選單最上面的 <span class="k">所有程式都用剪貼簿送字</span>
+只有在很多支程式都有這個問題時才需要。</p>
 <ul>
-  <li><strong>貼上時會暫時借用剪貼簿。</strong>停手半秒後會把你原本複製的文字放回去；
-      這段時間裡你自己又複製了別的東西，就保留你新複製的。
-      原本剪貼簿裡如果是圖片或檔案，就放不回去了 —— 建議把 Windows 的剪貼簿記錄打開
-      （<kbd>Win</kbd>+<kbd>V</kbd>），那裡找得回來。本程式貼上用的字不會留在剪貼簿記錄裡。</li>
-  <li><strong>在勾選的程式裡，Big5 裡沒有的字不會送出</strong>（罕用字、輸出簡體時的簡體字），
-      狀態列會講是哪一個字。送出去一定是一個問號，在那種程式裡留一個問號比沒打更麻煩。</li>
-  <li>如果你把 <kbd>Ctrl</kbd>+<kbd>V</kbd> 設成了本程式的<a href="#custom-hotkey">自訂快速鍵</a>，
-      剪貼簿送字會沒辦法貼上，狀態列會提醒你。</li>
-  <li>連微軟注音都打不進去的程式，就是這一類。以系統管理員權限執行的程式則是另一回事，
-      見<a href="#elevated-windows">上一節</a>。</li>
+  <li><strong>貼上時會暫時借用剪貼簿</strong>，停手半秒後放回你原本複製的文字。
+      原本是圖片或檔案的話放不回去，建議打開 Windows 的剪貼簿記錄（<kbd>Win</kbd>+<kbd>V</kbd>）。</li>
+  <li>在勾選的程式裡，<strong>Big5 裡沒有的字不會送出</strong>（罕用字、簡體字），
+      狀態列會講是哪一個字 —— 送出去一定是問號。</li>
+  <li>英文與數字照舊直接打，其他程式完全不受影響。</li>
+  <li>以系統管理員權限執行的程式是另一回事，見<a href="#elevated-windows">上一節</a>。</li>
 </ul>
 
 <h3 id="wont-start">雙擊沒反應</h3>
@@ -1786,69 +1295,20 @@ yre  今天 天氣 不錯</pre>
 
 <h2 id="update">自動更新</h2>
 
-<p>程式啟動十秒後、之後每十五分鐘一次到 GitHub 看看有沒有新版，發現新版就
-<strong>自動下載</strong>，但<strong>不會自己重開</strong> —— 輸入法重開的那幾秒
-鍵盤會回到原生狀態，打到一半被打斷很惱人，所以什麼時候套用由你決定。</p>
+<p>程式會自己查新版並在背景下載好，但<strong>不會自己重開</strong> ——
+什麼時候換版由你決定。下載好時狀態列上方會出現一條
+<span class="k">重啟更新</span>，<strong>點它</strong>就換成新版並重新開啟。
+更新後第一次啟動會慢個十幾秒（Defender 在掃新檔案），之後就正常。</p>
 
-<p><strong>背景那次檢查不會跳任何訊息</strong>，沒查到新版就安安靜靜地過去。
-只有你自己按<span class="k">立即檢查更新</span>時才回報結果 —— 而且
-<strong>就算把<span class="k">自動檢查更新</span>勾掉了也一樣</strong>，
-勾掉的只是「它自己跑去連網」這件事。查一次抓的是幾 KB 的小檔案，一天不到 1MB。</p>
-
-<div class="scroll">
-<table>
-<tr><th>狀態列顯示</th><th>意思</th><th>點下去</th></tr>
-<tr><td>檢查更新中…</td><td>正在查（只有你自己按時才看得到）</td><td>不能點</td></tr>
-<tr><td>已是最新版本 0.1.9</td><td>查過了，沒有更新</td>
-    <td>不能點，五秒後自己消失</td></tr>
-<tr><td>查不到更新資訊</td><td>連不上更新伺服器</td>
-    <td>不能點，五秒後自己消失，過一陣子會自動再試</td></tr>
-<tr><td>新版 0.2.0</td><td>發現新版了</td><td>開始下載（通常不必點，它會自己下載）</td></tr>
-<tr><td>下載 42% ／ 解壓中</td><td>下載、檢查與解壓縮</td><td>不能點</td></tr>
-<tr><td><strong>重啟更新</strong>（走<a href="#alert-strip">警示橫條</a>）</td>
-    <td>準備好了</td>
-    <td><strong>點它就會重開並更新</strong></td></tr>
-<tr><td>更新中…</td><td>正在換檔案，這時會有一個提示視窗</td><td>不能點</td></tr>
-<tr><td>更新失敗（同上）</td><td>出了問題</td>
-    <td>再點一次重試。滑鼠停上去會顯示原因</td></tr>
-</table>
-</div>
-
-<p>滑鼠停在訊息上會顯示這一版改了什麼。「重啟更新」與「更新失敗」走的是
-狀態列上方那條<a href="#alert-strip">警示橫條</a>，因為那兩種需要你動手；
-其餘只是講一句話，寫在中間那塊空白。<strong>更新後第一次啟動會比較慢</strong>
-（可能十幾秒），那是 Defender 在掃剛換上去的幾百個新檔案，掃過一次就不會再慢。</p>
+<p>不想讓它自己連網，就到右鍵選單 <span class="k">更新</span> 取消勾選
+<span class="k">自動檢查更新</span>；要查的時候按 <span class="k">立即檢查更新</span>。</p>
 
 <h3 id="rollback">回到上一版</h3>
 
-<p>更新之前的那一版<strong>完整保留</strong>在 <code>plugin\rollback\</code> 裡
-（約 27MB）。新版還能用但想退回去，就用右鍵選單的<span class="k">更新</span> →
-<span class="k">回復上一版</span>（或執行 <code>EatShiamy.exe --rollback</code>）；
-<strong>新版根本開不起來</strong>的話，雙擊 <code>plugin\rollback\rollback.cmd</code>。</p>
-
-<p>兩種做法都是<strong>對調</strong>而不是覆蓋，所以換回去之後還可以再換成新版。
-只會留<strong>最近一版</strong>，更早的備份會自動清掉。不想留就把整個
-<code>plugin\rollback\</code> 刪掉，只是以後沒辦法一鍵換回去。</p>
-
-<h3 id="disable-update">不想自動更新</h3>
-
-<p>右鍵選單的<span class="k">更新</span> → 取消勾選<span class="k">自動檢查更新</span>
-（等同把設定檔的 <code>update_check</code> 改成 <code>false</code>）。
-要查的時候還是隨時可以按<span class="k">立即檢查更新</span>，
-或執行 <code>EatShiamy.exe --check-update</code>。</p>
-
-<h2 id="not-yet">目前還沒有的功能</h2>
-<ul>
-  <li><strong>自動造詞</strong> —— 詞要自己加，見<a href="#add-word">加字加詞</a>；
-      程式不會記住你打過什麼。</li>
-  <li><strong>英文候選補全</strong> —— 英文只能 <kbd>Shift</kbd>+字母打完再按 <kbd>Enter</kbd>。</li>
-  <li><strong>唯一候選自動送出</strong>、<strong>打到最簡碼自動送出</strong> ——
-      目前只會<a href="#speed">提示</a>，不會替你按空白。
-      <kbd>V</kbd><kbd>R</kbd><kbd>S</kbd><kbd>F</kbd> 選字鍵也還沒有。</li>
-  <li><strong>候選字視窗跟著游標跑</strong> —— 做過一版，實測會亂跳，已經拿掉了。
-      候選字目前一律顯示在狀態列上。</li>
-  <li><strong>設定視窗</strong>、<strong>開機自動啟動選項</strong>。</li>
-</ul>
+<p>右鍵選單 <span class="k">更新</span> → <span class="k">回復上一版</span>
+（或執行 <code>EatShiamy.exe --rollback</code>）。新版根本開不起來的話，
+雙擊 <code>plugin\rollback\rollback.cmd</code>。只保留最近一版，
+換回去之後也可以再換成新版。</p>
 
 <h2 id="cli">命令列選項</h2>
 <div class="scroll">
